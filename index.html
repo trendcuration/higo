@@ -410,14 +410,15 @@ function renderSchedule(){
 async function onScheduleChange(ta){
   const di = +ta.dataset.day, ri = +ta.dataset.row, col = +ta.dataset.col;
   const day = state.schedule[di];
-  if (!day) return;
+  if (!day) { console.warn('no schedule item at index', di, 'schedule:', state.schedule); return; }
   if (!Array.isArray(day.items)) day.items = [];
   while (day.items.length <= ri) day.items.push(["",""]);
   if (!Array.isArray(day.items[ri])) day.items[ri] = ["",""];
   day.items[ri][col] = ta.value;
   const payload = { id: day.id, day: day.day, date: day.date, items: day.items };
   const {error} = await api('schedules?id=eq.'+encodeURIComponent(day.id), { method:'PATCH', body: JSON.stringify(payload), headers:{'Content-Type':'application/json'} });
-  if (error) console.error(error); else setStatus('💾 저장됨','ok');
+  if (error) { console.error('PATCH error', error); setStatus('❌ 저장 실패', 'error'); }
+  else { setStatus('💾 저장됨','ok'); await loadAll(); }
 }
 
 /* ---------- Budget ---------- */
