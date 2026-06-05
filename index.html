@@ -471,7 +471,7 @@ function openBudgetModal(){
   document.getElementById('btnSaveModal').onclick = async () => {
     const name = document.getElementById('b_name').value.trim();
     if (!name){ alert('항목명을 입력하세요'); return; }
-    const payload = { id:'b_'+Date.now()+Math.random().toString(36).slice(2,6), name, amount: Number(document.getElementById('b_amount').value)||0, method: document.getElementById('b_method').value.trim(), memo: document.getElementById('b_memo').value.trim() };
+    const payload = { id:'b_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), name, amount: Number(document.getElementById('b_amount').value)||0, method: document.getElementById('b_method').value.trim(), memo: document.getElementById('b_memo').value.trim() };
     const {error} = await api('budget', { method:'POST', body: JSON.stringify(payload), headers:{'Content-Type':'application/json'} });
     document.getElementById('overlay').classList.remove('open');
     if (error) alert('저장 실패: ' + error); else await loadAll();
@@ -684,7 +684,7 @@ function addMemoFromFab(){
   ta.focus();
   ta.addEventListener('change', async function(){
     if (!ta.value.trim()) return;
-    const {error} = await api('memos', { method:'POST', body: JSON.stringify({id:'m_'+Date.now()+Math.random().toString(36).slice(2,6), text:ta.value.trim()}), headers:{'Content-Type':'application/json'} });
+    const {error} = await api('memos', { method:'POST', body: JSON.stringify({id:'m_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), text:ta.value.trim()}), headers:{'Content-Type':'application/json'} });
     if (error) alert('저장 실패: ' + error); else await loadAll();
   });
 }
