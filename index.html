@@ -215,6 +215,7 @@ const state = {
   placeRegion: { food:'전체', sights:'전체', fine:'전체', kids:'전체' },
   reserveCategory: '전체'
 };
+if (typeof window !== 'undefined') window.__higoState = state;
 const qs  = (sel, el=document) => el.querySelector(sel);
 const qsa = (sel, el=document) => Array.from(el.querySelectorAll(sel));
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
