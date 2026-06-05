@@ -3,148 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026 Hawaii — 오아후 여행 가이드</title>
-<!-- REBUILD_FIX -->
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<title>2026 Hawaii</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --teal:#0A7E8C;--teal-bg:#E8F7F9;--teal-d:#065F6A;
-  --sand:#C8A96E;--sand-bg:#F5ECD7;--sand-d:#8B6A30;
-  --dark:#1C2B3A;--gray:#6B7C8D;--light:#F4F8FC;
-  --shadow:0 3px 14px rgba(0,0,0,0.09);--r:14px;
+  --teal:#0b7a86;--teal-dark:#095f69;--teal-bg:#e6f4f6;--teal-border:#cce3e6;
+  --gold:#b89247;--gold-bg:#f7f1e3;--gold-border:#e6d9b8;
+  --ink:#0f1b26;--ink-2:#4a5568;--ink-3:#8295a7;--line:#e5edf2;--paper:#f5f9fb;--white:#ffffff;
+  --shadow:0 4px 18px rgba(15,27,38,.08);--shadow-strong:0 12px 32px rgba(15,27,38,.14);
+  --radius:14px; --radius-sm:8px;
+  --safe-bottom: env(safe-area-inset-bottom, 12px);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Noto Sans KR',sans-serif;background:var(--light);color:var(--dark)}
+html,body{font-family:'Noto Sans KR',system-ui,-apple-system,sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,svg{display:block}
 
 /* HERO */
-.hero{background:linear-gradient(135deg,#0A4F6B 0%,#0A7E8C 50%,#C8A96E 100%);padding:28px 20px 40px;position:relative;overflow:hidden}
-.hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:40px;background:var(--light);clip-path:ellipse(55% 100% at 50% 100%)}
-.hero-inner{position:relative;z-index:1}
-.hero-eye{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--sand);text-transform:uppercase;margin-bottom:5px}
-.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,5vw,38px);font-weight:700;color:#fff;line-height:1.1}
-.hero h1 span{color:var(--sand)}
-.hero-sub{font-size:12px;color:rgba(255,255,255,0.75);margin-top:8px}
-.add-btn{display:inline-flex;align-items:center;gap:5px;margin-top:14px;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;border:none;background:rgba(255,255,255,0.18);backdrop-filter:blur(6px);color:#fff;border:1.5px solid rgba(255,255,255,0.4);transition:all .2s}
-.add-btn:hover{background:rgba(255,255,255,0.32)}
+.hero{position:relative;overflow:hidden;padding:26px 18px 36px;background:linear-gradient(145deg,#0f3d4e,#0b7a86 55%,#9c7a38)}
+.hero::after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:32px;background:var(--paper);clip-path:ellipse(60% 100% at 50% 100%)}
+.hero-inner{position:relative;z-index:1;max-width:880px;margin:0 auto}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;color:#e9d6a7;font-size:10px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;background:rgba(255,255,255,.12);padding:5px 10px 6px;border-radius:999px;border:1px solid rgba(255,255,255,.25)}
+.hero h1{font-size:clamp(26px,5.5vw,40px);font-weight:700;color:#fff;line-height:1.05;margin-top:10px}
+.hero h1 em{font-style:normal;color:#f3d988}
+.hero-sub{color:rgba(255,255,255,.82);font-size:12px;margin-top:10px;font-weight:500;letter-spacing:.02em}
 
-/* TABS */
-.tab-bar{display:flex;overflow-x:auto;scrollbar-width:none;background:#fff;border-bottom:2px solid #E0EAF4;position:sticky;top:0;z-index:100;padding:0 10px;box-shadow:0 2px 10px rgba(0,0,0,0.07)}
-.tab-bar::-webkit-scrollbar{display:none}
-.tab-btn{flex-shrink:0;display:flex;align-items:center;gap:5px;padding:13px 15px 11px;border:none;background:none;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:600;color:var(--gray);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;white-space:nowrap}
-.tab-btn.active{color:var(--teal);border-bottom-color:var(--teal)}
+/* TOP NAV */
+.topnav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid #e6edf2}
+.tabs{display:flex;gap:2px;overflow-x:auto;max-width:880px;margin:0 auto;padding:6px 10px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:9px 13px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink-2);background:transparent;border:1.5px solid transparent;cursor:pointer;transition:all .18s;white-space:nowrap;font-family:inherit}
+.tab.on{background:var(--teal-bg);color:var(--teal-dark);border-color:var(--teal-border)}
+.tab:active{transform:translateY(1px)}
 
-/* LAYOUT */
-.main{max-width:860px;margin:0 auto;padding:0 12px 80px}
-.tab-pane{display:none}.tab-pane.active{display:block}
+.status{padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #edf3f6}
+.status-left{font-size:12px;color:var(--ink-2);display:flex;align-items:center;gap:6px}
+.status-dot{width:8px;height:8px;border-radius:999px;background:#cbd5e0}
+.status-dot.ok{background:#22c55e}.status-dot.err{background:#ef4444}.status-dot.loading{background:#f59e0b;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.sync-btn{appearance:none;border:1px solid #cbd5e1;background:#fff;color:#334155;padding:6px 11px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
 
-/* MAP */
-.map-wrap{background:#fff;border-radius:0 0 var(--r) var(--r);margin-bottom:18px;box-shadow:var(--shadow);border:1px solid #E0EAF4;border-top:none;overflow:hidden;position:relative}
-.gmap-frame{width:100%;height:300px;display:block;border:none}
-.svg-map-wrap{display:none;width:100%;background:#B8DCE8}
-.svg-map-wrap svg{width:100%;height:auto;display:block}
-.map-wrap.use-svg .gmap-frame{display:none}
-.map-wrap.use-svg .svg-map-wrap{display:block}
-.map-hint{padding:8px 14px;background:var(--teal-bg);font-size:11px;color:#0A5A66;display:flex;align-items:center;gap:5px}
+/* MAIN */
+.page{max-width:880px;margin:0 auto;padding:14px 12px 80px}
+.section{display:none}.section.on{display:block}
+.pane-title{font-size:20px;font-weight:700;margin-bottom:2px}
+.pane-sub{font-size:11px;color:var(--ink-3);margin-bottom:12px}
+.fab{position:fixed;bottom:calc(16px + var(--safe-bottom));right:16px;z-index:50;width:52px;height:52px;border-radius:999px;background:var(--teal);color:#fff;border:none;box-shadow:var(--shadow-strong);cursor:pointer;font-size:26px;display:inline-flex;align-items:center;justify-content:center}
+.fab:active{transform:translateY(2px)}
 
-/* PANE HEADER */
-.pane-header{padding:16px 0 12px}
-.pane-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700}
-.pane-sub{font-size:11px;color:var(--gray);margin-top:2px}
+/* PLACE CARD */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{background:var(--white);border:1px solid #e8f0f4;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .16s,box-shadow .16s,border-color .16s}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-strong);border-color:#dbe9ef}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 0}
+.card-icon{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;background:linear-gradient(135deg,#e6f4f6,#f7f1e3);flex-shrink:0}
+.card-tags{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.chip{font-size:10px;font-weight:700;padding:3px 7px;border-radius:7px;background:#eef6f8;color:#2b6e7a}
+.card-body{padding:10px 14px 0}
+.card-name{font-weight:700;font-size:15px;line-height:1.3}
+.card-name-en{font-size:10px;color:var(--ink-3);font-style:italic;margin-top:1px;margin-bottom:6px}
+.card-stars{display:flex;align-items:center;gap:4px;margin-bottom:6px;color:#d97706;font-size:11px;font-weight:800}
+.card-stars span{color:var(--ink-3);font-weight:600;font-size:10px}
+.card-desc{font-size:12px;color:#3d4a57;line-height:1.65}
+.must{background:var(--gold-bg);border-left:3px solid var(--gold);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:6px 10px;margin-top:8px;font-size:11px;color:#5a4523}
+.must strong{display:block;font-size:9px;letter-spacing:.12em;color:#8a6a2f;text-transform:uppercase;margin-bottom:2px}
+.tip{background:#f0f7f8;border-radius:var(--radius-sm);padding:7px 10px;margin-top:8px;font-size:11px;color:#1f4d57;display:flex;gap:6px}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px 13px;margin-top:10px;border-top:1px solid #edf3f6}
+.card-addr{font-size:10px;color:var(--ink-3);line-height:1.35;flex:1}
+.acts{display:flex;gap:6px;flex-shrink:0}
+.btn{display:inline-flex;align-items:center;gap:3px;border-radius:7px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;border:none}
+.btn-map{background:var(--teal);color:#fff;text-decoration:none}
+.btn-edit{background:#eef2f5;color:#3d4a57}
+.empty{text-align:center;padding:44px 18px;color:#8295a7}
+.empty .icon{font-size:36px;margin-bottom:8px}
 
-/* AREA FILTER */
-.area-filter{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.area-chip{padding:5px 13px;border-radius:18px;font-size:11px;font-weight:600;border:1.5px solid #D0DDE8;color:var(--gray);background:#fff;cursor:pointer;transition:all .2s}
-.area-chip.active{background:var(--teal);border-color:var(--teal);color:#fff}
-
-/* CARDS */
-.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-.place-card{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);border:1px solid #E4EDF4;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s,border-color .18s;overflow:hidden}
-.place-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,0.13)}
-.place-card.highlight{border:2px solid var(--teal);transform:translateY(-2px)}
-.card-icon-row{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 0}
-.card-icon-wrap{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;background:linear-gradient(135deg,var(--teal-bg),var(--sand-bg))}
-.card-badges{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
-.badge{font-size:10px;font-weight:700;padding:3px 7px;border-radius:7px}
-.b-free{background:#E3F2FD;color:#1565C0}.b-1{background:#E8F5E9;color:#2E7D32}
-.b-2{background:#FFF3E0;color:#E65100}.b-3{background:#FCE4EC;color:#C62828}
-.b-area{background:var(--teal-bg);color:var(--teal-d)}.b-kids{background:#E8F5E9;color:#2E7D32}
-.card-body{padding:10px 14px 0;flex:1}
-.card-name{font-weight:700;font-size:15px;line-height:1.3;margin-bottom:2px}
-.card-name-en{font-size:10px;color:var(--gray);margin-bottom:7px;font-style:italic}
-.rating{display:flex;align-items:center;gap:4px;margin-bottom:7px}
-.stars{color:#F9A825;font-size:11px;letter-spacing:.5px}
-.rating-num{font-size:11px;font-weight:700}.rating-cnt{font-size:10px;color:var(--gray)}
-.card-desc{font-size:12px;color:#4A5A6A;line-height:1.65}
-.must-order{background:var(--sand-bg);border-left:3px solid var(--sand);border-radius:0 8px 8px 0;padding:6px 10px;margin-top:8px;font-size:11px;color:#5A4020}
-.must-order strong{display:block;font-size:10px;letter-spacing:.5px;color:var(--sand-d);text-transform:uppercase;margin-bottom:1px}
-.tip-box{background:var(--teal-bg);border-radius:8px;padding:7px 10px;margin-top:8px;font-size:11px;color:#0A5A66;display:flex;gap:5px}
-.card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:9px}
-.card-tag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--teal-bg);color:var(--teal)}
-.card-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 13px;gap:8px;border-top:1px solid #EAF0F5;margin-top:10px}
-.card-addr{font-size:10px;color:var(--gray);line-height:1.4;flex:1}
-.card-acts{display:flex;gap:6px;flex-shrink:0}
-.map-btn{display:flex;align-items:center;gap:3px;background:var(--teal);color:#fff;border:none;border-radius:7px;padding:6px 11px;font-size:11px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;text-decoration:none;transition:background .2s}
-.map-btn:hover{background:var(--teal-d)}
-.edit-btn{background:#F0F4F8;color:var(--gray);border:none;border-radius:7px;padding:6px 10px;font-size:11px;font-weight:700;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:background .2s}
-.edit-btn:hover{background:#E0E8F0;color:var(--dark)}
-.empty-state{text-align:center;padding:40px 20px;color:var(--gray)}
-.empty-icon{font-size:40px;margin-bottom:10px}
-
-/* SCHEDULE TABLE */
-.schedule-table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);border:1px solid #E4EDF4}
-.schedule-table th,.schedule-table td{padding:10px;border-bottom:1px solid #EAF0F5;text-align:left;font-size:12px;vertical-align:top}
-.schedule-table th{background:var(--teal-bg);color:var(--teal-d);font-weight:700;white-space:nowrap}
-.schedule-table td:first-child{font-weight:700;color:var(--teal);white-space:nowrap;width:90px}
-.schedule-table td:nth-child(even){background:#FAFCFF}
-.schedule-input{width:100%;border:1.5px solid transparent;border-radius:6px;padding:6px 8px;font-family:'Noto Sans KR',sans-serif;font-size:12px;background:transparent;transition:border-color .15s,background .15s}
-.schedule-input:hover{border-color:#E0EAF4;background:#fff}
-.schedule-input:focus{outline:none;border-color:var(--teal);background:#fff}
-.schedule-time{font-size:10px;color:var(--gray);margin-bottom:2px;display:block}
+/* SCHEDULE */
+.schedule{background:#fff;border:1px solid #e6edf2;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.schedule table{width:100%;border-collapse:collapse}
+.schedule th,.schedule td{padding:10px 8px;border-bottom:1px solid #edf3f6;text-align:left;font-size:12px;vertical-align:top}
+.schedule th{background:var(--teal-bg);color:var(--teal-dark);font-weight:700;white-space:nowrap}
+.schedule td:first-child{font-weight:700;color:var(--teal-dark);white-space:nowrap;width:84px}
+.schedule td:nth-child(even){background:#fafcfd}
+.schedule textarea{width:100%;border:1.5px solid transparent;border-radius:6px;padding:6px 7px;font-family:inherit;font-size:12px;background:transparent;resize:vertical;min-height:38px;transition:border-color .15s,background .15s}
+.schedule textarea:hover{border-color:#dbe9ef;background:#fff}
+.schedule textarea:focus{outline:none;border-color:var(--teal);background:#fff}
+.day-row td{background:#f8fbfc !important;font-weight:700;color:var(--teal-dark);padding-top:10px;border-top:2px solid #cfe3e8 !important}
 
 /* BUDGET */
-.budget-table{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
-.budget-table th{background:var(--teal-bg);color:var(--teal-d);padding:8px;text-align:left;border-bottom:2px solid #D0DDE8;font-weight:700}
-.budget-table td{padding:7px 8px;border-bottom:1px solid #EAF0F5}
-.budget-input{width:100%;border:1.5px solid transparent;border-radius:6px;padding:5px 7px;font-family:'Noto Sans KR',sans-serif;font-size:12px;background:transparent}
-.budget-input:hover{border-color:#E0EAF4;background:#fff}
-.budget-input:focus{outline:none;border-color:var(--teal);background:#fff}
+.budget-card{background:#fff;border:1px solid #e6edf2;border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+.budget-total{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.budget-total .label{font-size:12px;color:var(--ink-3)}
+.budget-total .amount{font-size:22px;font-weight:800;color:var(--ink)}
+.budget-total .sub{font-size:10px;color:var(--ink-3);margin-top:2px}
+.budget-table{width:100%;border-collapse:collapse;font-size:12px}
+.budget-table th{background:#f1f7f9;color:#334155;padding:8px;text-align:left;border-bottom:2px solid #dce6ec;font-weight:700}
+.budget-table td{padding:7px 8px;border-bottom:1px solid #edf3f6}
+.budget-table input{width:100%;border:1.5px solid transparent;border-radius:6px;padding:5px 7px;font-family:inherit;font-size:12px;background:transparent}
+.budget-table input:hover{border-color:#dbe9ef;background:#fff}
+.budget-table input:focus{outline:none;border-color:var(--teal);background:#fff}
+.budget-table .num{text-align:right}
+.row-acts{display:flex;gap:6px;justify-content:flex-end}
 
 /* MEMO */
 .memo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.memo-card{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);border:1px solid #E4EDF4;padding:14px}
-.memo-card textarea{width:100%;border:1.5px solid #E0EAF4;border-radius:8px;padding:8px;font-family:'Noto Sans KR',sans-serif;font-size:12px;min-height:90px;resize:vertical}
-.memo-meta{font-size:10px;color:var(--gray);margin-top:6px;display:flex;justify-content:space-between;align-items:center}
-.memo-del{background:none;border:none;color:#C62828;font-size:11px;cursor:pointer;font-weight:700}
+.memo-card{background:#fff;border:1px solid #e6edf2;border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+.memo-card textarea{width:100%;border:1.5px solid #dbe9ef;border-radius:var(--radius-sm);padding:8px;font-family:inherit;font-size:12px;min-height:90px;resize:vertical}
+.memo-meta{font-size:10px;color:var(--ink-3);margin-top:6px;display:flex;justify-content:space-between;align-items:center}
+.memo-del{background:none;border:none;color:#c53030;font-size:11px;cursor:pointer;font-weight:700}
 
 /* MODAL */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:flex-end;justify-content:center}
+.overlay{display:none;position:fixed;inset:0;background:rgba(15,27,38,.5);z-index:1000;align-items:flex-end;justify-content:center}
 .overlay.open{display:flex}
-.modal{background:#fff;border-radius:18px 18px 0 0;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;padding:22px 18px 40px;animation:slideUp .28s ease}
+.modal{background:#fff;border-radius:18px 18px 0 0;width:100%;max-width:540px;max-height:92vh;overflow-y:auto;padding:22px 18px 40px;animation:slideUp .22s ease}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.modal-title{font-weight:700;font-size:17px;margin-bottom:16px;color:var(--teal)}
-.fg{margin-bottom:11px}
-.fl{font-size:12px;font-weight:600;margin-bottom:4px;display:block}
-.fi{width:100%;padding:9px 12px;border:1.5px solid #C8D8E4;border-radius:9px;font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--dark);outline:none;transition:border-color .2s;resize:vertical}
+.modal-title{font-weight:700;font-size:17px;margin-bottom:14px;color:var(--teal-dark)}
+.fg{margin-bottom:10px}
+.fl{font-size:12px;font-weight:700;margin-bottom:3px;display:block;color:#334155}
+.fi{width:100%;padding:9px 11px;border:1.5px solid #c8d8e4;border-radius:9px;font-family:inherit;font-size:13px;color:var(--ink);outline:none;resize:vertical;transition:border-color .18s}
 .fi:focus{border-color:var(--teal)}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.hint-text{font-size:10px;color:var(--gray);margin-top:-6px;margin-bottom:10px}
-.modal-btns{display:flex;gap:8px;margin-top:16px}
-.btn-p{flex:1;padding:11px;background:var(--teal);color:#fff;border:none;border-radius:9px;font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
-.btn-p:hover{background:var(--teal-d)}
-.btn-s{padding:11px 16px;background:none;color:var(--gray);border:1.5px solid #C8D8E4;border-radius:9px;font-family:'Noto Sans KR',sans-serif;font-size:13px;cursor:pointer}
-.btn-d{padding:11px 14px;background:#FFF0F0;color:#C62828;border:1.5px solid #FFCDD2;border-radius:9px;font-family:'Noto Sans KR',sans-serif;font-size:13px;cursor:pointer}
-.footer{text-align:center;padding:18px;font-size:11px;color:var(--gray)}
-.status-bar{padding:6px 14px;background:var(--sand-bg);color:var(--sand-d);font-size:11px;display:flex;align-items:center;justify-content:space-between}
-.sync-btn{padding:4px 10px;border-radius:12px;border:1px solid var(--sand-d);background:#fff;color:var(--sand-d);font-size:10px;font-weight:700;cursor:pointer}
+.hint{font-size:10px;color:#8295a7;margin:-4px 0 8px}
+.modal-btns{display:flex;gap:8px;margin-top:14px}
+.btn-p{flex:1;padding:11px;background:var(--teal);color:#fff;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px}
+.btn-p:hover{background:var(--teal-dark)}
+.btn-s{padding:11px 14px;background:#fff;color:#475569;border:1.5px solid #c8d8e4;border-radius:9px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px}
+.btn-d{padding:11px 14px;background:#fff1f1;color:#c53030;border:1.5px solid #ffc9c9;border-radius:9px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px}
 
-@media print{.tab-bar,.add-btn,.map-btn,.edit-btn,.modal-btns,.schedule-input,.budget-input{display:none!important}.tab-pane{display:block!important;page-break-inside:avoid}body{background:#fff}}
+.footer{padding:18px;text-align:center;font-size:11px;color:#8295a7}
+.footer a{color:#2b6e7a;text-decoration:none;font-weight:700}
+
 @media (max-width:640px){
-  .schedule-table{font-size:11px}
-  .schedule-table th,.schedule-table td{padding:6px 4px}
-  .card-grid{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
   .memo-grid{grid-template-columns:1fr}
   .frow{grid-template-columns:1fr}
+  .budget-total .amount{font-size:18px}
 }
 </style>
 </head>
@@ -152,595 +145,536 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--light);color:var(--d
 
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-eye">Oahu, Hawaii · 2026.07.03 ~ 07.10</div>
-    <h1>2026 <span>Hawaii</span></h1>
-    <div class="hero-sub">성인 5명 · 아이 2명 · 7박 8일 가족 여행</div>
-    <button class="add-btn" onclick="openAddModal()">＋ 장소 추가</button>
+    <div class="hero-eyebrow">Oahu · 2026.07.03 ~ 07.10</div>
+    <h1>2026 <em>Hawaii</em></h1>
+    <div class="hero-sub">성인 5 · 아이 2 · 7박 8일 가족 여행</div>
   </div>
 </section>
 
-<nav class="tab-bar" role="tablist">
-  <button class="tab-btn active" onclick="showTab('food',this)">🍜 맛집</button>
-  <button class="tab-btn" onclick="showTab('sights',this)">🗻 관광지</button>
-  <button class="tab-btn" onclick="showTab('fine',this)">🥂 파인다이닝</button>
-  <button class="tab-btn" onclick="showTab('kids',this)">👶 with Kids</button>
-  <button class="tab-btn" onclick="showTab('schedule',this)">📅 일정</button>
-  <button class="tab-btn" onclick="showTab('memo',this)">📝 메모</button>
-  <button class="tab-btn" onclick="showTab('budget',this)">💰 예산</button>
+<nav class="topnav">
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-tab="food" role="tab">🍜 맛집</button>
+    <button class="tab" data-tab="sights" role="tab">🗻 관광지</button>
+    <button class="tab" data-tab="fine" role="tab">🥂 파인다이닝</button>
+    <button class="tab" data-tab="kids" role="tab">👶 with Kids</button>
+    <button class="tab" data-tab="schedule" role="tab">📅 일정</button>
+    <button class="tab" data-tab="memo" role="tab">📝 메모</button>
+    <button class="tab" data-tab="budget" role="tab">💰 예산</button>
+  </div>
+  <div class="status">
+    <div class="status-left"><span id="statusDot" class="status-dot loading"></span><span id="statusText">초기화 중...</span></div>
+    <button class="sync-btn" id="btnSync">지금 동기화</button>
+  </div>
 </nav>
 
-<div class="status-bar">
-  <span id="syncStatus">🔄 준비 중...</span>
-  <button class="sync-btn" onclick="syncAll()">지금 동기화</button>
-</div>
-
-<div class="main">
-
-  <section id="pane-food" class="tab-pane active">
-    <div class="pane-header"><div class="pane-title">🍜 맛집</div><div class="pane-sub">지역별 현지 인기 맛집</div></div>
+<main class="page">
+  <section id="pane-food" class="section on">
+    <div class="pane-title">🍜 맛집</div>
+    <div class="pane-sub">지역별 현지 인기 맛집</div>
     <div class="area-filter" id="foodFilter"></div>
-    <div class="card-grid" id="foodGrid"><div class="empty-state"><div class="empty-icon">🍜</div>로딩 중...</div></div>
+    <div class="grid" id="foodGrid"></div>
   </section>
-
-  <section id="pane-sights" class="tab-pane">
-    <div class="pane-header"><div class="pane-title">🗻 관광지</div><div class="pane-sub">자연·역사·문화 명소</div></div>
-    <div class="card-grid" id="sightsGrid"><div class="empty-state"><div class="empty-icon">🗻</div>로딩 중...</div></div>
+  <section id="pane-sights" class="section">
+    <div class="pane-title">🗻 관광지</div>
+    <div class="pane-sub">자연·역사·문화 명소</div>
+    <div class="area-filter" id="sightsFilter"></div>
+    <div class="grid" id="sightsGrid"></div>
   </section>
-
-  <section id="pane-fine" class="tab-pane">
-    <div class="pane-header"><div class="pane-title">🥂 파인다이닝</div><div class="pane-sub">특별한 날을 위한 레스토랑</div></div>
-    <div class="card-grid" id="fineGrid"><div class="empty-state"><div class="empty-icon">🥂</div>로딩 중...</div></div>
+  <section id="pane-fine" class="section">
+    <div class="pane-title">🥂 파인다이닝</div>
+    <div class="pane-sub">특별한 날을 위한 레스토랑</div>
+    <div class="grid" id="fineGrid"></div>
   </section>
-
-  <section id="pane-kids" class="tab-pane">
-    <div class="pane-header"><div class="pane-title">👶 with Kids</div><div class="pane-sub">아이와 함께하기 좋은 곳</div></div>
-    <div class="card-grid" id="kidsGrid"><div class="empty-state"><div class="empty-icon">👶</div>로딩 중...</div></div>
+  <section id="pane-kids" class="section">
+    <div class="pane-title">👶 with Kids</div>
+    <div class="pane-sub">아이와 함께하기 좋은 곳</div>
+    <div class="grid" id="kidsGrid"></div>
   </section>
-
-  <section id="pane-schedule" class="tab-pane">
-    <div class="pane-header"><div class="pane-title">📅 여행 일정</div><div class="pane-sub">7/3 ~ 7/10 오아후 7박 8일 · 미아(주안) / 동탄(주아)</div></div>
-    <div style="overflow-x:auto"><div id="scheduleTable"></div></div>
+  <section id="pane-schedule" class="section">
+    <div class="pane-title">📅 여행 일정</div>
+    <div class="pane-sub">7/3 ~ 7/10 오아후 7박 8일 · 미아(주안) / 동탄(주아)</div>
+    <div style="overflow-x:auto"><div id="scheduleBox"></div></div>
   </section>
-
-  <section id="pane-memo" class="tab-pane">
-    <div class="pane-header"><div class="pane-title">📝 메모</div><div class="pane-sub">여행 중 필요한 메모를 적어두세요</div></div>
-    <div class="memo-grid" id="memoGrid"><div class="empty-state"><div class="empty-icon">📝</div>로딩 중...</div></div>
-    <button class="add-btn" style="margin-top:14px;background:var(--teal);border-color:var(--teal);color:#fff;" onclick="addMemo()">＋ 메모 추가</button>
+  <section id="pane-memo" class="section">
+    <div class="pane-title">📝 메모</div>
+    <div class="pane-sub">여행 중 필요한 메모를 적어두세요</div>
+    <div class="memo-grid" id="memoGrid"></div>
+    <button class="fab" id="btnAddMemo" aria-label="메모 추가">＋</button>
   </section>
-
-  <section id="pane-budget" class="tab-pane">
-    <div class="pane-header"><div class="pane-title">💰 예산 및 준비물</div><div class="pane-sub">여행 경비와 준비물을 관리하세요 (5 Adults · 2 Kids)</div></div>
-    <div id="budgetContent"><div class="empty-state"><div class="empty-icon">💰</div>로딩 중...</div></div>
+  <section id="pane-budget" class="section">
+    <div class="pane-title">💰 예산 및 준비물</div>
+    <div class="pane-sub">여행 경비와 준비물을 관리하세요 (성인 5 · 아이 2)</div>
+    <div class="budget-card" id="budgetCard"></div>
   </section>
+</main>
 
-</div>
+<button class="fab" id="btnAddPlace" aria-label="장소 추가">＋</button>
 
-<div class="overlay" id="overlay" onclick="closeOutside(event)">
-  <div class="modal">
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
     <div class="modal-title" id="modalTitle"></div>
     <div id="modalBody"></div>
     <div class="modal-btns" id="modalBtns"></div>
   </div>
 </div>
 
-<div class="footer">🌺 2026 Hawaii · Supabase 동기화 · 실시간 저장</div>
+<footer class="footer">2026 Hawaii · Supabase · 실시간 저장</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"
-        onerror="(function(){var s=document.currentScript;var x=document.createElement('script');x.src='https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.min.js';s.parentNode.insertBefore(x,s);})()">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
 <script>
-window.__supabaseReady = false;
-window.addEventListener('load', function() {
-  if (!window.supabase && !window.__supabaseReady) {
-    document.getElementById('syncStatus').textContent = '⚠️ Supabase 라이브러리 로딩 실패';
-  }
-});
-</script>
-<script>
-/* ══════════════════════════════════════════════
-   SUPABASE CLIENT
-   ══════════════════════════════════════════════ */
+(() => {
+'use strict';
+
 const SUPABASE_URL = 'https://lakhfoetlzodqxproqpl.supabase.co';
 const SUPABASE_ANON = 'sb_publishable_QrZFLKEvBxHIXuf8BV18ZQ_xElHQp2N';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-const CATEGORIES = {
-  food: {label:'맛집', icon:'🍜'},
-  sights: {label:'관광지', icon:'🗻'},
-  fine: {label:'파인다이닝', icon:'🥂'},
-  kids: {label:'with Kids', icon:'👶'}
+const initSupabase = () => {
+  if (!window.supabase) return null;
+  try { return window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON); } catch (e) { console.error(e); return null; }
+};
+const db = initSupabase();
+
+const setStatus = (text, kind) => {
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+  if (dot && txt) {
+    txt.textContent = text || '';
+    dot.className = 'status-dot ' + (kind === 'error' ? 'err' : kind === 'ok' ? 'ok' : 'loading');
+  }
 };
 
-/* ══════════════════════════════════════════════
-   DEFAULT DATA
-   ══════════════════════════════════════════════ */
+const state = {
+  places: { food:[], sights:[], fine:[], kids:[] },
+  schedule: [],
+  budget: [],
+  memos: [],
+  placeRegion: { food:'전체', sights:'전체', fine:'전체', kids:'전체' }
+};
+
+const qs  = (sel, el=document) => el.querySelector(sel);
+const qsa = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = (n) => Number(n ?? 0).toLocaleString('ko-KR');
+
 const DEFAULT_PLACES = [
-  {id:'f1',icon:'🍜',name:'마루카메 우동',nameEn:'Marukame Udon',category:'food',region:'와이키키',price:'$',rating:'4.3',ratingCnt:'10,000+',description:'와이키키 최고 가성비 우동. 즉석에서 반죽·삶는 면이 쫄깃. 항상 줄 서는 로컬 맛집.',mustOrder:'카마타마 우동, 치쿠와 덴푸라',tip:'',tags:['우동','가성비','줄필수'],addr:'2310 Kūhiō Ave, Honolulu',coord:'21.2806,-157.8307',mapUrl:'https://maps.google.com/?q=Marukame+Udon+Waikiki'},
-  {id:'f2',icon:'🍔',name:'룰루즈 와이키키',nameEn:"LuLu's Waikiki",category:'food',region:'와이키키',price:'$$',rating:'4.1',ratingCnt:'6,000+',description:'백종원 TV 출연으로 유명. 오픈 창에서 와이키키 비치 뷰. 브런치부터 저녁까지 올데이 다이닝.',mustOrder:'로코모코, 아히 나초스, 마이타이',tip:'',tags:['오션뷰','브런치','칵테일'],addr:'2586 Kalākaua Ave, Honolulu',coord:'21.2762,-157.8247',mapUrl:"https://maps.google.com/?q=LuLu%27s+Waikiki"},
-  {id:'f3',icon:'🍧',name:'아일랜드 빈티지 쉐이브 아이스',nameEn:'Island Vintage Shave Ice',category:'food',region:'와이키키',price:'$',rating:'4.6',ratingCnt:'5,000+',description:'오아후 쉐이브 아이스 1위. 신선 과일 시럽. 아이스크림·모치볼 추가 강추.',mustOrder:'Heavenly Lilikoi(패션프루트), 망고라즈베리',tip:'',tags:['쉐이브아이스','디저트','포토스팟'],addr:'Royal Hawaiian Center, 2201 Kalākaua Ave',coord:'21.2824,-157.8316',mapUrl:'https://maps.google.com/?q=Island+Vintage+Shave+Ice+Waikiki'},
-  {id:'f4',icon:'🍽️',name:'오노 하와이안 푸드',nameEn:'Ono Hawaiian Foods',category:'food',region:'카파훌루',price:'$',rating:'4.4',ratingCnt:'3,000+',description:'칼루아 포크·라우라우·포이 등 진짜 하와이 전통 음식 성지. 로컬들의 소울 푸드.',mustOrder:'칼루아 포크 콤보, 라우라우, 포이',tip:'현금 결제 가능 여부 확인',tags:['하와이안푸드','로컬','전통'],addr:'726 Kapahulu Ave, Honolulu',coord:'21.2812,-157.8183',mapUrl:'https://maps.google.com/?q=Ono+Hawaiian+Foods+Kapahulu'},
-  {id:'f5',icon:'🌈',name:'레인보우 드라이브인',nameEn:'Rainbow Drive-In',category:'food',region:'카파훌루',price:'$',rating:'4.2',ratingCnt:'4,000+',description:'1961년부터 이어온 플레이트 런치 성지. 오바마도 즐겨 찾은 곳. 야외 캐노피 좌석.',mustOrder:'믹스 플레이트, 칠리 with 라이스',tip:'',tags:['플레이트런치','로컬아이콘','저렴'],addr:'3308 Kanaina Ave, Honolulu',coord:'21.2792,-157.8145',mapUrl:'https://maps.google.com/?q=Rainbow+Drive-In+Honolulu'},
-  {id:'f6',icon:'🍜',name:'더 피그 앤 더 레이디',nameEn:'The Pig and The Lady',category:'food',region:'다운타운',price:'$$',rating:'4.7',ratingCnt:'2,500+',description:'James Beard 세미파이널리스트 셰프의 베트남-하와이 퓨전. 소프트서브 디저트 강추.',mustOrder:"Viet Cajun Oyster Po'Boy, 포, 소프트서브",tip:'',tags:['베트남퓨전','차이나타운'],addr:'83 N King St, Honolulu',coord:'21.3082,-157.8592',mapUrl:'https://maps.google.com/?q=The+Pig+and+The+Lady+Honolulu'},
-  {id:'f7',icon:'🥐',name:'릴리하 베이커리',nameEn:'Liliha Bakery',category:'food',region:'다운타운',price:'$',rating:'4.3',ratingCnt:'3,500+',description:'1950년 창업. 코코 퍼프 슈크림은 하와이 여행 필수. 로코모코도 별미.',mustOrder:'코코 퍼프, 로코모코, 팬케이크',tip:'와이키키 지점도 있음',tags:['베이커리','오아후아이콘'],addr:'515 N Kuakini St, Honolulu',coord:'21.3187,-157.8610',mapUrl:'https://maps.google.com/?q=Liliha+Bakery+Honolulu'},
-  {id:'f8',icon:'🦐',name:'지오반니 새우 트럭',nameEn:"Giovanni's Shrimp Truck",category:'food',region:'노스쇼어',price:'$$',rating:'4.3',ratingCnt:'7,000+',description:'카후쿠 새우 트럭의 원조. 버터 마늘 스캠피가 시그니처. 트럭 외벽이 방문객 사인으로 가득.',mustOrder:'Scampi(마늘버터), Hot&Spicy',tip:'물티슈 필수!',tags:['새우트럭','카후쿠','노스쇼어'],addr:'56-505 Kamehameha Hwy, Kahuku',coord:'21.6742,-157.9878',mapUrl:"https://maps.google.com/?q=Giovanni%27s+Shrimp+Truck+Kahuku"},
-  {id:'f9',icon:'🍧',name:'마츠모토 쉐이브 아이스',nameEn:'Matsumoto Shave Ice',category:'food',region:'노스쇼어',price:'$',rating:'4.2',ratingCnt:'8,000+',description:'1951년부터 이어온 노스쇼어 쉐이브 아이스 전설. 할레이바 타운의 상징.',mustOrder:'스트로베리+라이치 혼합, 팥+아이스크림 추가',tip:'',tags:['쉐이브아이스','1951년창업','할레이바'],addr:'66-111 Kamehameha Hwy, Haleiwa',coord:'21.5946,-158.1075',mapUrl:'https://maps.google.com/?q=Matsumoto+Shave+Ice+Haleiwa'},
+  {id:'f1',icon:'🍜',name:'마루카메 우동',nameEn:'Marukame Udon',category:'food',region:'와이키키',price:'$',rating:'4.3',ratingCnt:'10,000+',description:'와이키키 최고 가성비 우동. 즉석에서 반죽·삶는 면이 쫄깃.',mustOrder:'카마타마 우동, 치쿠와 덴푸라',tip:'',tags:['우동','가성비','줄필수'],addr:'2310 Kūhiō Ave, Honolulu',coord:'21.2806,-157.8307',mapUrl:'https://maps.google.com/?q=Marukame+Udon+Waikiki'},
+  {id:'f2',icon:'🍔',name:'룰루즈 와이키키',nameEn:"LuLu's Waikiki",category:'food',region:'와이키키',price:'$$',rating:'4.1',ratingCnt:'6,000+',description:'백종원 TV 출연으로 유명. 오픈 창에서 와이키키 비치 뷰.',mustOrder:'로코모코, 아히 나초스, 마이타이',tip:'',tags:['오션뷰','브런치','칵테일'],addr:'2586 Kalākaua Ave, Honolulu',coord:'21.2762,-157.8247',mapUrl:"https://maps.google.com/?q=LuLu%27s+Waikiki"},
+  {id:'f3',icon:'🍧',name:'아일랜드 빈티지 쉐이브 아이스',nameEn:'Island Vintage Shave Ice',category:'food',region:'와이키키',price:'$',rating:'4.6',ratingCnt:'5,000+',description:'오아후 쉐이브 아이스 1위. 신선 과일 시럽. 아이스크림·모치볼 추가 강추.',mustOrder:'Heavenly Lilikoi, 망고라즈베리',tip:'',tags:['쉐이브아이스','디저트','포토스팟'],addr:'Royal Hawaiian Center, 2201 Kalākaua Ave',coord:'21.2824,-157.8316',mapUrl:'https://maps.google.com/?q=Island+Vintage+Shave+Ice+Waikiki'},
+  {id:'f4',icon:'🍽️',name:'오노 하와이안 푸드',nameEn:'Ono Hawaiian Foods',category:'food',region:'카파훌루',price:'$',rating:'4.4',ratingCnt:'3,000+',description:'칼루아 포크·라우라우·포이 등 진짜 하와이 전통 음식 성지.',mustOrder:'칼루아 포크 콤보, 라우라우, 포이',tip:'현금 결제 가능 여부 확인',tags:['하와이안푸드','로컬','전통'],addr:'726 Kapahulu Ave, Honolulu',coord:'21.2812,-157.8183',mapUrl:'https://maps.google.com/?q=Ono+Hawaiian+Foods+Kapahulu'},
+  {id:'f5',icon:'🌈',name:'레인보우 드라이브인',nameEn:'Rainbow Drive-In',category:'food',region:'카파훌루',price:'$',rating:'4.2',ratingCnt:'4,000+',description:'1961년부터 이어온 플레이트 런치 성지. 오바마도 즐겨 찾은 곳.',mustOrder:'믹스 플레이트, 칠리 with 라이스',tip:'',tags:['플레이트런치','로컬아이콘','저렴'],addr:'3308 Kanaina Ave, Honolulu',coord:'21.2792,-157.8145',mapUrl:'https://maps.google.com/?q=Rainbow+Drive-In+Honolulu'},
+  {id:'f6',icon:'🍜',name:'더 피그 앤 더 레이디',nameEn:'The Pig and The Lady',category:'food',region:'다운타운',price:'$$',rating:'4.7',ratingCnt:'2,500+',description:'James Beard 세미파이널리스트 셰프의 베트남-하와이 퓨전.',mustOrder:"Viet Cajun Oyster Po'Boy, 포, 소프트서브",tip:'',tags:['베트남퓨전','차이나타운'],addr:'83 N King St, Honolulu',coord:'21.3082,-157.8592',mapUrl:'https://maps.google.com/?q=The+Pig+and+The+Lady+Honolulu'},
+  {id:'f7',icon:'🥐',name:'릴리하 베이커리',nameEn:'Liliha Bakery',category:'food',region:'다운타운',price:'$',rating:'4.3',ratingCnt:'3,500+',description:'1950년 창업. 코코 퍼프 슈크림은 하와이 여행 필수.',mustOrder:'코코 퍼프, 로코모코, 팬케이크',tip:'와이키키 지점도 있음',tags:['베이커리','오아후아이콘'],addr:'515 N Kuakini St, Honolulu',coord:'21.3187,-157.8610',mapUrl:'https://maps.google.com/?q=Liliha+Bakery+Honolulu'},
+  {id:'f8',icon:'🦐',name:'지오반니 새우 트럭',nameEn:"Giovanni's Shrimp Truck",category:'food',region:'노스쇼어',price:'$$',rating:'4.3',ratingCnt:'7,000+',description:'카후쿠 새우 트럭의 원조. 버터 마늘 스캠피가 시그니처.',mustOrder:'Scampi(마늘버터), Hot&Spicy',tip:'물티슈 필수!',tags:['새우트럭','카후쿠','노스쇼어'],addr:'56-505 Kamehameha Hwy, Kahuku',coord:'21.6742,-157.9878',mapUrl:"https://maps.google.com/?q=Giovanni%27s+Shrimp+Truck+Kahuku"},
+  {id:'f9',icon:'🍧',name:'마츠모토 쉐이브 아이스',nameEn:'Matsumoto Shave Ice',category:'food',region:'노스쇼어',price:'$',rating:'4.2',ratingCnt:'8,000+',description:'1951년부터 이어온 노스쇼어 쉐이브 아이스 전설.',mustOrder:'스트로베리+라이치 혼합, 팥+아이스크림 추가',tip:'',tags:['쉐이브아이스','1951년창업','할레이바'],addr:'66-111 Kamehameha Hwy, Haleiwa',coord:'21.5946,-158.1075',mapUrl:'https://maps.google.com/?q=Matsumoto+Shave+Ice+Haleiwa'},
   {id:'f10',icon:'🍣',name:'스시 이자카야 가쿠',nameEn:'Sushi Izakaya Gaku',category:'food',region:'카이무키',price:'$$',rating:'4.6',ratingCnt:'1,800+',description:'20년 넘게 로컬들의 사랑을 받아온 이자카야. 1~2주 전 예약 필수.',mustOrder:'스파이시 아히 스시, 가라아게, 야키토리',tip:'',tags:['이자카야','예약필수','로컬최애'],addr:'3565 Waialae Ave, Honolulu',coord:'21.2843,-157.7983',mapUrl:'https://maps.google.com/?q=Sushi+Izakaya+Gaku+Honolulu'},
   {id:'s1',icon:'🏔️',name:'다이아몬드 헤드',nameEn:'Diamond Head',category:'sights',region:'와이키키',price:'$5/인',rating:'4.8',ratingCnt:'30,000+',description:'오아후 상징 화산 분화구. 왕복 1.6km 하이킹 후 와이키키 파노라마 전경.',mustOrder:'',tip:'오전 6~8시 방문 권장. gostateparks.hawaii.gov 사전 예약.',tags:['하이킹','뷰포인트','예약필수'],addr:'Diamond Head Rd, Honolulu',coord:'21.2631,-157.8055',mapUrl:'https://maps.google.com/?q=Diamond+Head+State+Monument'},
-  {id:'s2',icon:'⚓',name:'펄 하버',nameEn:'Pearl Harbor National Memorial',category:'sights',region:'와이키키',price:'무료~$32',rating:'4.8',ratingCnt:'50,000+',description:'1941년 공습 역사. USS 애리조나·미주리·보핀 잠수함 관람. 반나절~하루 필요.',mustOrder:'',tip:'USS 애리조나 보트 투어 무료이나 조기 매진. 오픈 30분 전 도착 권장.',tags:['역사','필수방문'],addr:'1 Arizona Memorial Pl, Honolulu',coord:'21.3645,-157.9498',mapUrl:'https://maps.google.com/?q=Pearl+Harbor+National+Memorial'},
-  {id:'s3',icon:'🏄',name:'노스쇼어 비치 (와이메아 베이)',nameEn:'North Shore — Waimea Bay',category:'sights',region:'노스쇼어',price:'무료',rating:'4.9',ratingCnt:'20,000+',description:'세계 최고 서퍼 성지. 7월은 파도 잔잔해 스노클링·수영 최적 시즌.',mustOrder:'',tip:'와이메아 베이 다이빙 점프 포인트 유명. 젖은 옷 여벌 필수.',tags:['서핑','스노클링','드라이브코스'],addr:'Kamehameha Hwy, North Shore',coord:'21.6424,-158.0656',mapUrl:'https://maps.google.com/?q=Waimea+Bay+Beach+Park+Oahu'},
+  {id:'s2',icon:'⚓',name:'펄 하버',nameEn:'Pearl Harbor National Memorial',category:'sights',region:'와이키키',price:'무료~$32',rating:'4.8',ratingCnt:'50,000+',description:'1941년 공습 역사. USS 애리조나·미주리·보핀 잠수함 관람.',mustOrder:'',tip:'USS 애리조나 보트 투어 무료이나 조기 매진.',tags:['역사','필수방문'],addr:'1 Arizona Memorial Pl, Honolulu',coord:'21.3645,-157.9498',mapUrl:'https://maps.google.com/?q=Pearl+Harbor+National+Memorial'},
+  {id:'s3',icon:'🏄',name:'노스쇼어 비치 (와이메아 베이)',nameEn:'North Shore — Waimea Bay',category:'sights',region:'노스쇼어',price:'무료',rating:'4.9',ratingCnt:'20,000+',description:'세계 최고 서퍼 성지. 7월은 파도 잔잔해 스노클링·수영 최적 시즌.',mustOrder:'',tip:'와이메아 베이 다이빙 점프 포인트. 젖은 옷 여벌 필수.',tags:['서핑','스노클링','드라이브코스'],addr:'Kamehameha Hwy, North Shore',coord:'21.6424,-158.0656',mapUrl:'https://maps.google.com/?q=Waimea+Bay+Beach+Park+Oahu'},
   {id:'s4',icon:'🌿',name:'와이메아 밸리',nameEn:'Waimea Valley',category:'sights',region:'노스쇼어',price:'$20/인',rating:'4.5',ratingCnt:'8,000+',description:'열대 식물원 산책 후 45피트 폭포 수영. 라이프가드 상주.',mustOrder:'',tip:'수영복 지참 필수. 어린이 할인 있음.',tags:['식물원','폭포수영','가족추천'],addr:'59-864 Kamehameha Hwy, Haleiwa',coord:'21.5415,-158.0436',mapUrl:'https://maps.google.com/?q=Waimea+Valley+Oahu'},
-  {id:'s5',icon:'🏖️',name:'라니카이 비치',nameEn:'Lanikai Beach',category:'sights',region:'카일루아',price:'무료',rating:'4.8',ratingCnt:'12,000+',description:'미국 최고 해변 중 하나. 에메랄드빛 바다와 부드러운 흰 모래. 주차 제한적.',mustOrder:'',tip:'오전 7시 이전 방문 권장.',tags:['탑뷰비치','스노클링','포토스팟'],addr:'Mokulua Dr, Kailua',coord:'21.3885,-157.7196',mapUrl:'https://maps.google.com/?q=Lanikai+Beach+Kailua+Hawaii'},
-  {id:'s6',icon:'🌬️',name:'누우아누 팔리 전망대',nameEn:"Nu'uanu Pali Lookout",category:'sights',region:'카이무키',price:'$3/차량',rating:'4.5',ratingCnt:'9,000+',description:'코올라우 산맥 절벽 위 카일루아·카네오헤 만 전경. 강풍이 명물.',mustOrder:'',tip:'모자·우산 날아감 주의!',tags:['전망대','드라이브','역사'],addr:'Nuuanu Pali Dr, Honolulu',coord:'21.3658,-157.7973',mapUrl:"https://maps.google.com/?q=Nu%27uanu+Pali+Lookout"},
-  {id:'s7',icon:'🐠',name:'하나우마 베이',nameEn:'Hanauma Bay',category:'sights',region:'이스트',price:'$25/인',rating:'4.7',ratingCnt:'25,000+',description:'오아후 최고 스노클링 명소. 500종 열대어. 리프 스프레이 선크림 금지.',mustOrder:'',tip:'hanauma-bay.org 최소 1주 전 예약 필수. 화요일 휴무.',tags:['스노클링','예약필수'],addr:'100 Hanauma Bay Rd, Honolulu',coord:'21.2683,-157.6943',mapUrl:'https://maps.google.com/?q=Hanauma+Bay+Nature+Preserve'},
-  {id:'s8',icon:'🌺',name:'폴리네시안 문화 센터',nameEn:'Polynesian Cultural Center',category:'sights',region:'노스쇼어',price:'$75~150',rating:'4.7',ratingCnt:'18,000+',description:'6개 섬 문화 체험. 저녁 쇼 "HĀ: Breath of Life"가 하이라이트. 하루 코스.',mustOrder:'',tip:'노스쇼어 드라이브와 묶어서 당일 코스.',tags:['문화체험','하루코스'],addr:'55-370 Kamehameha Hwy, Laie',coord:'21.6456,-157.9238',mapUrl:'https://maps.google.com/?q=Polynesian+Cultural+Center+Laie'},
-  {id:'d1',icon:'🌊',name:'아주르',nameEn:'Azure — Royal Hawaiian',category:'fine',region:'와이키키',price:'$$$',rating:'4.7',ratingCnt:'',description:'로열 하와이안 비치 앞 오픈에어. 다이아몬드 헤드 뷰. 5코스 테이스팅 메뉴 추천.',mustOrder:'5코스 테이스팅 + 와인 페어링',tip:'일몰 시간대(7pm~) 예약 황금타임.',tags:['오션뷰','테이스팅메뉴','로맨틱'],addr:'Royal Hawaiian, 2259 Kalākaua Ave',coord:'21.2802,-157.8322',mapUrl:'https://maps.google.com/?q=Azure+Restaurant+Royal+Hawaiian'},
-  {id:'d2',icon:'🌺',name:'호쿠스',nameEn:"Hoku's — Kahala Hotel",category:'fine',region:'카할라',price:'$$$',rating:'4.6',ratingCnt:'',description:'카할라 호텔 오션뷰. 셀럽들의 은신처. 셰프 Eric Oto의 Pacific Rim 요리.',mustOrder:'프리픽스 메뉴, 로컬 해산물 코스',tip:'',tags:['Pacific Rim','오션뷰'],addr:'Kahala Hotel, 5000 Kahala Ave',coord:'21.2688,-157.7855',mapUrl:"https://maps.google.com/?q=Hoku%27s+Restaurant+Kahala+Hotel"},
-  {id:'d3',icon:'🍽️',name:'세니아',nameEn:'Senia',category:'fine',region:'다운타운',price:'$$$',rating:'4.8',ratingCnt:'',description:'하와이 식재료 기반 창의적 아메리칸 퀴진. 금·토 셰프 카운터 테이스팅 메뉴가 최고.',mustOrder:"Chef's Counter 테이스팅(금·토), Kalua Pork Croquette",tip:"자매 바 'Podmore'에서 식전 칵테일 후 이동.",tags:['창의적','셰프카운터'],addr:'75 N King St, Honolulu',coord:'21.3065,-157.8603',mapUrl:'https://maps.google.com/?q=Senia+Restaurant+Honolulu'},
-  {id:'d4',icon:'🍷',name:'로이스 와이키키',nameEn:"Roy's Waikiki",category:'fine',region:'와이키키',price:'$$$',rating:'4.4',ratingCnt:'',description:'하와이 퓨전 요리 선구자. 30년 역사. 마카다미아 크러스트 생선 시그니처.',mustOrder:'Macadamia Nut Crusted Fish, Molten Chocolate Soufflé',tip:'',tags:['하와이퓨전','30년전통'],addr:'226 Lewers St, Honolulu',coord:'21.2835,-157.8332',mapUrl:"https://maps.google.com/?q=Roy%27s+Waikiki+Beach"},
-  {id:'d5',icon:'🥩',name:'울프강 스테이크하우스',nameEn:"Wolfgang's Steakhouse",category:'fine',region:'와이키키',price:'$$$',rating:'4.4',ratingCnt:'',description:'하와이 3대 스테이크. 28일 드라이에이징 포터하우스 시그니처.',mustOrder:'Porterhouse for 2, Creamed Spinach',tip:'',tags:['스테이크','드라이에이징'],addr:'2301 Kalākaua Ave 3F, Honolulu',coord:'21.2826,-157.8313',mapUrl:"https://maps.google.com/?q=Wolfgang%27s+Steakhouse+Waikiki"},
+  {id:'s5',icon:'🏖️',name:'라니카이 비치',nameEn:'Lanikai Beach',category:'sights',region:'카일루아',price:'무료',rating:'4.8',ratingCnt:'12,000+',description:'미국 최고 해변 중 하나. 에메랄드빛 바다와 부드러운 흰 모래.',mustOrder:'',tip:'오전 7시 이전 방문 권장.',tags:['탑뷰비치','스노클링','포토스팟'],addr:'Mokulua Dr, Kailua',coord:'21.3885,-157.7196',mapUrl:'https://maps.google.com/?q=Lanikai+Beach+Kailua+Hawaii'},
+  {id:'s6',icon:'🌬️',name:'누우아누 팔리 전망대',nameEn:"Nu'uanu Pali Lookout",category:'sights',region:'카이무키',price:'$3/차량',rating:'4.5',ratingCnt:'9,000+',description:'코올라우 산맥 절벽 위 카일루아·카네오헤 만 전경.',mustOrder:'',tip:'모자·우산 날아감 주의!',tags:['전망대','드라이브','역사'],addr:'Nuuanu Pali Dr, Honolulu',coord:'21.3658,-157.7973',mapUrl:"https://maps.google.com/?q=Nu%27uanu+Pali+Lookout"},
+  {id:'s7',icon:'🐠',name:'하나우마 베이',nameEn:'Hanauma Bay',category:'sights',region:'이스트',price:'$25/인',rating:'4.7',ratingCnt:'25,000+',description:'오아후 최고 스노클링 명소. 500종 열대어.',mustOrder:'',tip:'hanauma-bay.org 최소 1주 전 예약 필수. 화요일 휴무.',tags:['스노클링','예약필수'],addr:'100 Hanauma Bay Rd, Honolulu',coord:'21.2683,-157.6943',mapUrl:'https://maps.google.com/?q=Hanauma+Bay+Nature+Preserve'},
+  {id:'s8',icon:'🌺',name:'폴리네시안 문화 센터',nameEn:'Polynesian Cultural Center',category:'sights',region:'노스쇼어',price:'$75~150',rating:'4.7',ratingCnt:'18,000+',description:'6개 섬 문화 체험. 저녁 쇼 HĀ: Breath of Life 하이라이트.',mustOrder:'',tip:'노스쇼어 드라이브와 묶어서 당일 코스.',tags:['문화체험','하루코스'],addr:'55-370 Kamehameha Hwy, Laie',coord:'21.6456,-157.9238',mapUrl:'https://maps.google.com/?q=Polynesian+Cultural+Center+Laie'},
+  {id:'d1',icon:'🌊',name:'아주르',nameEn:'Azure — Royal Hawaiian',category:'fine',region:'와이키키',price:'$$$',rating:'4.7',ratingCnt:'',description:'로열 하와이안 비치 앞 오픈에어. 5코스 테이스팅 메뉴 추천.',mustOrder:'5코스 테이스팅 + 와인 페어링',tip:'일몰 시간대(7pm~) 예약 황금타임.',tags:['오션뷰','테이스팅메뉴','로맨틱'],addr:'Royal Hawaiian, 2259 Kalākaua Ave',coord:'21.2802,-157.8322',mapUrl:'https://maps.google.com/?q=Azure+Restaurant+Royal+Hawaiian'},
+  {id:'d2',icon:'🌺',name:'호쿠스',nameEn:"Hoku's — Kahala Hotel",category:'fine',region:'카할라',price:'$$$',rating:'4.6',ratingCnt:'',description:'카할라 호텔 오션뷰. Pacific Rim 요리.',mustOrder:'프리픽스 메뉴, 로컬 해산물 코스',tip:'',tags:['Pacific Rim','오션뷰'],addr:'Kahala Hotel, 5000 Kahala Ave',coord:'21.2688,-157.7855',mapUrl:"https://maps.google.com/?q=Hoku%27s+Restaurant+Kahala+Hotel"},
+  {id:'d3',icon:'🍽️',name:'세니아',nameEn:'Senia',category:'fine',region:'다운타운',price:'$$$',rating:'4.8',ratingCnt:'',description:'하와이 식재료 기반 창의적 아메리칸 퀴진. 금·토 셰프 카운터 최고.',mustOrder:"Chef's Counter 테이스팅(금·토), Kalua Pork Croquette",tip:"자매 바 'Podmore'에서 식전 칵테일 후 이동.",tags:['창의적','셰프카운터'],addr:'75 N King St, Honolulu',coord:'21.3065,-157.8603',mapUrl:'https://maps.google.com/?q=Senia+Restaurant+Honolulu'},
+  {id:'d4',icon:'🍷',name:'로이스 와이키키',nameEn:"Roy's Waikiki",category:'fine',region:'와이키키',price:'$$$',rating:'4.4',ratingCnt:'',description:'하와이 퓨전 요리 선구자. 30년 역사.',mustOrder:'Macadamia Nut Crusted Fish, Molten Chocolate Soufflé',tip:'',tags:['하와이퓨전','30년전통'],addr:'226 Lewers St, Honolulu',coord:'21.2835,-157.8332',mapUrl:"https://maps.google.com/?q=Roy%27s+Waikiki+Beach"},
+  {id:'d5',icon:'🥩',name:'울프강 스테이크하우스',nameEn:"Wolfgang's Steakhouse",category:'fine',region:'와이키키',price:'$$$',rating:'4.4',ratingCnt:'',description:'하와이 3대 스테이크. 28일 드라이에이징 포터하우스.',mustOrder:'Porterhouse for 2, Creamed Spinach',tip:'',tags:['스테이크','드라이에이징'],addr:'2301 Kalākaua Ave 3F, Honolulu',coord:'21.2826,-157.8313',mapUrl:"https://maps.google.com/?q=Wolfgang%27s+Steakhouse+Waikiki"},
   {id:'d6',icon:'🌟',name:'솔레라 (리츠칼튼)',nameEn:'Solera — Ritz-Carlton Waikiki',category:'fine',region:'와이키키',price:'$$$$',rating:'4.7',ratingCnt:'',description:'8층 오션·공원 뷰 하와이 리저널 퀴진. 2025년 재단장.',mustOrder:'하와이 리저널 코스 메뉴',tip:'',tags:['최고급','8층오션뷰'],addr:'Ritz-Carlton, 383 Kalaimoku St',coord:'21.2852,-157.8367',mapUrl:'https://maps.google.com/?q=Ritz+Carlton+Residences+Waikiki+Beach'},
   {id:'k1',icon:'🥞',name:'릴리하 베이커리',nameEn:'Liliha Bakery',category:'kids',region:'와이키키',price:'$',rating:'4.3',ratingCnt:'',description:'코코 퍼프·팬케이크가 아이들 최애. 편안한 다이너 분위기.',mustOrder:'코코 퍼프, 팬케이크, 로코모코',tip:'',tags:['아이최애','편안한분위기'],addr:'와이키키점: 2233 Kalākaua Ave',coord:'21.2823,-157.8316',mapUrl:'https://maps.google.com/?q=Liliha+Bakery+Waikiki'},
-  {id:'k2',icon:'🥗',name:'구피 카페',nameEn:'Goofy Cafe & Dine',category:'kids',region:'다운타운',price:'$$',rating:'4.3',ratingCnt:'',description:'서퍼 감성 건강 카페. 아사이볼·에그 베네딕트. 유기농 로컬 식재료.',mustOrder:'아사이볼, 에그 베네딕트',tip:'',tags:['건강식','브런치'],addr:'1831 Ala Moana Blvd #201',coord:'21.2932,-157.8434',mapUrl:'https://maps.google.com/?q=Goofy+Cafe+Dine+Honolulu'},
+  {id:'k2',icon:'🥗',name:'구피 카페',nameEn:'Goofy Cafe & Dine',category:'kids',region:'다운타운',price:'$$',rating:'4.3',ratingCnt:'',description:'서퍼 감성 건강 카페. 아사이볼·에그 베네딕트.',mustOrder:'아사이볼, 에그 베네딕트',tip:'',tags:['건강식','브런치'],addr:'1831 Ala Moana Blvd #201',coord:'21.2932,-157.8434',mapUrl:'https://maps.google.com/?q=Goofy+Cafe+Dine+Honolulu'},
   {id:'k3',icon:'🦁',name:'호놀룰루 동물원',nameEn:'Honolulu Zoo',category:'kids',region:'카파훌루',price:'$19/인',rating:'4.2',ratingCnt:'5,000+',description:'와이키키 중심 42에이커 동물원. 유모차 이동 편리.',mustOrder:'',tip:'반나귀 승마 체험 인기.',tags:['유모차OK','반나절'],addr:'151 Kapahulu Ave, Honolulu',coord:'21.2763,-157.8181',mapUrl:'https://maps.google.com/?q=Honolulu+Zoo'},
   {id:'k4',icon:'🔬',name:'어린이 과학탐험 박물관',nameEn:"Children's Discovery Center",category:'kids',region:'다운타운',price:'$14~23',rating:'4.3',ratingCnt:'1,200+',description:'0~12세 체험형 박물관. 에어컨 완비. 더운 날 최고.',mustOrder:'',tip:'2세 이하 무료. 2~3시간 여유.',tags:['0~12세','실내','에어컨'],addr:'111 Ohe St, Honolulu',coord:'21.2978,-157.8624',mapUrl:"https://maps.google.com/?q=Children%27s+Discovery+Center+Honolulu"},
   {id:'k5',icon:'💦',name:'와이메아 밸리 폭포',nameEn:'Waimea Valley Waterfall',category:'kids',region:'노스쇼어',price:'$20/인',rating:'4.6',ratingCnt:'',description:'식물원 산책 후 45피트 폭포 수영. 라이프가드 상주.',mustOrder:'',tip:'수영복 지참 필수.',tags:['폭포수영','안전','가족추천'],addr:'59-864 Kamehameha Hwy, Haleiwa',coord:'21.6361,-158.0612',mapUrl:'https://maps.google.com/?q=Waimea+Valley+Waterfall+Oahu'},
-  {id:'k6',icon:'🚢',name:'아틀란티스 잠수함',nameEn:'Atlantis Submarines',category:'kids',region:'다운타운',price:'$56~128',rating:'4.4',ratingCnt:'',description:'실제 잠수함으로 30m 깊이까지. 산호초·열대어 관찰. 물에 안 들어가도 OK.',mustOrder:'',tip:'약 45분 소요. 멀미 주의.',tags:['잠수함','열대어관찰','비수영'],addr:'Pier 6, Aloha Tower Marketplace',coord:'21.3058,-157.8646',mapUrl:'https://maps.google.com/?q=Atlantis+Submarines+Honolulu'},
-  {id:'k7',icon:'🍍',name:'돌 파인애플 플랜테이션',nameEn:'Dole Plantation',category:'kids',region:'중부',price:'$8~18',rating:'4.3',ratingCnt:'10,000+',description:'세계 최대 파인애플 미로·기차 투어. 노스쇼어 드라이브 중간 경유지.',mustOrder:'돌 파인애플 소프트 아이스크림',tip:'',tags:['파인애플미로','노스쇼어경유'],addr:'64-1550 Kamehameha Hwy, Wahiawa',coord:'21.5258,-158.0362',mapUrl:'https://maps.google.com/?q=Dole+Plantation+Wahiawa'},
-  {id:'k8',icon:'🏖️',name:'카일루아 비치 파크',nameEn:'Kailua Beach Park',category:'kids',region:'카일루아',price:'무료',rating:'4.8',ratingCnt:'',description:'파도 잔잔·수심 얕아 영유아도 안전. 넓은 잔디 피크닉 공간.',mustOrder:'',tip:'오전 9시 이전 주차 여유.',tags:['잔잔한파도','영유아안전','피크닉'],addr:'526 Kawailoa Rd, Kailua',coord:'21.3924,-157.7382',mapUrl:'https://maps.google.com/?q=Kailua+Beach+Park'},
-  {id:'e1',icon:'🛍️',name:'코스트코 호놀룰루',nameEn:'Costco Honolulu',category:'food',region:'카파훌루',price:'',rating:'',ratingCnt:'',description:'여행 중 식료품·기념품 구매.',mustOrder:'',tip:'',tags:['마트','장보기'],addr:'Kakaako, Honolulu',coord:'21.2935,-157.8597',mapUrl:'https://maps.google.com/?q=Costco+Honolulu'},
-  {id:'e2',icon:'✈️',name:'호놀룰루 국제공항',nameEn:'HNL Airport',category:'sights',region:'공항',price:'',rating:'',ratingCnt:'',description:'도착/출국 공항 (HNL)',mustOrder:'',tip:'렌터카 반납/픽업',tags:['공항','렌터카'],addr:'300 Rodgers Blvd, Honolulu',coord:'21.3187,-157.9224',mapUrl:'https://maps.google.com/?q=HNL+Airport'},
-  {id:'e3',icon:'📸',name:'스냅 촬영지',nameEn:'Photo Studio',category:'sights',region:'와이키키',price:'',rating:'',ratingCnt:'',description:'가족 스냅 촬영 장소',mustOrder:'',tip:'9시 출발 예정',tags:['스냅','돌잔치'],addr:'4925 Kahala Ave, Honolulu',coord:'21.2766,-157.7938',mapUrl:'https://maps.google.com/?q=4925+Kahala+Ave+Honolulu'},
-  {id:'e4',icon:'🏝️',name:'카할라 비치',nameEn:'Kahala Beach',category:'sights',region:'카할라',price:'무료',rating:'',ratingCnt:'',description:'호놀룰루 남동쪽 고급 주택가 앞의 조용한 해변.',mustOrder:'',tip:'',tags:['해변','조용한'],addr:'Kahala Ave & Salmon Ln, Honolulu',coord:'21.2736,-157.7736',mapUrl:'https://maps.google.com/?q=Kahala+Beach+Honolulu'},
-  {id:'e5',icon:'🛍️',name:'알라모아나 쇼핑몰',nameEn:'Ala Moana Center',category:'sights',region:'다운타운',price:'',rating:'',ratingCnt:'',description:'세계에서 가장 큰 오픈에어 쇼핑몰 중 하나.',mustOrder:'',tip:'',tags:['쇼핑','몰'],addr:'1450 Ala Moana Blvd, Honolulu',coord:'21.2877,-157.8429',mapUrl:'https://maps.google.com/?q=Ala+Moana+Center'},
-  {id:'e6',icon:'🛍️',name:'로열 하와이안 센터',nameEn:'Royal Hawaiian Center',category:'sights',region:'와이키키',price:'',rating:'',ratingCnt:'',description:'와이키키 중심 쇼핑 센터. 현지 브랜드 많음.',mustOrder:'',tip:'',tags:['쇼핑','와이키키'],addr:'2201 Kalakaua Ave, Honolulu',coord:'21.2845,-157.8314',mapUrl:'https://maps.google.com/?q=Royal+Hawaiian+Center'},
-  {id:'e7',icon:'🏖️',name:'와이키키 비치',nameEn:'Waikiki Beach',category:'sights',region:'와이키키',price:'무료',rating:'',ratingCnt:'',description:'오아후 가장 유명한 해변. 서핑·산책·일몰 명소.',mustOrder:'',tip:'',tags:['해변','서핑','일몰'],addr:'Waikiki Beach, Honolulu',coord:'21.2805,-157.8294',mapUrl:'https://maps.google.com/?q=Waikiki+Beach'}
+  {id:'k6',icon:'🚢',name:'아틀란티스 잠수함',nameEn:'Atlantis Submarines',category:'kids',region:'다운타운',price:'$56~128',rating:'4.4',ratingCnt:'',description:'실제 잠수함으로 30m 깊이까지. 산호초·열대어 관찰.',mustOrder:'',tip:'약 45분 소요. 멀미 주의.',tags:['잠수함','열대어관찰','비수영'],addr:'Pier 6, Aloha Tower Marketplace',coord:'21.3058,-157.8646',mapUrl:'https://maps.google.com/?q=Atlantis+Submarines+Honolulu'},
+  {id:'k7',icon:'🍍',name:'돌 파인애플 플랜테이션',nameEn:'Dole Plantation',category:'kids',region:'중부',price:'$8~18',rating:'4.3',ratingCnt:'10,000+',description:'세계 최대 파인애플 미로·기차 투어.',mustOrder:'돌 파인애플 소프트 아이스크림',tip:'',tags:['파인애플미로','노스쇼어경유'],addr:'64-1550 Kamehameha Hwy, Wahiawa',coord:'21.5258,-158.0362',mapUrl:'https://maps.google.com/?q=Dole+Plantation+Wahiawa'},
+  {id:'k8',icon:'🏖️',name:'카일루아 비치 파크',nameEn:'Kailua Beach Park',category:'kids',region:'카일루아',price:'무료',rating:'4.8',ratingCnt:'',description:'파도 잔잔·수심 얕아 영유아도 안전. 넓은 잔디 피크닉 공간.',mustOrder:'',tip:'오전 9시 이전 주차 여유.',tags:['잔잔한파도','영유아안전','피크닉'],addr:'526 Kawailoa Rd, Kailua',coord:'21.3924,-157.7382',mapUrl:'https://maps.google.com/?q=Kailua+Beach+Park'}
 ];
 
-/* ══════════════════════════════════════════════
-   SCHEDULE DATA
-   matrix[row][col] where:
-   rows: 0=오전, 1=점심식사, 2=오후, 3=저녁식사
-   cols: 0=미아(주안), 1=동탄(주아)
-   ══════════════════════════════════════════════ */
 const DEFAULT_SCHEDULE = [
-  {day:"7/3(금)", date:"2026-07-03", label:"출발일", slots:[
-    ["",""],["",""],["",""],["22:30 ICN 출발<br>YP151편 인천국제공항",""]
-  ]},
-  {day:"7/4(토)", date:"2026-07-04", label:"도착일", slots:[
-    ["HNL 도착<br>12:20 호놀룰루 국제공항",""],
-    ["",""],
-    ["숙소 체크인 (2240 Kuhio Ave.)<br>코스트코 장보기",""],
-    ["저녁 식사<br>와이키키 비치 산책",""]
-  ]},
-  {day:"7/5(일)", date:"2026-07-05", label:"", slots:[
-    ["KCC 파머스 마켓<br>4303 Diamond Head Rd","KCC 파머스 마켓"],
-    ["",""],
-    ["라니아케아 비치 / 샥스코브","자유일정"],
-    ["자유일정",""]
-  ]},
-  {day:"7/6(월)", date:"2026-07-06", label:"", slots:[
-    ["스냅 촬영<br>9시 출발 (4925 Kahala Ave.)","스냅 촬영"],
-    ["",""],
-    ["카할라 비치","카할라 비치"],
-    ["숙소 휴식","자유일정"]
-  ]},
-  {day:"7/7(화)", date:"2026-07-07", label:"", slots:[
-    ["와이메아 밸리","와이메아 밸리"],
-    ["",""],
-    ["마카푸우 등대","돌잔치 참석"],
-    ["돌잔치",""]
-  ]},
-  {day:"7/8(수)", date:"2026-07-08", label:"", slots:[
-    ["어린이박물관<br>약 $23,000/2.3만","어린이박물관"],
-    ["마루카메 우동","마루카메 우동"],
-    ["Glass Boat<br>약 $150,000","Glass Boat"],
-    ["자유일정","자유일정"]
-  ]},
-  {day:"7/9(목)", date:"2026-07-09", label:"", slots:[
-    ["하나마우 베이 / 카할라 비치","하나마우 베이"],
-    ["",""],
-    ["알라모아나 쇼핑<br>로열하와이안 센터 쇼핑","쇼핑"],
-    ["짐 정리","자유일정"]
-  ]},
-  {day:"7/10(금)", date:"2026-07-10", label:"귀국일", slots:[
-    ["카일루아 비치","카일루아 비치"],
-    ["",""],
-    ["출국 수속 / 렌터카 반납","출국 수속 / 렌터카 반납"],
-    ["14:30 HNL 출발<br>YP152편 19:05(+1) ICN 도착",""]
-  ]}
+  {day:"7/3(금)", date:"2026-07-03", label:"출발일", slots:[["22:30 ICN 출발",""],["",""],["",""],["",""]]},
+  {day:"7/4(토)", date:"2026-07-04", label:"도착일", slots:[["HNL 도착 12:20",""],["",""],["체크인·코스트코",""],["저녁 식사·와이키키 산책",""]]},
+  {day:"7/5(일)", date:"2026-07-05", label:"", slots:[["KCC 파머스 마켓","KCC"],["",""],["라니아케아 비치","자유일정"],["자유일정",""]]},
+  {day:"7/6(월)", date:"2026-07-06", label:"", slots:[["스냅 촬영 9시 출발","스냅"],["",""],["카할라 비치","카할라 비치"],["숙소 휴식","자유일정"]]},
+  {day:"7/7(화)", date:"2026-07-07", label:"", slots:[["와이메아 밸리","와이메아 밸리"],["",""],["마카푸우 등대","돌잔치"],["돌잔치",""]]},
+  {day:"7/8(수)", date:"2026-07-08", label:"", slots:[["어린이과학박물관","어린이박물관"],["마루카메 우동","마루카메 우동"],["Glass Boat","Glass Boat"],["자유일정","자유일정"]]},
+  {day:"7/9(목)", date:"2026-07-09", label:"", slots:[["하나우마 베이 / 카할라 비치","하나우마 베이"],["",""],["알라모아나 쇼핑","쇼핑"],["짐 정리","자유일정"]]},
+  {day:"7/10(금)", date:"2026-07-10", label:"귀국일", slots:[["카일루아 비치","카일루아 비치"],["",""],["출국 수속 / 렌터카 반납","출국 수속 / 렌터카 반납"],["14:30 HNL 출발",""]]}
+];
+
+const DEFAULT_BUDGET = [
+  {name:"렌터카",amount:1502910,method:"카드",memo:"예약 #69043973"},
+  {name:"스냅",amount:555000,method:"현금",memo:""},
+  {name:"스냅 팁",amount:45000,method:"현금",memo:""},
+  {name:"숙소",amount:7944000,method:"현금",memo:"디파짓 240만 포함"},
+  {name:"코스트코",amount:750000,method:"카드",memo:"일 $100 × 5일"},
+  {name:"주유비",amount:105000,method:"카드",memo:"250마일 기준"},
+  {name:"외식",amount:1350000,method:"카드",memo:"3회 × $50 × 성인6"},
+  {name:"외식 팁",amount:243000,method:"카드",memo:"18%"},
+  {name:"돌잔치",amount:1200000,method:"카드",memo:"룸 미니멈 차지"},
+  {name:"돌잔치 팁",amount:300000,method:"카드",memo:"25%"},
+  {name:"버스",amount:180000,method:"카드",memo:"3일권 $20 × 성인 6명"}
 ];
 
 const DEFAULT_MEMOS = [
-  {id:'m1', text:'✅ 예약 완료: 렌터카 #69043973, 스냅 7/6 9시', updated_at:'2026-06-05'},
-  {id:'m2', text:'🛂 ESTA/여권 유효기간 확인 필요', updated_at:'2026-06-05'},
-  {id:'m3', text:'🌺 돌잔치 장소/시간 확인하기', updated_at:'2026-06-05'}
+  {id:'m1',text:'✅ 예약 완료: 렌터카 #69043973, 스냅 7/6 9시',updatedAt:'2026-06-05'},
+  {id:'m2',text:'🛂 ESTA / 여권 유효기간 확인 필요',updatedAt:'2026-06-05'},
+  {id:'m3',text:'🌺 돌잔치 장소/시간/인원 확인',updatedAt:'2026-06-05'}
 ];
 
-const DEFAULT_BUDGET = {
-  items:[
-    {name:"렌터카", amount:1502910, method:"카드", memo:"예약 #69043973, HNLT71"},
-    {name:"스냅", amount:555000, method:"현금", memo:""},
-    {name:"스냅 팁", amount:45000, method:"현금", memo:""},
-    {name:"숙소", amount:7944000, method:"현금", memo:"디파짓 240만 포함"},
-    {name:"코스트코", amount:750000, method:"카드", memo:"일 $100 × 5일"},
-    {name:"주유비", amount:105000, method:"카드", memo:"250마일 기준"},
-    {name:"외식", amount:1350000, method:"카드", memo:"3회 × $50 × 성인6"},
-    {name:"외식 팁", amount:243000, method:"카드", memo:"18%"},
-    {name:"돌잔치", amount:1200000, method:"카드", memo:"룸 미니멈 차지"},
-    {name:"돌잔치 팁", amount:300000, method:"카드", memo:"25%"},
-    {name:"버스", amount:180000, method:"카드", memo:"3일권 $20 × 성인 6명"}
-  ]
+const from = (table) => {
+  if (!db) return { select: async () => ({ data: [], error: { message: 'Supabase not loaded' } }), insert: async () => ({ error: { message: 'Supabase not loaded' } }), upsert: async () => ({ error: { message: 'Supabase not loaded' } }), delete: async () => ({ error: { message: 'Supabase not loaded' } }) };
+  return db.from(table);
 };
 
-/* ══════════════════════════════════════════════
-   STATE
-   ══════════════════════════════════════════════ */
-let placesData = {food:[], sights:[], fine:[], kids:[]};
-let scheduleData = [];
-let budgetData = [];
-let memosData = [];
-let activeCategory = 'food';
-let activeRegion = '전체';
-let loading = false;
-
-/* ══════════════════════════════════════════════
-   SUPABASE CRUD
-   ══════════════════════════════════════════════ */
+/* ---------- Load / Seed ---------- */
 async function loadAll(){
+  if (!db) { setStatus('Supabase 라이브러리 없음', 'error'); renderAll(); return; }
+  setStatus('동기화 중...', 'loading');
   try {
-    setStatus('🔄 불러오는 중...');
-    const [pRes, sRes, bRes, mRes] = await Promise.all([
-      supabase.from('places').select('*').order('created_at', {ascending:true}),
-      supabase.from('schedules').select('*').order('date', {ascending:true}),
-      supabase.from('budget').select('*').order('created_at', {ascending:true}),
-      supabase.from('memos').select('*').order('created_at', {ascending:true})
+    const [p,s,b,m] = await Promise.all([
+      from('places').select('*').order('created_at',{ascending:true}),
+      from('schedules').select('*').order('date',{ascending:true}),
+      from('budget').select('*').order('created_at',{ascending:true}),
+      from('memos').select('*').order('created_at',{ascending:true})
     ]);
-    if (pRes.error || sRes.error || bRes.error || mRes.error){
-      console.error('Load error:', pRes.error || sRes.error || bRes.error || mRes.error);
-      renderAll();
-      setStatus('⚠️ 동기화 실패: ' + (pRes.error?.message || sRes.error?.message || bRes.error?.message || mRes.error?.message || ''));
-      return;
-    }
-    placesData = {
-      food: (pRes.data||[]).filter(x=>x.category==='food'),
-      sights: (pRes.data||[]).filter(x=>x.category==='sights'),
-      fine: (pRes.data||[]).filter(x=>x.category==='fine'),
-      kids: (pRes.data||[]).filter(x=>x.category==='kids')
-    };
-    scheduleData = (sRes.data||[]).map(r=>({...r, items:(Array.isArray(r.items)?r.items:[])}));
-    budgetData = bRes.data||[];
-    memosData = mRes.data||[];
+    if (p.error || s.error || b.error || m.error) { console.warn('load error', p.error || s.error || b.error || m.error); await seedAndRetry(); return; }
+    state.places = { food:(p.data||[]).filter(x=>x.category==='food'), sights:(p.data||[]).filter(x=>x.category==='sights'), fine:(p.data||[]).filter(x=>x.category==='fine'), kids:(p.data||[]).filter(x=>x.category==='kids') };
+    state.schedule = (s.data||[]).map(r => ({...r, items:(Array.isArray(r.items)?r.items:[])}));
+    state.budget = b.data||[];
+    state.memos = m.data||[];
     renderAll();
-    setStatus('✅ 동기화 완료');
+    setStatus('✅ 동기화 완료', 'ok');
   } catch (e) {
     console.error(e);
+    setStatus('초기 로드 실패', 'error');
     renderAll();
-    setStatus('⚠️ 초기 로드 실패: ' + (e.message || e));
   }
 }
-async function seedIfEmpty(){
-  const {count} = await supabase.from('places').select('*', {count:'exact', head:true});
-  if (!count){
-    for (const p of DEFAULT_PLACES){
-      const {error} = await supabase.from('places').insert([{...p, tags: p.tags||[]}]);
-      if (error) console.error('seed error', error);
-    }
-    await supabase.from('schedules').insert(DEFAULT_SCHEDULE.map(s=>({day:s.day, date:s.date, items:s.slots?s.slots:s.items})));
-    await supabase.from('budget').insert(DEFAULT_BUDGET.items.map(i=>({id:'b_'+Date.now()+Math.random().toString(36).slice(2,6), ...i})));
-    await supabase.from('memos').insert(DEFAULT_MEMOS.map(m=>({...m})));
+
+async function seedAndRetry(){
+  setStatus('기본 데이터 삽입 중...', 'loading');
+  try {
+    const {count:pc} = await from('places').select('*',{count:'exact',head:true});
+    if (!pc) await from('places').insert(DEFAULT_PLACES);
+    const {count:sc} = await from('schedules').select('*',{count:'exact',head:true});
+    if (!sc) await from('schedules').insert(DEFAULT_SCHEDULE.map(x=>({day:x.day,date:x.date,items:x.slots})));
+    const {count:bc} = await from('budget').select('*',{count:'exact',head:true});
+    if (!bc) await from('budget').insert(DEFAULT_BUDGET);
+    const {count:mc} = await from('memos').select('*',{count:'exact',head:true});
+    if (!mc) await from('memos').insert(DEFAULT_MEMOS);
+    await new Promise(r => setTimeout(r, 500));
     await loadAll();
-    return;
+  } catch (e) {
+    console.error(e);
+    setStatus('동기화 실패', 'error');
+    renderAll();
   }
-  renderAll();
-  setStatus('⚠️ 로드 실패 — 캐시 사용 중');
-}
-async function savePlace(place){
-  const {error} = await supabase.from('places').upsert([place]);
-  if (error) alert('저장 실패: '+error.message);
-  else loadAll();
-}
-async function deletePlaceDB(id){
-  if (!confirm('정말 삭제하시겠어요?')) return;
-  const {error} = await supabase.from('places').delete().eq('id', id);
-  if (error) alert('삭제 실패: '+error.message);
-  else loadAll();
-}
-async function saveSchedule(dayIdx, rowIdx, colIdx, value){
-  const items = scheduleData[dayIdx]?.items || [];
-  while (items.length <= rowIdx) items.push(["",""]);
-  while (items[rowIdx].length <= colIdx) items[rowIdx].push("");
-  items[rowIdx][colIdx] = value;
-  const {error} = await supabase.from('schedules').update({items}).eq('date', scheduleData[dayIdx].date);
-  if (error) console.error(error);
-  else setStatus('💾 저장됨');
-}
-async function saveBudgetItem(item){
-  const {error} = await supabase.from('budget').upsert([item]);
-  if (error) alert('저장 실패: '+error.message);
-  else loadAll();
-}
-async function deleteBudgetItem(id){
-  if (!confirm('삭제하시겠어요?')) return;
-  const {error} = await supabase.from('budget').delete().eq('id', id);
-  if (error) alert('삭제 실패: '+error.message);
-  else loadAll();
-}
-async function saveMemo(m){
-  const {error} = await supabase.from('memos').upsert([m]);
-  if (error) alert('저장 실패: '+error.message);
-  else loadAll();
-}
-async function deleteMemoDB(id){
-  const {error} = await supabase.from('memos').delete().eq('id', id);
-  if (error) alert('삭제 실패: '+error.message);
-  else loadAll();
 }
 
-function setStatus(msg){ document.getElementById('syncStatus').textContent = msg; }
-async function syncAll(){ await loadAll(); }
+/* ---------- Render ---------- */
+function renderAll(){ renderPlaces('food'); renderPlaces('sights'); renderPlaces('fine'); renderPlaces('kids'); renderRegionFilters(); renderSchedule(); renderBudget(); renderMemos(); }
 
-/* ══════════════════════════════════════════════
-   TABS
-   ══════════════════════════════════════════════ */
-function showTab(name, btn){
-  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('pane-'+name).classList.add('active');
-  btn.classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-/* ══════════════════════════════════════════════
-   PLACES
-   ══════════════════════════════════════════════ */
-function regionList(cat){
-  const s = new Set((placesData[cat]||[]).filter(p=>p.region).map(p=>p.region));
-  return ['전체', ...Array.from(s)];
-}
-function renderPlaceFilter(cat){
-  const wrap = document.getElementById(cat+'Filter');
-  if(!wrap) return;
-  const list = regionList(cat);
-  wrap.innerHTML = list.map(r=>`<div class="area-chip${r===activeRegion?' active':''}" data-region="${r}">${r}</div>`).join('');
-  wrap.querySelectorAll('.area-chip').forEach(chip=>{
-    chip.addEventListener('click', ()=>{
-      activeRegion = chip.dataset.region;
-      wrap.querySelectorAll('.area-chip').forEach(c=>c.classList.remove('active'));
-      chip.classList.add('active');
-      renderPlaces(cat);
+function renderRegionFilters(){
+  ['food','sights','fine','kids'].forEach(cat => {
+    const wrap = document.getElementById(cat + 'Filter');
+    if (!wrap) return;
+    const set = new Set((state.places[cat]||[]).map(p => p.region).filter(Boolean));
+    const list = ['전체', ...Array.from(set)];
+    wrap.innerHTML = list.map(r => `<div class="chip${state.placeRegion[cat]===r?' on':''}" data-region="${r}">${r}</div>`).join('');
+    wrap.querySelectorAll('.chip').forEach(el => {
+      el.addEventListener('click', () => { state.placeRegion[cat] = el.dataset.region; renderRegionFilters(); renderPlaces(cat); });
     });
   });
 }
+
+const CATEGORIES = { food:{label:'맛집',icon:'🍜'}, sights:{label:'관광지',icon:'🗻'}, fine:{label:'파인다이닝',icon:'🥂'}, kids:{label:'with Kids',icon:'👶'} };
+
 function renderPlaces(cat){
-  const grid = document.getElementById(cat+'Grid');
-  let list = placesData[cat] || [];
-  if(activeRegion!=='전체') list = list.filter(p=>p.region===activeRegion || !p.region);
-  if(!list.length){ grid.innerHTML=`<div class="empty-state"><div class="empty-icon">${CATEGORIES[cat]?.icon||'📍'}</div>저장된 장소가 없습니다.</div>`; return; }
-  grid.innerHTML = list.map((p,idx)=>{
-    const badgeTags = (p.tags||[]).slice(0,2).map(t=>`<span class="badge b-area">${esc(t)}</span>`).join('');
-    return `
-    <div class="place-card" id="card-${p.id}">
-      <div class="card-icon-row">
-        <div class="card-icon-wrap">${esc(p.icon||'📍')}</div>
-        <div class="card-badges">${badgeTags}</div>
+  const grid = document.getElementById(cat + 'Grid');
+  const list = (state.places[cat]||[]).filter(p => state.placeRegion[cat]==='전체' || p.region===state.placeRegion[cat]);
+  if (!list.length){ grid.innerHTML = `<div class="empty"><div class="icon">${CATEGORIES[cat]?.icon||'📍'}</div>저장된 장소가 없습니다. ＋ 버튼으로 추가해주세요.</div>`; return; }
+  grid.innerHTML = list.map(p => `
+    <div class="card" id="card-${esc(p.id)}">
+      <div class="card-head">
+        <div class="card-icon">${esc(p.icon||'📍')}</div>
+        <div class="card-tags">${(p.tags||[]).slice(0,2).map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div>
       </div>
       <div class="card-body">
         <div class="card-name">${esc(p.name)}</div>
         ${p.nameEn?`<div class="card-name-en">${esc(p.nameEn)}</div>`:''}
-        ${p.rating?`<div class="rating"><span class="stars">★ ${parseFloat(p.rating).toFixed(1)}</span>${p.ratingCnt?`<span class="rating-cnt">(${p.ratingCnt})</span>`:''}</div>`:''}
-        <div class="card-desc">${esc(p.description || p.desc)}</div>
-        ${p.mustOrder?`<div class="must-order"><strong>🍴 Must Order</strong>${esc(p.mustOrder)}</div>`:''}
-        ${p.tip?`<div class="tip-box"><span>💡</span><span>${esc(p.tip)}</span></div>`:''}
-        <div class="card-tags">${(p.tags||[]).map(t=>`<span class="card-tag">#${esc(t)}</span>`).join('')}</div>
+        ${p.rating?`<div class="card-stars">★ ${Number(p.rating).toFixed(1)} <span>(${esc(p.ratingCnt||'')})</span></div>`:''}
+        <div class="card-desc">${esc(p.description||p.desc)}</div>
+        ${p.mustOrder?`<div class="must"><strong>Must Order</strong>${esc(p.mustOrder)}</div>`:''}
+        ${p.tip?`<div class="tip"><span>💡</span><span>${esc(p.tip)}</span></div>`:''}
       </div>
-      <div class="card-footer">
+      <div class="card-foot">
         <div class="card-addr">${esc(p.addr||'주소 미등록')}</div>
-        <div class="card-acts">
-          ${p.coord?`<a class="map-btn" href="https://www.google.com/maps?q=${p.coord}" target="_blank">지도</a>`:''}
-          <button class="edit-btn" onclick="openEditModal('${cat}','${p.id}')">수정</button>
+        <div class="acts">
+          ${p.coord?`<a class="btn btn-map" href="https://www.google.com/maps?q=${esc(p.coord)}" target="_blank" rel="nofollow">지도</a>`:''}
+          <button class="btn btn-edit" data-cat="${cat}" data-id="${esc(p.id)}">수정</button>
         </div>
       </div>
-    </div>`;
-  }).join('');
+    </div>
+  `).join('');
+  grid.querySelectorAll('.btn-edit').forEach(btn => btn.addEventListener('click', () => openPlaceModal(btn.dataset.cat, btn.dataset.id)));
 }
-function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 
-/* ══════════════════════════════════════════════
-   SCHEDULE TABLE
-   ══════════════════════════════════════════════ */
+/* ---------- Schedule ---------- */
 function renderSchedule(){
-  const wrap = document.getElementById('scheduleTable');
+  const box = document.getElementById('scheduleBox');
   const rows = ['오전','점심식사','오후','저녁식사'];
-  let html = `<table class="schedule-table"><thead><tr><th>시간</th><th>미아(주안)</th><th>동탄(주아)</th></tr></thead><tbody>`;
-  scheduleData.forEach((day, di)=>{
-    html += `<tr><td colspan="3" style="background:var(--light);font-weight:700;color:var(--teal);border-top:2px solid #D0DDE8">${esc(day.day)} ${day.label?'· '+esc(day.label):''} <span style="font-weight:400;color:var(--gray);font-size:11px">${esc(day.date)}</span></td></tr>`;
-    rows.forEach((rowLabel, ri)=>{
-      html += `<tr><td>${rowLabel}</td>`;
-      [0,1].forEach(col=>{
-        const val = (day.slots && day.slots[ri]) ? (day.slots[ri][col]||'') : '';
-        html += `<td><textarea class="schedule-input" rows="2" data-day="${di}" data-row="${ri}" data-col="${col}" onchange="onScheduleChange(this)">${esc(val)}</textarea></td>`;
+  let h = `<div class="schedule"><table><thead><tr><th>시간</th><th>미아(주안)</th><th>동탄(주아)</th></tr></thead><tbody>`;
+  state.schedule.forEach((d, di) => {
+    h += `<tr class="day-row"><td colspan="3">${esc(d.day)}${d.label?' · '+esc(d.label):''} <span style="font-weight:500;color:#8295a7;font-size:11px">${esc(d.date)}</span></td></tr>`;
+    rows.forEach((label, ri) => {
+      h += `<tr><td>${label}</td>`;
+      [0,1].forEach(col => {
+        const val = (Array.isArray(d.items) && d.items[ri]) ? (d.items[ri][col]||'') : '';
+        h += `<td><textarea data-day="${di}" data-row="${ri}" data-col="${col}">${esc(val)}</textarea></td>`;
       });
-      html += `</tr>`;
+      h += '</tr>';
     });
   });
-  html += `</tbody></table>`;
-  wrap.innerHTML = html;
-}
-async function onScheduleChange(el){
-  const di = parseInt(el.dataset.day);
-  const ri = parseInt(el.dataset.row);
-  const col = parseInt(el.dataset.col);
-  await saveSchedule(di, ri, col, el.value);
+  h += '</tbody></table></div>';
+  box.innerHTML = h;
+  box.querySelectorAll('textarea').forEach(ta => ta.addEventListener('change', onScheduleChange));
 }
 
-/* ══════════════════════════════════════════════
-   BUDGET
-   ══════════════════════════════════════════════ */
+async function onScheduleChange(ta){
+  const di = +ta.dataset.day, ri = +ta.dataset.row, col = +ta.dataset.col;
+  const day = state.schedule[di];
+  if (!day) return;
+  if (!Array.isArray(day.items)) day.items = [];
+  while (day.items.length <= ri) day.items.push(["",""]);
+  if (!Array.isArray(day.items[ri])) day.items[ri] = ["",""];
+  day.items[ri][col] = ta.value;
+  const {error} = await from('schedules').upsert({id:day.id, day:day.day, date:day.date, items:day.items});
+  if (error) console.error(error); else setStatus('💾 저장됨','ok');
+}
+
+/* ---------- Budget ---------- */
 function renderBudget(){
-  const wrap = document.getElementById('budgetContent');
-  const items = budgetData || [];
+  const card = document.getElementById('budgetCard');
+  const items = state.budget || [];
   const total = items.reduce((s,i)=>s+(Number(i.amount)||0),0);
-  wrap.innerHTML = `
-    <div style="background:#fff;border-radius:var(--r);box-shadow:var(--shadow);border:1px solid #E4EDF4;padding:14px;margin-bottom:14px">
-      <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px">
-        <div>
-          <div style="font-size:12px;color:var(--gray);margin-bottom:4px">총 예산</div>
-          <div style="font-size:22px;font-weight:700;color:var(--dark)">${total.toLocaleString()} 원</div>
-          <div style="font-size:11px;color:var(--gray);margin-top:2px">5 Adults · 2 Kids</div>
-        </div>
-        <button class="add-btn" style="background:var(--teal);border-color:var(--teal);color:#fff" onclick="openBudgetModal()">＋ 항목 추가</button>
+  card.innerHTML = `
+    <div class="budget-total">
+      <div>
+        <div class="label">총 예산</div>
+        <div class="amount">${fmt(total)} 원</div>
+        <div class="sub">성인 5 · 아이 2</div>
       </div>
+      <button class="btn btn-map" id="btnAddBudget">＋ 항목 추가</button>
     </div>
     <div style="overflow-x:auto">
       <table class="budget-table">
-        <thead><tr><th>항목</th><th style="text-align:right">금액(원)</th><th>지불수단</th><th>비고</th><th></th></tr></thead>
+        <thead><tr><th>항목</th><th class="num">금액(원)</th><th>지불</th><th>비고</th><th></th></tr></thead>
         <tbody>
-          ${items.map(i=>`<tr data-id="${i.id}">
-            <td><input class="budget-input" value="${esc(i.name)}" data-field="name" onchange="updateBudgetField(this)"></td>
-            <td style="text-align:right"><input class="budget-input" type="number" value="${i.amount||''}" data-field="amount" onchange="updateBudgetField(this)" style="text-align:right"></td>
-            <td><input class="budget-input" value="${esc(i.method||'')}" data-field="method" onchange="updateBudgetField(this)"></td>
-            <td><input class="budget-input" value="${esc(i.memo||'')}" data-field="memo" onchange="updateBudgetField(this)"></td>
-            <td><button class="edit-btn" style="color:#C62828;border-color:#FFCDD2" onclick="deleteBudgetItem('${i.id}')">삭제</button></td>
+          ${items.map(i=>`<tr data-id="${esc(i.id)}">
+            <td><input data-f="name" value="${esc(i.name)}"></td>
+            <td class="num"><input type="number" data-f="amount" value="${i.amount||''}"></td>
+            <td><input data-f="method" value="${esc(i.method||'')}"></td>
+            <td><input data-f="memo" value="${esc(i.memo||'')}"></td>
+            <td><button class="btn btn-d" data-del="${esc(i.id)}">삭제</button></td>
           </tr>`).join('')}
         </tbody>
       </table>
     </div>
   `;
+  card.querySelectorAll('input').forEach(inp => inp.addEventListener('change', onBudgetField));
+  const addBtn = card.querySelector('#btnAddBudget');
+  if (addBtn) addBtn.addEventListener('click', openBudgetModal);
+  card.querySelectorAll('[data-del]').forEach(btn => btn.addEventListener('click', async () => { await deleteBudget(btn.dataset.del); }));
 }
-async function updateBudgetField(el){
-  const tr = el.closest('tr');
-  const id = tr.dataset.id;
-  const field = el.dataset.field;
-  const item = budgetData.find(i=>String(i.id)===id);
-  if(!item) return;
-  item[field] = field==='amount' ? Number(el.value)||0 : el.value;
-  await saveBudgetItem(item);
+
+async function onBudgetField(inp){
+  const tr = inp.closest('tr');
+  const id = tr?.dataset?.id;
+  const item = state.budget.find(i => String(i.id) === String(id));
+  if (!item) return;
+  item[inp.dataset.f] = inp.dataset.f === 'amount' ? (Number(inp.value)||0) : inp.value;
+  const {error} = await from('budget').upsert(item);
+  if (error) console.error(error); else setStatus('💾 저장됨','ok');
 }
-function openBudgetModal(){
-  openModal('예산 항목 추가', `
-    <div class="fg"><label class="fl">항목명 *</label><input class="fi" id="b_name"></div>
+
+function openBudgetModal(){ openModal('예산 항목 추가', budgetFormHTML(), modalBtnsHTML(['취소','저장'], false, true)); }
+function budgetFormHTML(){ return `
+  <div class="fg"><label class="fl">항목명 *</label><input class="fi" id="b_name"></div>
+  <div class="frow">
     <div class="fg"><label class="fl">금액(원)</label><input class="fi" type="number" id="b_amount" value="0"></div>
     <div class="fg"><label class="fl">지불수단</label><input class="fi" id="b_method" value="카드"></div>
-    <div class="fg"><label class="fl">비고</label><input class="fi" id="b_memo"></div>
-  `, `<button class="btn-s" onclick="closeModal()">취소</button><button class="btn-p" onclick="saveBudgetFromModal()">저장</button>`);
-}
-async function saveBudgetFromModal(){
-  const name = document.getElementById('b_name').value.trim();
-  if(!name){alert('항목명을 입력하세요');return;}
-  await saveBudgetItem({
-    id: 'b_'+Date.now(),
-    name,
-    amount: Number(document.getElementById('b_amount').value)||0,
-    method: document.getElementById('b_method').value.trim(),
-    memo: document.getElementById('b_memo').value.trim()
-  });
+  </div>
+  <div class="fg"><label class="fl">비고</label><input class="fi" id="b_memo"></div>
+`; }
+async function saveBudget(){
+  const name = qs('#b_name').value.trim();
+  if (!name){ alert('항목명을 입력하세요'); return; }
+  const payload = {name, amount: Number(qs('#b_amount').value)||0, method: qs('#b_method').value.trim(), memo: qs('#b_memo').value.trim()};
+  const {error} = await from('budget').upsert({id:'b_'+Date.now()+Math.random().toString(36).slice(2,6), ...payload});
   closeModal();
+  if (error) alert('저장 실패: ' + error.message); else await loadAll();
+}
+async function deleteBudget(id){
+  if (!confirm('삭제하시겠어요?')) return;
+  const {error} = await from('budget').delete().eq('id', id);
+  if (error) alert('삭제 실패: ' + error.message); else await loadAll();
 }
 
-/* ══════════════════════════════════════════════
-   MEMOS
-   ══════════════════════════════════════════════ */
+/* ---------- Memos ---------- */
 function renderMemos(){
   const grid = document.getElementById('memoGrid');
-  if(!memosData.length){ grid.innerHTML=`<div class="empty-state"><div class="empty-icon">📝</div>메모가 없습니다.</div>`; return; }
-  grid.innerHTML = memosData.map(m=>`
+  if (!state.memos.length){ grid.innerHTML = `<div class="empty"><div class="icon">📝</div>메모가 없습니다.</div>`; return; }
+  grid.innerHTML = state.memos.map(m => `
     <div class="memo-card">
-      <textarea onchange="updateMemo(${m.id},this.value)">${esc(m.text)}</textarea>
-      <div class="memo-meta"><span>${m.updated_at||m.created_at||''}</span><button class="memo-del" onclick="deleteMemo(${m.id})">삭제</button></div>
+      <textarea data-id="${m.id}">${esc(m.text)}</textarea>
+      <div class="memo-meta"><span>${m.updatedAt || m.createdAt || ''}</span><button class="memo-del" data-id="${m.id}">삭제</button></div>
     </div>
   `).join('');
+  grid.querySelectorAll('textarea').forEach(ta => ta.addEventListener('change', e => updateMemo(e.target.dataset.id, e.target.value)));
+  grid.querySelectorAll('.memo-del').forEach(btn => btn.addEventListener('click', async () => { await from('memos').delete().eq('id', btn.dataset.id); await loadAll(); }));
 }
 async function updateMemo(id, text){
-  const m = memosData.find(x=>x.id===id);
-  if(m){ await supabase.from('memos').update({text, updated_at: new Date().toISOString().slice(0,10)}).eq('id',id); loadAll(); }
+  const {error} = await from('memos').update({text, updatedAt: new Date().toISOString().slice(0,10)}).eq('id', id);
+  if (error) console.error(error);
 }
-async function deleteMemo(id){ await deleteMemoDB(id); loadAll(); }
-function addMemo(){
-  const m = {id: 'm_'+Date.now(), text:"", updated_at: new Date().toISOString().slice(0,10)};
-  memosData.unshift(m);
-  saveMemo(m);
-}
-async function saveMemo(m){ await supabase.from('memos').upsert([m]); loadAll(); }
+function addMemo(){ openMemoForm(); }
+function openMemoForm(init={}){}
 
-/* ══════════════════════════════════════════════
-   MODAL
-   ══════════════════════════════════════════════ */
-function closeModal(){document.getElementById('overlay').classList.remove('open')}
-function closeOutside(e){if(e.target===document.getElementById('overlay'))closeModal()}
-function openModal(title, body, btns){
-  document.getElementById('overlay').classList.add('open');
-  document.getElementById('modalTitle').textContent = title;
-  document.getElementById('modalBody').innerHTML = body;
-  document.getElementById('modalBtns').innerHTML = btns;
+/* ---------- Place Modal ---------- */
+function openPlaceModal(cat, id){
+  const p = id ? (state.places[cat]||[]).find(x => x.id === id) : {};
+  const isEdit = !!id;
+  openModal(isEdit ? '장소 수정' : '장소 추가', placeFormHTML(p, cat), modalBtnsHTML(isEdit ? ['삭제','취소','저장'] : ['취소','추가'], isEdit, true));
+  if (isEdit) {
+    qs('#btnDelPlace')?.addEventListener('click', async () => {
+      if (!confirm('정말 삭제하시겠어요?')) return;
+      const {error} = await from('places').delete().eq('id', id);
+      if (error) alert('삭제 실패: ' + error.message); else await loadAll();
+      closeModal();
+    });
+  }
 }
-
-function formHTML(p, cat){
-  const opts = ['food','sights','fine','kids'].map(t=>`<option value="${t}" ${t===cat?'selected':''}>${CATEGORIES[t].label}</option>`).join('');
+function placeFormHTML(p, cat){
+  const opts = ['food','sights','fine','kids'].map(t => `<option value="${t}" ${t===cat?'selected':''}>${CATEGORIES[t].label}</option>`).join('');
   return `
-  <div class="fg"><label class="fl">탭 분류 *</label><select class="fi" id="f_cat">${opts}</select></div>
-  <div class="frow">
-    <div class="fg"><label class="fl">이모지 아이콘</label><input class="fi" id="f_icon" value="${esc(p.icon||'📍')}"></div>
-    <div class="fg"><label class="fl">가격대</label><input class="fi" id="f_price" value="${esc(p.price||'')}" placeholder="$ / $$ / $$$ / 무료"></div>
-  </div>
-  <div class="fg"><label class="fl">장소명 (한국어) *</label><input class="fi" id="f_name" value="${esc(p.name||'')}"></div>
-  <div class="fg"><label class="fl">영문명</label><input class="fi" id="f_nameEn" value="${esc(p.nameEn||'')}"></div>
-  <div class="frow">
-    <div class="fg"><label class="fl">지역 태그</label><input class="fi" id="f_region" value="${esc(p.region||'')}" placeholder="와이키키, 노스쇼어 등"></div>
-    <div class="fg"><label class="fl">평점</label><input class="fi" id="f_rating" value="${esc(p.rating||'')}" placeholder="4.5"></div>
-  </div>
-  <div class="frow">
-    <div class="fg"><label class="fl">위도 (lat)</label><input class="fi" id="f_lat" value="${p.lat||''}" placeholder="21.2806"></div>
-    <div class="fg"><label class="fl">경도 (lon)</label><input class="fi" id="f_lon" value="${p.lon||''}" placeholder="-157.8307"></div>
-  </div>
-  <p class="hint-text">💡 구글맵에서 장소 클릭 → 하단 좌표 복사</p>
-  <div class="fg"><label class="fl">설명</label><textarea class="fi" id="f_desc" rows="3">${esc(p.description || p.desc||'')}</textarea></div>
-  <div class="fg"><label class="fl">Must Order / 주요 볼거리</label><input class="fi" id="f_must" value="${esc(p.mustOrder||'')}"></div>
-  <div class="fg"><label class="fl">팁 (선택)</label><input class="fi" id="f_tip" value="${esc(p.tip||'')}"></div>
-  <div class="fg"><label class="fl">태그 (쉼표 구분)</label><input class="fi" id="f_tags" value="${(p.tags||[]).join(', ')}"></div>
-  <div class="fg"><label class="fl">주소</label><input class="fi" id="f_addr" value="${esc(p.addr||'')}"></div>
-  <div class="fg"><label class="fl">구글지도 URL</label><input class="fi" id="f_mapUrl" value="${esc(p.mapUrl||'')}"></div>
-`;
+    <div class="fg"><label class="fl">탭 분류 *</label><select class="fi" id="f_cat">${opts}</select></div>
+    <div class="frow">
+      <div class="fg"><label class="fl">이모지 아이콘</label><input class="fi" id="f_icon" value="${esc(p.icon||'📍')}"></div>
+      <div class="fg"><label class="fl">가격대</label><input class="fi" id="f_price" value="${esc(p.price||'')}" placeholder="$ / $$ / $$$ / 무료"></div>
+    </div>
+    <div class="fg"><label class="fl">장소명 (한국어) *</label><input class="fi" id="f_name" value="${esc(p.name||'')}"></div>
+    <div class="fg"><label class="fl">영문명</label><input class="fi" id="f_nameEn" value="${esc(p.nameEn||'')}"></div>
+    <div class="frow">
+      <div class="fg"><label class="fl">지역 태그</label><input class="fi" id="f_region" value="${esc(p.region||'')}" placeholder="와이키키, 노스쇼어 등"></div>
+      <div class="fg"><label class="fl">평점</label><input class="fi" id="f_rating" value="${esc(p.rating||'')}" placeholder="4.5"></div>
+    </div>
+    <div class="fg"><label class="fl">설명</label><textarea class="fi" id="f_desc" rows="3">${esc(p.description||p.desc||'')}</textarea></div>
+    <div class="fg"><label class="fl">Must Order / 주요 볼거리</label><input class="fi" id="f_must" value="${esc(p.mustOrder||'')}"></div>
+    <div class="fg"><label class="fl">팁 (선택)</label><input class="fi" id="f_tip" value="${esc(p.tip||'')}"></div>
+    <div class="fg"><label class="fl">태그 (쉼표 구분)</label><input class="fi" id="f_tags" value="${(p.tags||[]).join(', ')}"></div>
+    <div class="fg"><label class="fl">주소</label><input class="fi" id="f_addr" value="${esc(p.addr||'')}"></div>
+    <div class="fg"><label class="fl">구글지도 URL</label><input class="fi" id="f_mapUrl" value="${esc(p.mapUrl||'')}"></div>
+    <input type="hidden" id="f_id" value="${esc(p.id||'')}">
+  `;
 }
-function collectForm(id){
+function collectPlaceForm(){
   return {
-    id: id || 'p_'+Date.now(),
-    icon: document.getElementById('f_icon').value.trim()||'📍',
-    price: document.getElementById('f_price').value.trim(),
-    name: document.getElementById('f_name').value.trim(),
-    nameEn: document.getElementById('f_nameEn').value.trim(),
-    category: document.getElementById('f_cat').value,
-    region: document.getElementById('f_region').value.trim(),
-    rating: document.getElementById('f_rating').value.trim(),
+    id: qs('#f_id').value || ('p_'+Date.now()),
+    icon: qs('#f_icon').value.trim()||'📍',
+    price: qs('#f_price').value.trim(),
+    name: qs('#f_name').value.trim(),
+    nameEn: qs('#f_nameEn').value.trim(),
+    category: qs('#f_cat').value,
+    region: qs('#f_region').value.trim(),
+    rating: qs('#f_rating').value.trim(),
     ratingCnt: '',
-    lat: parseFloat(document.getElementById('f_lat').value)||null,
-    lon: parseFloat(document.getElementById('f_lon').value)||null,
-    description: document.getElementById('f_desc').value.trim(),
-    mustOrder: document.getElementById('f_must').value.trim(),
-    tip: document.getElementById('f_tip').value.trim(),
-    tags: document.getElementById('f_tags').value.split(',').map(s=>s.trim()).filter(Boolean),
-    addr: document.getElementById('f_addr').value.trim(),
+    description: qs('#f_desc').value.trim(),
+    mustOrder: qs('#f_must').value.trim(),
+    tip: qs('#f_tip').value.trim(),
+    tags: qs('#f_tags').value.split(',').map(s=>s.trim()).filter(Boolean),
+    addr: qs('#f_addr').value.trim(),
     coord: '',
-    mapUrl: document.getElementById('f_mapUrl').value.trim()
+    mapUrl: qs('#f_mapUrl').value.trim()
   };
 }
-function openAddModal(){ openModal('장소 추가', formHTML({},'food'), `<button class="btn-s" onclick="closeModal()">취소</button><button class="btn-p" onclick="saveAdd()">추가</button>`); }
-async function saveAdd(){ const tab=document.getElementById('f_cat').value; const p=collectForm(); if(!p.name){alert('장소명을 입력하세요');return;} await savePlace(p); closeModal(); }
-function openEditModal(cat, id){ const p = placesData[cat].find(x=>x.id===id); if(!p) return; openModal('장소 수정', formHTML(p, cat), `<button class="btn-d" onclick="deletePlace('${id}')">삭제</button><button class="btn-s" onclick="closeModal()">취소</button><button class="btn-p" onclick="saveEdit('${cat}','${id}')">저장</button>`); }
-async function saveEdit(cat, id){ const newCat=document.getElementById('f_cat').value; const p=collectForm(id); if(!p.name){alert('장소명을 입력하세요');return;} await supabase.from('places').delete().eq('id',id); await savePlace(p); closeModal(); }
-async function deletePlace(id){ await deletePlaceDB(id); }
-
-/* ══════════════════════════════════════════════
-   RENDER ALL
-   ══════════════════════════════════════════════ */
-function renderAll(){
-  renderPlaces('food'); renderPlaces('sights'); renderPlaces('fine'); renderPlaces('kids');
-  renderPlaceFilter('food'); renderPlaceFilter('sights'); renderPlaceFilter('fine'); renderPlaceFilter('fine');
-  renderSchedule(); renderBudget(); renderMemos();
+async function savePlace(){
+  const p = collectPlaceForm();
+  if (!p.name){ alert('장소명을 입력하세요'); return; }
+  const cat = qs('#f_cat').value;
+  const oldId = qs('#f_id').value;
+  if (oldId) {
+    const {error} = await from('places').delete().eq('id', oldId);
+    if (error) { alert('삭제 실패: ' + error.message); return; }
+  }
+  const {error} = await from('places').insert(p);
+  closeModal();
+  if (error) alert('저장 실패: ' + error.message); else await loadAll();
 }
-function esc(s){ return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
-/* INIT */
+/* ---------- Modal ---------- */
+function openModal(title, body, btns){
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = body;
+  document.getElementById('modalBtns').innerHTML = btns || '';
+  document.getElementById('overlay').classList.add('open');
+  window._modalPrimary = null;
+}
+function closeModal(){ document.getElementById('overlay').classList.remove('open'); window._modalPrimary = null; }
+function modalBtnsHTML(labels, danger, primary){
+  const [first, ...rest] = labels;
+  const firstIsPrimary = rest.length > 0;
+  let h = '';
+  if (firstIsPrimary) h += `<button class="btn-p" id="btnModalPrimary">${first}</button>`;
+  if (danger) h += `<button class="btn-d" id="btnDelPlace">삭제</button>`;
+  if (rest.length) h += `<button class="btn-s" id="btnModalCancel">${rest[0]}</button>`;
+  return h;
+}
+document.getElementById('overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeModal(); });
+
+/* ---------- Tabs ---------- */
+function initTabs(){
+  qsa('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      qsa('.tab').forEach(b => b.classList.remove('on'));
+      qsa('.section').forEach(s => s.classList.remove('on'));
+      btn.classList.add('on');
+      const pane = document.getElementById('pane-' + btn.dataset.tab);
+      if (pane) pane.classList.add('on');
+    });
+  });
+}
+
+/* ---------- Init ---------- */
+initTabs();
+document.getElementById('btnSync').addEventListener('click', loadAll);
+document.getElementById('btnAddPlace').addEventListener('click', () => openPlaceModal('food'));
+document.getElementById('btnAddMemo').addEventListener('click', () => openMemoForm());
+window._supabaseSavePlace = savePlace;
+window._supabaseSaveBudget = saveBudget;
+window._supabaseCloseModal = closeModal;
+
+// Wire modal primary button after open
+const origOpen = openModal;
+openModal = function(title, body, btns){
+  origOpen(title, body, btns);
+  setTimeout(() => {
+    const primary = qs('#btnModalPrimary');
+    if (primary) {
+      primary.addEventListener('click', () => {
+        const isPlace = !!qs('#f_name');
+        const isBudget = !!qs('#b_name');
+        if (isPlace && window._supabaseSavePlace) window._supabaseSavePlace();
+        else if (isBudget && window._supabaseSaveBudget) window._supabaseSaveBudget();
+      });
+    }
+    const cancel = qs('#btnModalCancel');
+    if (cancel) cancel.addEventListener('click', closeModal);
+  }, 0);
+};
+
 loadAll();
+})();
 </script>
 </body>
 </html>
