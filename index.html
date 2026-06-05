@@ -450,74 +450,173 @@ async function onScheduleChange(ta){
 }
 
 /* ---------- Budget ---------- */
+let FX_RATE = 1450; // default, updated by fetchRate
+
+async function fetchRate(){
+  try {
+    const r = await fetch('https://open.er-api.com/v6/latest/USD');
+    if(!r.ok) return;
+    const d = await r.json();
+    if(d.rates?.KRW && d.rates.KRW > 500) FX_RATE = Math.round(d.rates.KRW);
+  } catch(e) { /* keep fallback */ }
+}
+
+function fmtKRW(n){ return Math.round(Number(n)||0).toLocaleString('ko-KR') + '원'; }
+function fmtUSD(n){ return '$' + (Number(n)||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function parseNum(s){ return Number(String(s).replace(/[$,₩\s]/g,'')) || 0; }
+function usdToKrw(usd){ return Math.round(Number(usd) * FX_RATE); }
+function krwToUsd(krw){ return Number(krw) / FX_RATE; }
+
 function renderBudget(){
   const card = document.getElementById('budgetCard');
   const items = state.budget || [];
-  const total = items.reduce((s,i)=>s+(Number(i.amount)||0),0);
+  const totalKRW = items.reduce((s,i)=>s+(Number(i.amount)||0), 0);
+  const totalUSD = krwToUsd(totalKRW);
   card.innerHTML = `
-    <div class="budget-total">
-      <div>
-        <div class="label">총 예산</div>
-        <div class="amount">${fmt(total)} 원</div>
-        <div class="sub">성인 5 · 아이 2</div>
+    <div class="budget-card">
+      <div class="budget-top">
+        <div>
+          <div class="label">총 예산</div>
+          <div class="amount">${fmtKRW(totalKRW)}</div>
+          <div class="sub">≈ ${fmtUSD(totalUSD)} · 성인 5 · 아이 2</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <div class="fx-badge">$1 = ₩${fmtKRW(FX_RATE)}</div>
+          <button class="btn btn-map" id="btnAddBudget">＋ 항목 추가</button>
+        </div>
       </div>
-      <button class="btn btn-map" id="btnAddBudget">＋ 항목 추가</button>
-    </div>
-    <div style="overflow-x:auto">
-      <table class="budget-table">
-        <thead><tr><th>항목</th><th class="num">금액(원)</th><th>지불</th><th>비고</th><th></th></tr></thead>
-        <tbody>
-          ${items.map(i=>`<tr data-id="${esc(i.id)}">
-            <td><input data-f="name" value="${esc(i.name)}"></td>
-            <td class="num"><input type="number" data-f="amount" value="${i.amount||''}"></td>
-            <td><input data-f="method" value="${esc(i.method||'')}"></td>
-            <td><input data-f="memo" value="${esc(i.memo||'')}"></td>
-            <td><button class="btn btn-d" data-del="${esc(i.id)}">삭제</button></td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
+      <div style="overflow-x:auto">
+        <table class="budget-table">
+          <thead><tr><th>항목</th><th class="num">금액</th><th class="num" style="width:46px">통화</th><th class="num" style="width:110px">원화 환산</th><th>지불</th><th>비고</th><th></th></tr></thead>
+          <tbody>
+            ${items.map(i => {
+              const isUSD = (i.currency === 'USD');
+              const krw = Number(i.amount) || 0;
+              const usd = krwToUsd(krw);
+              const displayAmt = isUSD ? fmtUSD(usd) : fmtKRW(krw);
+              const displayKrw = isUSD ? fmtKRW(krw) : '';
+              return `<tr data-id="${esc(i.id)}">
+                <td><input data-f="name" value="${esc(i.name||'')}"></td>
+                <td class="num"><input class="bgt-num" data-f="amountDisplay" value="${esc(displayAmt)}" style="text-align:right" inputmode="decimal" onfocus="this.value=this.value.replace(/[,$₩ ]/g,'')" onblur="onBudgetAmtBlur(this)"></td>
+                <td class="num"><button class="currency-toggle ${isUSD?'usd':''}" data-id="${esc(i.id)}">${isUSD?'USD':'KRW'}</button></td>
+                <td class="num krw-col" style="font-size:11px;color:#6b7c8d">${displayKrw}</td>
+                <td><input data-f="method" value="${esc(i.method||'')}"></td>
+                <td><input data-f="memo" value="${esc(i.memo||'')}"></td>
+                <td><button class="btn btn-d" data-del="${esc(i.id)}">삭제</button></td>
+              </tr>`;
+            }).join('')}
+            <tr class="budget-total"><td colspan="2"><strong>합계</strong></td><td></td><td class="num"><strong>${fmtKRW(totalKRW)}</strong></td><td colspan="3" class="num" style="font-size:11px;color:#6b7c8d">≈ ${fmtUSD(totalUSD)}</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   `;
-  card.querySelectorAll('input').forEach(inp => inp.addEventListener('input', onBudgetField));
+  card.querySelectorAll('input').forEach(inp => {
+    if(inp.dataset.f === 'amountDisplay') return;
+    inp.addEventListener('input', onBudgetField);
+  });
+  card.querySelectorAll('.currency-toggle').forEach(btn => btn.addEventListener('click', () => toggleCurrency(btn.dataset.id)));
   const addBtn = card.querySelector('#btnAddBudget');
-  if (addBtn) addBtn.addEventListener('click', openBudgetModal);
-  card.querySelectorAll('[data-del]').forEach(btn => btn.addEventListener('click', async () => { await deleteBudget(btn.dataset.del); }));
+  if(addBtn) addBtn.addEventListener('click', openBudgetModal);
+  card.querySelectorAll('[data-del]').forEach(btn => btn.addEventListener('click', async () => await deleteBudget(btn.dataset.del)));
 }
+
+async function onBudgetAmtBlur(inp){
+  const tr = inp.closest('tr');
+  const id = tr?.dataset?.id;
+  const item = state.budget.find(i=>String(i.id)===String(id));
+  if(!item) return;
+  const raw = parseNum(inp.value);
+  if(isNaN(raw)) return;
+  const isUSD = item.currency === 'USD';
+  item.amount = isUSD ? usdToKrw(raw) : raw;
+  inp.value = isUSD ? fmtUSD(raw) : fmtKRW(raw);
+  const krwCol = tr.querySelector('.krw-col');
+  if(krwCol) krwCol.textContent = isUSD ? fmtKRW(item.amount) : '';
+  await saveBudgetItem(item);
+  renderBudget();
+}
+
 async function onBudgetField(inp){
   const tr = inp.closest('tr');
   const id = tr?.dataset?.id;
-  const item = state.budget.find(i => String(i.id) === String(id));
-  if (!item) return;
+  const item = state.budget.find(i=>String(i.id)===String(id));
+  if(!item) return;
+  if(inp.dataset.f === 'amountDisplay') return;
   item[inp.dataset.f] = inp.dataset.f === 'amount' ? (Number(inp.value)||0) : inp.value;
-  const {error} = await api('budget?id=eq.'+encodeURIComponent(id), { method:'PATCH', body: JSON.stringify(item), headers:{'Content-Type':'application/json'} });
-  if (error) console.error(error); else setStatus('💾 저장됨','ok');
+  await saveBudgetItem(item);
 }
+
+async function saveBudgetItem(item){
+  const {error} = await api('budget?id=eq.'+encodeURIComponent(item.id), { method:'PATCH', body: JSON.stringify(item), headers:{'Content-Type':'application/json'} });
+  if(error) console.error(error); else setStatus('💾 저장됨','ok');
+}
+
+async function toggleCurrency(id){
+  const item = state.budget.find(i=>String(i.id)===String(id));
+  if(!item) return;
+  const wasUSD = item.currency === 'USD';
+  item.currency = wasUSD ? 'KRW' : 'USD';
+  if(item.currency === 'USD' && !item.fx_rate) item.fx_rate = FX_RATE;
+  await saveBudgetItem(item);
+  renderBudget();
+}
+
 function openBudgetModal(){
+  let currency = 'KRW';
+  window.updateBudgetCurrency = (cur) => {
+    currency = cur;
+    document.getElementById('bCurKRW').classList.toggle('on', cur==='KRW');
+    document.getElementById('bCurUSD').classList.toggle('on', cur==='USD');
+    document.getElementById('bAmtLabel').textContent = cur==='KRW' ? '금액 (원)' : '금액 ($)';
+  };
   document.getElementById('modalTitle').textContent = '예산 항목 추가';
   document.getElementById('modalBody').innerHTML = `
     <div class="fg"><label class="fl">항목명 *</label><input class="fi" id="b_name"></div>
-    <div class="frow">
-      <div class="fg"><label class="fl">금액(원)</label><input class="fi" type="number" id="b_amount" value="0"></div>
-      <div class="fg"><label class="fl">지불수단</label><input class="fi" id="b_method" value="카드"></div>
+    <div style="margin-bottom:10px">
+      <label class="fl">통화 선택</label>
+      <div style="display:flex;gap:8px">
+        <button type="button" class="cur-btn on" id="bCurKRW" onclick="updateBudgetCurrency('KRW')">원화 (KRW)</button>
+        <button type="button" class="cur-btn" id="bCurUSD" onclick="updateBudgetCurrency('USD')">달러 (USD)</button>
+      </div>
     </div>
-    <div class="fg"><label class="fl">비고</label><input class="fi" id="b_memo"></div>
+    <div class="fg">
+      <label class="fl" id="bAmtLabel">금액 (원)</label>
+      <input class="fi" id="b_amount" type="text" inputmode="decimal" placeholder="0">
+      <div id="bConvert" style="font-size:11px;color:#0b7a86;margin-top:4px;min-height:16px"></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label class="fl">지불수단</label><input class="fi" id="b_method" value="카드"></div>
+      <div class="fg"><label class="fl">비고</label><input class="fi" id="b_memo"></div>
+    </div>
   `;
   document.getElementById('modalBtns').innerHTML = '<button class="btn-s" id="btnCancel">취소</button><button class="btn-p" id="btnSaveModal">저장</button>';
   document.getElementById('overlay').classList.add('open');
   document.getElementById('btnCancel').onclick = () => document.getElementById('overlay').classList.remove('open');
+  const updateModalConvert = () => {
+    const raw = parseNum(document.getElementById('b_amount').value);
+    const el = document.getElementById('bConvert');
+    if(!raw){ el.textContent=''; return; }
+    if(currency==='USD'){ el.textContent = '≈ 약 ' + fmtKRW(usdToKrw(raw)) + ' (환율 ₩' + fmtKRW(FX_RATE) + '/1$)'; }
+    else { el.textContent = '≈ 약 ' + fmtUSD(krwToUsd(raw)); }
+  };
+  document.getElementById('b_amount').addEventListener('input', updateModalConvert);
   document.getElementById('btnSaveModal').onclick = async () => {
     const name = document.getElementById('b_name').value.trim();
-    if (!name){ alert('항목명을 입력하세요'); return; }
-    const payload = { id: uuid(), name, amount: Number(document.getElementById('b_amount').value)||0, method: document.getElementById('b_method').value.trim(), memo: document.getElementById('b_memo').value.trim() };
+    if(!name){ alert('항목명을 입력하세요'); return; }
+    const raw = parseNum(document.getElementById('b_amount').value);
+    const amountKRW = currency==='USD' ? usdToKrw(raw) : raw;
+    const payload = { id: uuid(), name, amount: amountKRW, currency, method: document.getElementById('b_method').value.trim(), memo: document.getElementById('b_memo').value.trim() };
     const {error} = await api('budget', { method:'POST', body: JSON.stringify(payload), headers:{'Content-Type':'application/json'} });
     document.getElementById('overlay').classList.remove('open');
-    if (error) alert('저장 실패: ' + error); else await loadAll();
+    if(error) alert('저장 실패: '+error); else await loadAll();
   };
 }
+
 async function deleteBudget(id){
-  if (!confirm('삭제하시겠어요?')) return;
+  if(!confirm('삭하시겠어요?')) return;
   const {error} = await api('budget?id=eq.'+encodeURIComponent(id), { method:'DELETE' });
-  if (error) alert('삭제 실패: ' + error); else await loadAll();
+  if(error) alert('삭제 실패: ' + error); else await loadAll();
 }
 
 /* ---------- Memos ---------- */
