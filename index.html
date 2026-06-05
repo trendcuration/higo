@@ -239,7 +239,15 @@ const initSupabase = () => {
   if (!window.supabase) return null;
   try { return window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON); } catch (e) { console.error(e); return null; }
 };
-const db = initSupabase();
+let db = initSupabase();
+const waitForSupabase = () => new Promise(resolve => {
+  const check = () => {
+    if (!db) db = initSupabase();
+    if (db) return resolve(true);
+    setTimeout(check, 50);
+  };
+  check();
+});
 
 const setStatus = (text, kind) => {
   const dot = document.getElementById('statusDot');
@@ -743,8 +751,7 @@ function initFab(){
 initTabs();
 initFab();
 document.getElementById('btnSync').addEventListener('click', loadAll);
-
-loadAll();
+waitForSupabase().then(() => loadAll());
 })();
 </script>
 </body>
