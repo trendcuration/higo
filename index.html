@@ -406,7 +406,7 @@ function renderSchedule(){
   });
   h += '</tbody></table></div>';
   box.innerHTML = h;
-  box.querySelectorAll('textarea').forEach(ta => ta.addEventListener('input', onScheduleChange));
+  box.querySelectorAll('textarea').forEach(ta => ta.addEventListener('input', e => onScheduleChange(e.target)));
 }
 async function onScheduleChange(ta){
   const dayId = ta.dataset.id;
