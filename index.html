@@ -415,7 +415,8 @@ async function onScheduleChange(ta){
   while (day.items.length <= ri) day.items.push(["",""]);
   if (!Array.isArray(day.items[ri])) day.items[ri] = ["",""];
   day.items[ri][col] = ta.value;
-  const {error} = await api('schedules?id=eq.'+encodeURIComponent(day.id), { method:'PATCH', body: JSON.stringify({ ...day }), headers:{'Content-Type':'application/json'} });
+  const payload = { id: day.id, day: day.day, date: day.date, items: day.items };
+  const {error} = await api('schedules?id=eq.'+encodeURIComponent(day.id), { method:'PATCH', body: JSON.stringify(payload), headers:{'Content-Type':'application/json'} });
   if (error) console.error(error); else setStatus('💾 저장됨','ok');
 }
 
