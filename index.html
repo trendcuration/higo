@@ -54,9 +54,6 @@ html,body{font-family:'Noto Sans KR',system-ui,-apple-system,sans-serif;backgrou
 .btn-edit{background:#eef2f5;color:#3d4a57}
 .card-map{height:180px;border-top:1px solid #edf3f6}
 .card-map iframe{width:100%;height:100%;border:0}
-.place-map{height:220px;background:#eef2f5;border-radius:var(--radius);overflow:hidden;margin-bottom:14px}
-.gmap-frame{width:100%;height:260px;border:none;display:block}
-
 .empty{text-align:center;padding:44px 18px;color:#8295a7}
 .empty .icon{font-size:36px;margin-bottom:8px}
 .schedule{background:#fff;border:1px solid #e6edf2;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
@@ -137,27 +134,23 @@ html,body{font-family:'Noto Sans KR',system-ui,-apple-system,sans-serif;backgrou
   <section id="pane-food" class="section on">
     <div class="pane-title">🍜 맛집</div>
     <div class="pane-sub">지역별 현지 인기 맛집</div>
-    <div id="map-food" class="place-map"></div>
     <div class="area-filter" id="foodFilter"></div>
     <div class="grid" id="foodGrid"></div>
   </section>
   <section id="pane-sights" class="section">
     <div class="pane-title">🗻 관광지</div>
     <div class="pane-sub">자연·역사·문화 명소</div>
-    <div id="map-sights" class="place-map"></div>
     <div class="area-filter" id="sightsFilter"></div>
     <div class="grid" id="sightsGrid"></div>
   </section>
   <section id="pane-fine" class="section">
     <div class="pane-title">🥂 파인다이닝</div>
     <div class="pane-sub">특별한 날을 위한 레스토랑</div>
-    <div id="map-fine" class="place-map"></div>
     <div class="grid" id="fineGrid"></div>
+  </section>
   <section id="pane-kids" class="section">
     <div class="pane-title">👶 with Kids</div>
     <div class="pane-sub">아이와 함께하기 좋은 곳</div>
-    <div id="map-kids" class="place-map"></div>
-    <div class="area-filter" id="kidsFilter"></div>
     <div class="grid" id="kidsGrid"></div>
   </section>
   <section id="pane-schedule" class="section">
@@ -232,22 +225,8 @@ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&
 const fmt = (n) => Number(n ?? 0).toLocaleString('ko-KR');
 
 const DEFAULT_PLACES = [
-  {id:uuid(),icon:'🍜',category:'food',region:'와이키키',name:'스타럿츠 다이닝',nameEn:"Starr's Dining",rating:4.6,price:'$$',description:'와이키키 비치에서 가장 인기 있는 로컁 다이닝. 신선한 해산물과 하와이안 플레이트가 대표 메뉴.',mustOrder:'라oscas plate',tip:'일몰 시간대 30분 전 도착 추천',addr:'2586 Kalakaua Ave, Honolulu',coord:'21.2766,-157.8276'},
-  {id:uuid(),icon:'🍜',category:'food',region:'코리아타운',name:'우리집',nameEn:'Woo Ri Jip',rating:4.4,price:'$$',description:'소박한 가정식 한식. 현지 한인과 관광객 모두에게 인기 있는 핫플.',mustOrder:'제육볶음',tip:'점심 피크 12시-1시 피하면 웨이트 적음',addr:'1300 Kapiolani Blvd #116, Honolulu',coord:'21.2916,-157.8373'},
-  {id:uuid(),icon:'🍜',category:'food',region:'카할라',name:'에디스 코트',nameEn:"Edith's Cantina",rating:4.3,price:'$$',description:'카할라 리조트 근처 가성비 좋은 맥시칸·하와이 퓨전.',mustOrder:'퀘소 부리또',tip:'리조트 투숙객은 10% 우대',addr:'4211 Kahala Ave, Honolulu',coord:'21.2773,-157.7728'},
-  {id:uuid(),icon:'🍜',category:'food',region:'와이키키',name:'메리 스테이크 하우스',nameEn:"Mary's Steakhouse",rating:4.5,price:'$$$',description:'와이키키 단골 스테이크하우스. 숙성 고기와 사이드가 훌륭하다.',mustOrder:'리브아이',tip:'예약 권장',addr:'2458 Kuhio Ave, Honolulu',coord:'21.2767,-157.8262'},
-  {id:uuid(),icon:'🍜',category:'food',region:'하원',name:'마루카메 우동',nameEn:'Marukame Udon',rating:4.7,price:'$',description:'와이키키 + 하원에서 가장 바쁜 카운터 우동. 가성비 최상.',mustOrder:'가케우동 + 텐푸라',tip:'피크 17:00-19:00 대기 30분+ 예상',addr:'2035 N King St, Honolulu',coord:'21.3234,-157.8645'},
-  {id:uuid(),icon:'🍜',category:'food',region:'코리아타운',name:'하나우마',nameEn:'Hanauma',rating:4.5,price:'$',description:'가성비 좋은 일식 카운터. 회와 덮밥이 신선하다.',mustOrder:'사시미 덮밥',tip:'런치 11시 오픈 맞춰 방문',addr:'1110 S King St, Honolulu',coord:'21.2986,-157.8559'},
-  {id:uuid(),icon:'🗻',category:'sights',region:'동쪽',name:'라니아케아 비치',nameEn:'Laniakea Beach',rating:4.6,price:'',description:'해변 한쪽에 자리한 거북이 서식지. 여름~가을에는 바다 거북이를 볼 수 있다.',mustOrder:'',tip:'거북이 방해하지 않도록 거리 유지',addr:'Kalanianaole Hwy, Honolulu',coord:'21.2730,-157.8035'},
-  {id:uuid(),icon:'🗻',category:'sights',region:'동쪽',name:'마카푸우 등대',nameEn:'Makapu\'u Lighthouse',rating:4.7,price:'',description:'오아후 최동단 등대. 전망 트레일에서 절경을 감상할 수 있다.',mustOrder:'',tip:'왕복 1.2km 경사 완만',addr:'Kalanianaole Hwy, Honolulu',coord:'21.3155,-157.6463'},
-  {id:uuid(),icon:'🗻',category:'sights',region:'동쪽',name:'와이메아 밸리',nameEn:'Waimea Valley',rating:4.6,price:'',description:'고대 하와이 계곡 산책로와 폭포. 역사와 자연을 함께 느끼는 코스.',mustOrder:'',tip:'선크림·수영복 권장',addr:'59-864 Kamehameha Hwy, Haleiwa',coord:'21.5921,-158.0689'},
-  {id:uuid(),icon:'🥂',category:'fine',region:'와이키키',name:'블루워터',nameEn:'Bluewater Shrimp',rating:4.4,price:'$$',description:'하와이 스타일 쉬림프 트럭 명가.',mustOrder:'가리비 감바스 + 쉬림프 롤',tip:'포장 가능',addr:'532 Kapahulu Ave, Honolulu',coord:'21.2697,-157.8234'},
-  {id:uuid(),icon:'🥂',category:'fine',region:'와이키키',name:'주얼 레스토랑',nameEn:'Azure Restaurant',rating:4.5,price:'$$$$',description:'오션 프론트 다이닝. 디너 셋트와 와인 페어링이 유명.',mustOrder:'오마카세 코스',tip:'드레스 코드 반바지/슬리퍼 X',addr:'2335 Kalakaua Ave, Honolulu',coord:'21.2762,-157.8280'},
-  {id:uuid(),icon:'👶',category:'kids',region:'와이키키',name:'와이키키 비치',nameEn:'Waikiki Beach',rating:4.5,price:'',description:'파도 약한 라구운 지역 어린이용 풀과 샤워 시설 완비.',mustOrder:'',tip:'오전 9시 전 파도 적음',addr:'Waikiki Beach, Honolulu',coord:'21.2757,-157.8263'},
-  {id:uuid(),icon:'👶',category:'kids',region:'카할라',name:'카할라 비치',nameEn:'Kahala Beach',rating:4.6,price:'',description:'조용한 리조트 전용 해변. 아이와 천천히 놀기 좋다.',mustOrder:'',tip:'리조트 투숙객 무료',addr:'5000 Kahala Ave, Honolulu',coord:'21.2792,-157.7719'},
-  {id:uuid(),icon:'👶',category:'kids',region:'중부',name:'어린이과학박물관',nameEn:"Bernice Pauahi Bishop Museum",rating:4.5,price:'',description:'태평양 자연·문화를 체험할 수 있는 박물관. 키즈존이 잘 되어 있다.',mustOrder:'',tip:'입장시간 9:00',addr:'1525 Bernice St, Honolulu',coord:'21.3325,-157.8753'}
 ];
-const DEFAULT_SCHEDULE = 
+const DEFAULT_SCHEDULE = [
   {id:'d1a7c2e0-1234-4b1a-8f1a-d1e2f3a4b5c6',day:"7/3(금)", date:"2026-07-03", label:"출발일", items:[["22:30 ICN 출발",""],["",""],["",""],["",""]]},
   {id:'d2b3c4d5-2345-4c2b-9f2b-e2f3a4b5c6d7',day:"7/4(토)", date:"2026-07-04", label:"도착일", items:[["HNL 도착 12:20",""],["",""],["체크인·코스트코",""],["저녁 식사·와이키키 산책",""]]},
   {id:'d3c4d5e6-3456-4d3c-af3c-f3a4b5c6d7e8',day:"7/5(일)", date:"2026-07-05", label:"", items:[["KCC 파머스 마켓","KCC"],["",""],["라니아케아 비치","자유일정"],["자유일정",""]]},
@@ -383,22 +362,10 @@ function renderRegionFilters(){
   });
 }
 const CATEGORIES = { food:{label:'맛집',icon:'🍜'}, sights:{label:'관광지',icon:'🗻'}, fine:{label:'파인다이닝',icon:'🥂'}, kids:{label:'with Kids',icon:'👶'} };
-function renderPlaceMap(cat){
-  const mapEl = document.getElementById('map-'+cat);
-  if (!mapEl) return;
-  const places = (state.places[cat]||[]).filter(p => p.coord);
-  if (!places.length){
-    mapEl.innerHTML = '<div class="empty-state"><div class="empty-icon">📍</div>지도에 표시할 좌표 정보가 아직 없습니다.<div style="color:#8295a7;font-size:10px;margin-top:4px">장소 수정에서 좌표를 입력하면 지도에 표시됩니다.</div></div>';
-    return;
-  }
-  const src = 'https://www.google.com/maps?q=' + encodeURIComponent((places[0].name||'') + ' ' + (places[0].addr||'')) + '&z=13&output=embed';
-  mapEl.innerHTML = '<iframe class="gmap-frame" src="' + src + '" loading="lazy" allowfullscreen></iframe>';
-}
 function renderPlaces(cat){
   const grid = document.getElementById(cat+'Grid');
   const list = (state.places[cat]||[]).filter(p => state.placeRegion[cat]==='전체' || p.region===state.placeRegion[cat]);
   if (!list.length){ grid.innerHTML = `<div class="empty"><div class="icon">${CATEGORIES[cat]?.icon||'📍'}</div>저장된 장소가 없습니다. ＋ 버튼으로 추가해주세요.</div>`; return; }
-  renderPlaceMap(cat);
   grid.innerHTML = list.map(p => `
     <div class="card">
       <div class="card-head">
