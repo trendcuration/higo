@@ -399,7 +399,7 @@ function renderSchedule(){
       h += `<tr><td>${label}</td>`;
       [0,1].forEach(col => {
         const val = (Array.isArray(d.items) && d.items[ri]) ? (d.items[ri][col]||'') : '';
-        h += `<td><textarea data-day="${di}" data-row="${ri}" data-col="${col}">${esc(val)}</textarea></td>`;
+        h += `<td><textarea data-id="${esc(d.id)}" data-row="${ri}" data-col="${col}">${esc(val)}</textarea></td>`;
       });
       h += '</tr>';
     });
@@ -409,9 +409,12 @@ function renderSchedule(){
   box.querySelectorAll('textarea').forEach(ta => ta.addEventListener('input', onScheduleChange));
 }
 async function onScheduleChange(ta){
-  const di = +ta.dataset.day, ri = +ta.dataset.row, col = +ta.dataset.col;
-  const day = state.schedule[di];
-  if (!day) { console.warn('no schedule item at index', di, 'schedule:', state.schedule); return; }
+  const dayId = ta.dataset.id;
+  const ri = +ta.dataset.row;
+  const col = +ta.dataset.col;
+  const day = state.schedule.find(d => d.id === dayId);
+  console.debug('save schedule', dayId, ri, col, day);
+  if (!day) { console.warn('no schedule item for id', dayId); return; }
   if (!Array.isArray(day.items)) day.items = [];
   while (day.items.length <= ri) day.items.push(["",""]);
   if (!Array.isArray(day.items[ri])) day.items[ri] = ["",""];
