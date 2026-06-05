@@ -597,7 +597,6 @@ function openPlaceModal(cat, id){
       <div class="fg"><label class="fl">평점</label><input class="fi" id="f_rating" value="${esc(p.rating||'')}" placeholder="4.5"></div>
     </div>
     <div class="fg"><label class="fl">설명</label><textarea class="fi" id="f_desc" rows="3">${esc(p.description||p.desc||'')}</textarea></div>
-    <div class="fg"><label class="fl">Must Order / 주요 볼거리</label><input class="fi" id="f_must" value="${esc(p.mustOrder||'')}"></div>
     <div class="fg"><label class="fl">팁 (선택)</label><input class="fi" id="f_tip" value="${esc(p.tip||'')}"></div>
     <div class="fg"><label class="fl">태그 (쉼표 구분)</label><input class="fi" id="f_tags" value="${(p.tags||[]).join(', ')}"></div>
     <div class="fg"><label class="fl">주소</label><input class="fi" id="f_addr" value="${esc(p.addr||'')}"></div>
@@ -619,7 +618,6 @@ function openPlaceModal(cat, id){
       region: document.getElementById('f_region').value.trim(),
       rating: document.getElementById('f_rating').value.trim(),
       description: document.getElementById('f_desc').value.trim(),
-      mustOrder: document.getElementById('f_must').value.trim(),
       tip: document.getElementById('f_tip').value.trim(),
       tags: document.getElementById('f_tags').value.split(',').map(s=>s.trim()).filter(Boolean),
       addr: document.getElementById('f_addr').value.trim(),
