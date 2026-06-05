@@ -196,7 +196,7 @@ const setStatus = (text, kind) => {
     txt.textContent = text || '';
     dot.className = 'status-dot ' + (kind === 'error' ? 'err' : kind === 'ok' ? 'ok' : 'loading');
   }
-};
+    };
 const state = {
   places: { food:[], sights:[], fine:[], kids:[] },
   schedule: [],
@@ -591,14 +591,11 @@ function openPlaceModal(cat, id){
       <div class="fg"><label class="fl">가격대</label><input class="fi" id="f_price" value="${esc(p.price||'')}" placeholder="$ / $$ / $$$ / 무료"></div>
     </div>
     <div class="fg"><label class="fl">장소명 (한국어) *</label><input class="fi" id="f_name" value="${esc(p.name||'')}"></div>
-    <div class="fg"><label class="fl">영문명</label><input class="fi" id="f_nameEn" value="${esc(p.nameEn||'')}"></div>
     <div class="frow">
       <div class="fg"><label class="fl">지역 태그</label><input class="fi" id="f_region" value="${esc(p.region||'')}" placeholder="와이키키, 노스쇼어 등"></div>
       <div class="fg"><label class="fl">평점</label><input class="fi" id="f_rating" value="${esc(p.rating||'')}" placeholder="4.5"></div>
     </div>
     <div class="fg"><label class="fl">설명</label><textarea class="fi" id="f_desc" rows="3">${esc(p.description||p.desc||'')}</textarea></div>
-    <div class="fg"><label class="fl">팁 (선택)</label><input class="fi" id="f_tip" value="${esc(p.tip||'')}"></div>
-    <div class="fg"><label class="fl">태그 (쉼표 구분)</label><input class="fi" id="f_tags" value="${(p.tags||[]).join(', ')}"></div>
     <div class="fg"><label class="fl">주소</label><input class="fi" id="f_addr" value="${esc(p.addr||'')}"></div>
     <input type="hidden" id="f_id" value="${esc(p.id||'')}">
   `;
@@ -610,20 +607,18 @@ function openPlaceModal(cat, id){
   document.getElementById('btnSaveModal').onclick = async () => {
     const place = {
       id: document.getElementById('f_id').value || ('p_'+Date.now()),
-      icon: document.getElementById('f_icon').value.trim()||'📍',
-      price: document.getElementById('f_price').value.trim(),
-      name: document.getElementById('f_name').value.trim(),
-      nameEn: document.getElementById('f_nameEn').value.trim(),
       category: document.getElementById('f_cat').value,
+      name: document.getElementById('f_name').value.trim(),
       region: document.getElementById('f_region').value.trim(),
+      price: document.getElementById('f_price').value.trim(),
       rating: document.getElementById('f_rating').value.trim(),
       description: document.getElementById('f_desc').value.trim(),
-      tip: document.getElementById('f_tip').value.trim(),
-      tags: document.getElementById('f_tags').value.split(',').map(s=>s.trim()).filter(Boolean),
-      addr: document.getElementById('f_addr').value.trim(),
+      addr: document.getElementById('f_addr').value.trim()
     };
     if (!place.name){ alert('장소명을 입력하세요'); return; }
-    const {error} = await api('places?id=eq.'+encodeURIComponent(place.id), { method:'PATCH', body: JSON.stringify(place), headers:{'Content-Type':'application/json'} });
+    const path = document.getElementById('f_id').value ? 'places?id=eq.'+encodeURIComponent(document.getElementById('f_id').value) : 'places';
+    const method = document.getElementById('f_id').value ? 'PATCH' : 'POST';
+    const {error} = await api(path, { method, body: JSON.stringify(place), headers:{'Content-Type':'application/json'} });
     document.getElementById('overlay').classList.remove('open');
     if (error) alert('저장 실패: ' + error); else await loadAll();
   };
