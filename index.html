@@ -340,6 +340,12 @@ const DEFAULT_SCHEDULE = [
   ]}
 ];
 
+const DEFAULT_MEMOS = [
+  {id:'m1', text:'✅ 예약 완료: 렌터카 #69043973, 스냅 7/6 9시', updated_at:'2026-06-05'},
+  {id:'m2', text:'🛂 ESTA/여권 유효기간 확인 필요', updated_at:'2026-06-05'},
+  {id:'m3', text:'🌺 돌잔치 장소/시간 확인하기', updated_at:'2026-06-05'}
+];
+
 const DEFAULT_BUDGET = {
   items:[
     {name:"렌터카", amount:1502910, method:"카드", memo:"예약 #69043973, HNLT71"},
@@ -404,7 +410,7 @@ async function seedIfEmpty(){
       if (error) console.error('seed error', error);
     }
     await supabase.from('schedules').insert(DEFAULT_SCHEDULE.map(s=>({day:s.day, date:s.date, items:s.slots})));
-    await supabase.from('budget').insert(DEFAULT_BUDGET.items.map(i=>({...i})));
+    await supabase.from('budget').insert(DEFAULT_BUDGET.items.map(i=>({id:'b_'+Date.now()+Math.random().toString(36).slice(2,6), ...i})));
     await supabase.from('memos').insert(DEFAULT_MEMOS.map(m=>({...m})));
     await loadAll();
     return;
