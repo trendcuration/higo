@@ -225,7 +225,17 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--light);color:var(--d
 
 <div class="footer">🌺 2026 Hawaii · Supabase 동기화 · 실시간 저장</div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"
+        onerror="(function(){var s=document.currentScript;var x=document.createElement('script');x.src='https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.min.js';s.parentNode.insertBefore(x,s);})()">
+</script>
+<script>
+window.__supabaseReady = false;
+window.addEventListener('load', function() {
+  if (!window.supabase && !window.__supabaseReady) {
+    document.getElementById('syncStatus').textContent = '⚠️ Supabase 라이브러리 로딩 실패';
+  }
+});
+</script>
 <script>
 /* ══════════════════════════════════════════════
    SUPABASE CLIENT
@@ -377,30 +387,36 @@ let loading = false;
    SUPABASE CRUD
    ══════════════════════════════════════════════ */
 async function loadAll(){
-  setStatus('불러오는 중...');
-  const [pRes, sRes, bRes, mRes] = await Promise.all([
-    supabase.from('places').select('*').order('created_at', {ascending:true}),
-    supabase.from('schedules').select('*').order('date', {ascending:true}),
-    supabase.from('budget').select('*').order('created_at', {ascending:true}),
-    supabase.from('memos').select('*').order('created_at', {ascending:true})
-  ]);
-  if (pRes.error || sRes.error || bRes.error || mRes.error){
-    console.error('Load error:', pRes.error || sRes.error || bRes.error || mRes.error);
-    /* First load: seed defaults */
-    await seedIfEmpty();
-    return;
+  try {
+    setStatus('🔄 불러오는 중...');
+    const [pRes, sRes, bRes, mRes] = await Promise.all([
+      supabase.from('places').select('*').order('created_at', {ascending:true}),
+      supabase.from('schedules').select('*').order('date', {ascending:true}),
+      supabase.from('budget').select('*').order('created_at', {ascending:true}),
+      supabase.from('memos').select('*').order('created_at', {ascending:true})
+    ]);
+    if (pRes.error || sRes.error || bRes.error || mRes.error){
+      console.error('Load error:', pRes.error || sRes.error || bRes.error || mRes.error);
+      renderAll();
+      setStatus('⚠️ 동기화 실패: ' + (pRes.error?.message || sRes.error?.message || bRes.error?.message || mRes.error?.message || ''));
+      return;
+    }
+    placesData = {
+      food: (pRes.data||[]).filter(x=>x.category==='food'),
+      sights: (pRes.data||[]).filter(x=>x.category==='sights'),
+      fine: (pRes.data||[]).filter(x=>x.category==='fine'),
+      kids: (pRes.data||[]).filter(x=>x.category==='kids')
+    };
+    scheduleData = (sRes.data||[]).map(r=>({...r, items:(Array.isArray(r.items)?r.items:[])}));
+    budgetData = bRes.data||[];
+    memosData = mRes.data||[];
+    renderAll();
+    setStatus('✅ 동기화 완료');
+  } catch (e) {
+    console.error(e);
+    renderAll();
+    setStatus('⚠️ 초기 로드 실패: ' + (e.message || e));
   }
-  placesData = {
-    food: (pRes.data||[]).filter(x=>x.category==='food'),
-    sights: (pRes.data||[]).filter(x=>x.category==='sights'),
-    fine: (pRes.data||[]).filter(x=>x.category==='fine'),
-    kids: (pRes.data||[]).filter(x=>x.category==='kids')
-  };
-  scheduleData = (sRes.data||[]).map(r=>({...r, items: typeof r.items==='string'? JSON.parse(r.items||'[]'): (r.items||r.slots||[])}));
-  budgetData = bRes.data||[];
-  memosData = mRes.data||[];
-  renderAll();
-  setStatus('✅ 동기화 완료');
 }
 async function seedIfEmpty(){
   const {count} = await supabase.from('places').select('*', {count:'exact', head:true});
@@ -409,7 +425,7 @@ async function seedIfEmpty(){
       const {error} = await supabase.from('places').insert([{...p, tags: p.tags||[]}]);
       if (error) console.error('seed error', error);
     }
-    await supabase.from('schedules').insert(DEFAULT_SCHEDULE.map(s=>({day:s.day, date:s.date, items:s.slots})));
+    await supabase.from('schedules').insert(DEFAULT_SCHEDULE.map(s=>({day:s.day, date:s.date, items:s.slots?s.slots:s.items})));
     await supabase.from('budget').insert(DEFAULT_BUDGET.items.map(i=>({id:'b_'+Date.now()+Math.random().toString(36).slice(2,6), ...i})));
     await supabase.from('memos').insert(DEFAULT_MEMOS.map(m=>({...m})));
     await loadAll();
