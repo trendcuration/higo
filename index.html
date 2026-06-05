@@ -212,20 +212,6 @@ const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&
 const fmt = (n) => Number(n ?? 0).toLocaleString('ko-KR');
 
 const DEFAULT_PLACES = [
-  {id:'f1',icon:'🍜',name:'마루카메 우동',nameEn:'Marukame Udon',category:'food',region:'와이키키',price:'$',rating:'4.3',description:'와이키키 최고 가성비 우동.',mustOrder:'카마타마 우동, 치쿠와 덴푸라',tags:['우동','가성비','줄필수'],addr:'2310 Kūhiō Ave, Honolulu',mapUrl:'https://maps.google.com/?q=Marukame+Udon+Waikiki'},
-  {id:'f2',icon:'🍔',name:'룰루즈 와이키키',nameEn:"LuLu's Waikiki",category:'food',region:'와이키키',price:'$$',rating:'4.1',description:'오션뷰 브런치부터 칵테일까지.',mustOrder:'로코모코, 아히 나초스, 마이타이',tags:['오션뷰','브런치','칵테일'],addr:'2586 Kalākaua Ave, Honolulu',mapUrl:"https://maps.google.com/?q=LuLu%27s+Waikiki"},
-  {id:'f3',icon:'🍧',name:'아일랜드 빈티지 쉐이브 아이스',nameEn:'Island Vintage Shave Ice',category:'food',region:'와이키키',price:'$',rating:'4.6',description:'오아후 쉐이브 아이스 1위.',mustOrder:'Heavenly Lilikoi, 망고라즈베리',tags:['쉐이브아이스','디저트','포토스팟'],addr:'Royal Hawaiian Center, 2201 Kalākaua Ave',mapUrl:'https://maps.google.com/?q=Island+Vintage+Shave+Ice+Waikiki'},
-  {id:'f4',icon:'🍽️',name:'오노 하와이안 푸드',nameEn:'Ono Hawaiian Foods',category:'food',region:'카파훌루',price:'$',rating:'4.4',description:'진짜 하와이 전통 음식 성지.',mustOrder:'칼루아 포크 콤보, 라우라우',tags:['하와이안푸드','로컬','전통'],addr:'726 Kapahulu Ave, Honolulu',mapUrl:'https://maps.google.com/?q=Ono+Hawaiian+Foods+Kapahulu'},
-  {id:'f5',icon:'🌈',name:'레인보우 드라이브인',nameEn:'Rainbow Drive-In',category:'food',region:'카파훌루',price:'$',rating:'4.2',description:'플레이트 런치 성지.',mustOrder:'믹스 플레이트, 칠리 with 라이스',tags:['플레이트런치','로컬아이콘','저렴'],addr:'3308 Kanaina Ave, Honolulu',mapUrl:'https://maps.google.com/?q=Rainbow+Drive-In+Honolulu'},
-  {id:'f6',icon:'🍜',name:'더 피그 앤 더 레이디',nameEn:'The Pig and The Lady',category:'food',region:'다운타운',price:'$$',rating:'4.7',description:'퓨전 퓨전 트러 플 k Viet Cajun Oyster PoBoy, 포, 소프트서브',tags:['베트남퓨전','차이나타운'],addr:'83 N King St, Honolulu',mapUrl:'https://maps.google.com/?q=The+Pig+and+The+Lady+Honolulu'},
-  {id:'f7',icon:'🥐',name:'릴리하 베이커리',nameEn:'Liliha Bakery',category:'food',region:'다운타운',price:'$',rating:'4.3',description:'코코 퍼프 슈크림은 필수.',mustOrder:'코코 퍼프, 로코모코, 팬케이크',tags:['베이커리','오아후아이콘'],addr:'515 N Kuakini St, Honolulu',mapUrl:'https://maps.google.com/?q=Liliha+Bakery+Honolulu'},
-  {id:'s1',icon:'🏔️',name:'다이아몬드 헤드',nameEn:'Diamond Head',category:'sights',region:'와이키키',price:'$5/인',rating:'4.8',description:'오아후 상징 화산 분화구. 왕복 1.6km 하이킹.',tip:'오전 6~8시 방문 권장.',tags:['하이킹','뷰포인트','예약필수'],addr:'Diamond Head Rd, Honolulu',mapUrl:'https://maps.google.com/?q=Diamond+Head+State+Monument'},
-  {id:'s2',icon:'⚓',name:'펄 하버',nameEn:'Pearl Harbor National Memorial',category:'sights',region:'와이키키',price:'무료~$32',rating:'4.8',description:'USS 애리조나·미주리 관람.',tip:'조기 매진 주의.',tags:['역사','필수방문'],addr:'1 Arizona Memorial Pl, Honolulu',mapUrl:'https://maps.google.com/?q=Pearl+Harbor+National+Memorial'},
-  {id:'s3',icon:'🏄',name:'노스쇼어 비치 (와이메아 베이)',nameEn:'North Shore — Waimea Bay',category:'sights',region:'노스쇼어',price:'무료',rating:'4.9',description:'세계 최고 서퍼 성지. 7월은 수영 최적.',tip:'젖은 옷 여벌 필수.',tags:['서핑','스노클링','드라이브코스'],addr:'Kamehameha Hwy, North Shore',mapUrl:'https://maps.google.com/?q=Waimea+Bay+Beach+Park+Oahu'},
-  {id:'k1',icon:'🦁',name:'호놀룰루 동물원',nameEn:'Honolulu Zoo',category:'kids',region:'카파훌루',price:'$19/인',rating:'4.2',description:'42에이커 동물원. 유모차 이동 편리.',tip:'반나귀 승마 체험 인기.',tags:['유모차OK','반나절'],addr:'151 Kapahulu Ave, Honolulu',mapUrl:'https://maps.google.com/?q=Honolulu+Zoo'},
-  {id:'k2',icon:'🏖️',name:'코할라 비치',nameEn:'Kokoloa',category:'kids',region:'서해안',price:'무료',rating:'4.6',description:'거북이 보호 서식지지만 가족 피크닉에 최적.',tags:['자연산책','피크닉','수영'],addr:'Kokoloa, HI',mapUrl:'https://maps.google.com/?q=Kokoloa+Beach+Park'},
-  {id:'k3',icon:'🏄',name:'코나 코스트 코스트',nameEn:'Kona Coast',category:'kids',region:'코나',price:'무료~$10',rating:'4.5',description:'조용한 모래사장. 패들보드 가능.',tags:['수영','패들보드','여유'],addr:'Kailua-Kona, Big Island',mapUrl:'https://maps.google.com/?q=Kona+Coast+State+Recreation+Area'},
-  {id:'k4',icon:'🔬',name:'어린이 과학탐험 박물관',nameEn:"Children's Discovery Center",category:'kids',region:'다운타운',price:'$14~23',rating:'4.3',description:'체험형 박물관. 에어컨 완비.',tip:'2세 이하 무료.',tags:['0~12세','실내','에어컨'],addr:'111 Ohe St, Honolulu',mapUrl:"https://maps.google.com/?q=Children%27s+Discovery+Center+Honolulu"}
 ];
 const DEFAULT_SCHEDULE = [
   {id:'d1',day:"7/3(금)", label:"출발일", items:[["22:30 ICN 출발",""],["",""],["",""],["",""]]},
@@ -383,7 +369,7 @@ function renderPlaces(cat){
       <div class="card-foot">
         <div class="card-addr">${esc(p.addr||'주소 미등록')}</div>
         <div class="acts">
-          ${p.coord?`<a class="btn btn-map" href="https://www.google.com/maps?q=${esc(p.coord)}" target="_blank" rel="nofollow">지도</a>`:''}
+          ${p.coord?``:''}
           <button class="btn btn-edit" data-cat="${cat}" data-id="${esc(p.id)}">수정</button>
         </div>
       </div>
@@ -637,7 +623,6 @@ function openPlaceModal(cat, id){
       tip: document.getElementById('f_tip').value.trim(),
       tags: document.getElementById('f_tags').value.split(',').map(s=>s.trim()).filter(Boolean),
       addr: document.getElementById('f_addr').value.trim(),
-      mapUrl: ''
     };
     if (!place.name){ alert('장소명을 입력하세요'); return; }
     const {error} = await api('places?id=eq.'+encodeURIComponent(place.id), { method:'PATCH', body: JSON.stringify(place), headers:{'Content-Type':'application/json'} });
@@ -683,6 +668,7 @@ function initFab(){
     const id = active.id;
     if (id === 'pane-food') openPlaceModal('food');
     else if (id === 'pane-reserve') openReserveModal();
+    else if (id === 'pane-fine') openPlaceModal('fine');
     else if (id === 'pane-schedule') alert('일정은 셀을 직접 클릭해서 수정할 수 있습니다.');
     else if (id === 'pane-budget') openBudgetModal();
     else if (id === 'pane-memo') addMemoFromFab();
