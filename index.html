@@ -54,6 +54,8 @@ html,body{font-family:'Noto Sans KR',system-ui,-apple-system,sans-serif;backgrou
 .btn-edit{background:#eef2f5;color:#3d4a57}
 .card-map{height:180px;border-top:1px solid #edf3f6}
 .card-map iframe{width:100%;height:100%;border:0}
+.place-map{height:220px;background:#eef2f5;border-radius:var(--radius);overflow:hidden;margin-bottom:14px}
+.leaflet-popup-content{font-family:inherit;font-size:12px}
 .empty{text-align:center;padding:44px 18px;color:#8295a7}
 .empty .icon{font-size:36px;margin-bottom:8px}
 .schedule{background:#fff;border:1px solid #e6edf2;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
@@ -134,23 +136,27 @@ html,body{font-family:'Noto Sans KR',system-ui,-apple-system,sans-serif;backgrou
   <section id="pane-food" class="section on">
     <div class="pane-title">🍜 맛집</div>
     <div class="pane-sub">지역별 현지 인기 맛집</div>
+    <div id="map-food" class="place-map"></div>
     <div class="area-filter" id="foodFilter"></div>
     <div class="grid" id="foodGrid"></div>
   </section>
   <section id="pane-sights" class="section">
     <div class="pane-title">🗻 관광지</div>
     <div class="pane-sub">자연·역사·문화 명소</div>
+    <div id="map-sights" class="place-map"></div>
     <div class="area-filter" id="sightsFilter"></div>
     <div class="grid" id="sightsGrid"></div>
   </section>
   <section id="pane-fine" class="section">
     <div class="pane-title">🥂 파인다이닝</div>
     <div class="pane-sub">특별한 날을 위한 레스토랑</div>
+    <div id="map-fine" class="place-map"></div>
     <div class="grid" id="fineGrid"></div>
-  </section>
   <section id="pane-kids" class="section">
     <div class="pane-title">👶 with Kids</div>
     <div class="pane-sub">아이와 함께하기 좋은 곳</div>
+    <div id="map-kids" class="place-map"></div>
+    <div class="area-filter" id="kidsFilter"></div>
     <div class="grid" id="kidsGrid"></div>
   </section>
   <section id="pane-schedule" class="section">
@@ -362,10 +368,38 @@ function renderRegionFilters(){
   });
 }
 const CATEGORIES = { food:{label:'맛집',icon:'🍜'}, sights:{label:'관광지',icon:'🗻'}, fine:{label:'파인다이닝',icon:'🥂'}, kids:{label:'with Kids',icon:'👶'} };
+function renderPlaceMap(cat){
+  const mapEl = document.getElementById('map-'+cat);
+  if (!mapEl) return;
+  const places = (state.places[cat]||[]).filter(p => p.coord);
+  mapEl.innerHTML = '';
+  if (!places.length){
+    mapEl.innerHTML = '<div style="padding:14px;color:#8295a7;font-size:12px;text-align:center">지도에 표시할 좌표 정보가 아직 없습니다. 장소 수정에서 좌표를 입력해주세요.</div>';
+    return;
+  }
+  const map = L.map(mapEl, { zoomControl: false }).setView([21.3069,-157.8583], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap',
+    maxZoom: 18
+  }).addTo(map);
+  const group = new L.featureGroup([]);
+  places.forEach(p => {
+    const [lat,lng] = String(p.coord).split(',').map(v => parseFloat(v.trim()));
+    if (!isNaN(lat) && !isNaN(lng)) {
+      const m = L.marker([lat,lng]).bindPopup(`<b>${esc(p.name||'장소')}</b><br>${esc(p.addr||'주소 미등록')}${p.rating?`<br>★ ${Number(p.rating).toFixed(1)}`:''}`);
+      m.addTo(group);
+    }
+  });
+  group.addTo(map);
+  if (places.length === 1) map.setView([parseFloat(String(places[0].coord).split(',')[0]), parseFloat(String(places[0].coord).split(',')[1])], 15);
+  else map.fitBounds(group.getBounds().pad(0.15));
+  setTimeout(() => map.invalidateSize(), 50);
+}
 function renderPlaces(cat){
   const grid = document.getElementById(cat+'Grid');
   const list = (state.places[cat]||[]).filter(p => state.placeRegion[cat]==='전체' || p.region===state.placeRegion[cat]);
   if (!list.length){ grid.innerHTML = `<div class="empty"><div class="icon">${CATEGORIES[cat]?.icon||'📍'}</div>저장된 장소가 없습니다. ＋ 버튼으로 추가해주세요.</div>`; return; }
+  renderPlaceMap(cat);
   grid.innerHTML = list.map(p => `
     <div class="card">
       <div class="card-head">
