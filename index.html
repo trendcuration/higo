@@ -298,9 +298,9 @@ async function loadAll(){
     }
     state.places = {
       food: (p.data||[]).filter(x=>x.category==='food'),
-      sights: (s.data||[]).filter(x=>x.category==='sights'),
-      fine: (s.data||[]).filter(x=>x.category==='fine'),
-      kids: (s.data||[]).filter(x=>x.category==='kids')
+      sights: (p.data||[]).filter(x=>x.category==='sights'),
+      fine: (p.data||[]).filter(x=>x.category==='fine'),
+      kids: (p.data||[]).filter(x=>x.category==='kids')
     };
     state.schedule = (s.data||[]).map(r => ({...r, items:(Array.isArray(r.items)?r.items:[])}));
     state.budget = b.data||[];
@@ -662,6 +662,8 @@ function initFab(){
     if (id === 'pane-food') openPlaceModal('food');
     else if (id === 'pane-reserve') openReserveModal();
     else if (id === 'pane-fine') openPlaceModal('fine');
+    else if (id === 'pane-sights') openPlaceModal('sights');
+    else if (id === 'pane-kids') openPlaceModal('kids');
     else if (id === 'pane-schedule') alert('일정은 셀을 직접 클릭해서 수정할 수 있습니다.');
     else if (id === 'pane-budget') openBudgetModal();
     else if (id === 'pane-memo') addMemoFromFab();
