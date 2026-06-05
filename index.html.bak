@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 Hawaii</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal:#0b7a86;--teal-dark:#095f69;--teal-bg:#e6f4f6;--teal-border:#cce3e6;
+  --gold:#b89247;--gold-bg:#f7f1e3;--gold-border:#e6d9b8;
+  --ink:#0f1b26;--ink-2:#4a5568;--ink-3:#8295a7;--line:#e5edf2;--paper:#f5f9fb;--white:#ffffff;
+  --shadow:0 4px 18px rgba(15,27,38,.08);--shadow-strong:0 12px 32px rgba(15,27,38,.14);
+  --radius:14px; --radius-sm:8px;
+  --safe-bottom: env(safe-area-inset-bottom, 12px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Noto Sans KR',system-ui,-apple-system,sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,svg{display:block}
+
+.hero{position:relative;overflow:hidden;padding:26px 18px 36px;background:linear-gradient(145deg,#0f3d4e,#0b7a86 55%,#9c7a38)}
+.hero::after{content:"";position:absolute;bottom:-1px;left:0;right:0;height:32px;background:var(--paper);clip-path:ellipse(60% 100% at 50% 100%)}
+.hero-inner{position:relative;z-index:1;max-width:880px;margin:0 auto}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;color:#e9d6a7;font-size:10px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;background:rgba(255,255,255,.12);padding:5px 10px 6px;border-radius:999px;border:1px solid rgba(255,255,255,.25)}
+.hero h1{font-size:clamp(26px,5.5vw,40px);font-weight:700;color:#fff;line-height:1.05;margin-top:10px}
+.hero h1 em{font-style:normal;color:#f3d988}
+.hero-sub{color:rgba(255,255,255,.82);font-size:12px;margin-top:10px;font-weight:500;letter-spacing:.02em}
+
+.topnav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid #e6edf2}
+.tabs{display:flex;gap:2px;overflow-x:auto;max-width:880px;margin:0 auto;padding:6px 10px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:9px 13px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink-2);background:transparent;border:1.5px solid transparent;cursor:pointer;transition:all .18s;white-space:nowrap;font-family:inherit}
+.tab.on{background:var(--teal-bg);color:var(--teal-dark);border-color:var(--teal-border)}
+.tab:active{transform:translateY(1px)}
+
+.status{padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #edf3f6}
+.status-left{font-size:12px;color:var(--ink-2);display:flex;align-items:center;gap:6px}
+.status-dot{width:8px;height:8px;border-radius:999px;background:#cbd5e0}
+.status-dot.ok{background:#22c55e}.status-dot.err{background:#ef4444}.status-dot.loading{background:#f59e0b;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.sync-btn{appearance:none;border:1px solid #cbd5e1;background:#fff;color:#334155;padding:6px 11px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+
+.page{max-width:880px;margin:0 auto;padding:14px 12px 80px}
+.section{display:none}.section.on{display:block}
+.pane-title{font-size:20px;font-weight:700;margin-bottom:2px}
+.pane-sub{font-size:11px;color:var(--ink-3);margin-bottom:12px}
+.fab{position:fixed;bottom:calc(16px + var(--safe-bottom));right:16px;z-index:50;width:52px;height:52px;border-radius:999px;background:var(--teal);color:#fff;border:none;box-shadow:var(--shadow-strong);cursor:pointer;font-size:26px;display:inline-flex;align-items:center;justify-content:center}
+.fab:active{transform:translateY(2px)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{background:var(--white);border:1px solid #e8f0f4;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .16s,box-shadow .16s,border-color .16s}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-strong);border-color:#dbe9ef}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 0}
+.card-icon{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;background:linear-gradient(135deg,#e6f4f6,#f7f1e3);flex-shrink:0}
+.card-tags{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.chip{font-size:10px;font-weight:700;padding:3px 7px;border-radius:7px;background:#eef6f8;color:#2b6e7a}
+.card-body{padding:10px 14px 0}
+.card-name{font-weight:700;font-size:15px;line-height:1.3}
+.card-name-en{font-size:10px;color:var(--ink-3);font-style:italic;margin-top:1px;margin-bottom:6px}
+.card-stars{display:flex;align-items:center;gap:4px;margin-bottom:6px;color:#d97706;font-size:11px;font-weight:800}
+.card-stars span{color:var(--ink-3);font-weight:600;font-size:10px}
+.card-desc{font-size:12px;color:#3d4a57;line-height:1.65}
+.must{background:var(--gold-bg);border-left:3px solid var(--gold);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:6px 10px;margin-top:8px;font-size:11px;color:#5a4523}
+.must strong{display:block;font-size:9px;letter-spacing:.12em;color:#8a6a2f;text-transform:uppercase;margin-bottom:2px}
+.tip{background:#f0f7f8;border-radius:var(--radius-sm);padding:7px 10px;margin-top:8px;font-size:11px;color:#1f4d57;display:flex;gap:6px}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 14px 13px;margin-top:10px;border-top:1px solid #edf3f6}
+.card-addr{font-size:10px;color:var(--ink-3);line-height:1.35;flex:1}
+.acts{display:flex;gap:6px;flex-shrink:0}
+.btn{display:inline-flex;align-items:center;gap:3px;border-radius:7px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;border:none}
+.btn-map{background:var(--teal);color:#fff;text-decoration:none}
+.btn-edit{background:#eef2f5;color:#3d4a57}
+.empty{text-align:center;padding:44px 18px;color:#8295a7}
+.empty .icon{font-size:36px;margin-bottom:8px}
+
+.schedule{background:#fff;border:1px solid #e6edf2;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.schedule table{width:100%;border-collapse:collapse}
+.schedule th,.schedule td{padding:10px 8px;border-bottom:1px solid #edf3f6;text-align:left;font-size:12px;vertical-align:top}
+.schedule th{background:var(--teal-bg);color:var(--teal-dark);font-weight:700;white-space:nowrap}
+.schedule td:first-child{font-weight:700;color:var(--teal-dark);white-space:nowrap;width:84px}
+.schedule td:nth-child(even){background:#fafcfd}
+.schedule textarea{width:100%;border:1.5px solid transparent;border-radius:6px;padding:6px 7px;font-family:inherit;font-size:12px;background:transparent;resize:vertical;min-height:38px;transition:border-color .15s,background .15s}
+.schedule textarea:hover{border-color:#dbe9ef;background:#fff}
+.schedule textarea:focus{outline:none;border-color:var(--teal);background:#fff}
+.day-row td{background:#f8fbfc !important;font-weight:700;color:var(--teal-dark);padding-top:10px;border-top:2px solid #cfe3e8 !important}
+
+.budget-card{background:#fff;border:1px solid #e6edf2;border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+.budget-total{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.budget-total .label{font-size:12px;color:var(--ink-3)}
+.budget-total .amount{font-size:22px;font-weight:800;color:var(--ink)}
+.budget-total .sub{font-size:10px;color:var(--ink-3);margin-top:2px}
+.budget-table{width:100%;border-collapse:collapse;font-size:12px}
+.budget-table th{background:#f1f7f9;color:#334155;padding:8px;text-align:left;border-bottom:2px solid #dce6ec;font-weight:700}
+.budget-table td{padding:7px 8px;border-bottom:1px solid #edf3f6}
+.budget-table input{width:100%;border:1.5px solid transparent;border-radius:6px;padding:5px 7px;font-family:inherit;font-size:12px;background:transparent}
+.budget-table input:hover{border-color:#dbe9ef;background:#fff}
+.budget-table input:focus{outline:none;border-color:var(--teal);background:#fff}
+.budget-table .num{text-align:right}
+.row-acts{display:flex;gap:6px;justify-content:flex-end}
+
+.memo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.memo-card{background:#fff;border:1px solid #e6edf2;border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+.memo-card textarea{width:100%;border:1.5px solid #dbe9ef;border-radius:var(--radius-sm);padding:8px;font-family:inherit;font-size:12px;min-height:90px;resize:vertical}
+.memo-meta{font-size:10px;color:var(--ink-3);margin-top:6px;display:flex;justify-content:space-between;align-items:center}
+.memo-del{background:none;border:none;color:#c53030;font-size:11px;cursor:pointer;font-weight:700}
+
+.area-filter{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+
+.overlay{display:none;position:fixed;inset:0;background:rgba(15,27,38,.5);z-index:1000;align-items:flex-end;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:18px 18px 0 0;width:100%;max-width:540px;max-height:92vh;overflow-y:auto;padding:22px 18px 40px;animation:slideUp .22s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-title{font-weight:700;font-size:17px;margin-bottom:14px;color:var(--teal-dark)}
+.fg{margin-bottom:10px}
+.fl{font-size:12px;font-weight:700;margin-bottom:3px;display:block;color:#334155}
+.fi{width:100%;padding:9px 11px;border:1.5px solid #c8d8e4;border-radius:9px;font-family:inherit;font-size:13px;color:var(--ink);outline:none;resize:vertical;transition:border-color .18s}
+.fi:focus{border-color:var(--teal)}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:10px;color:#8295a7;margin:-4px 0 8px}
+.modal-btns{display:flex;gap:8px;margin-top:14px}
+.btn-p{flex:1;padding:11px;background:var(--teal);color:#fff;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px}
+.btn-p:hover{background:var(--teal-dark)}
+.btn-s{padding:11px 14px;background:#fff;color:#475569;border:1.5px solid #c8d8e4;border-radius:9px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px}
+.btn-d{padding:11px 14px;background:#fff1f1;color:#c53030;border:1.5px solid #ffc9c9;border-radius:9px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px}
+
+.footer{padding:18px;text-align:center;font-size:11px;color:#8295a7}
+.footer a{color:#2b6e7a;text-decoration:none;font-weight:700}
+
+.res-card{background:#fff;border:1px solid #e6edf2;border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);margin-bottom:10px}
+.res-card .res-title{font-weight:700;font-size:15px;margin-bottom:4px}
+.res-card .res-meta{font-size:11px;color:#4a5568;line-height:1.6}
+.res-card .res-img{max-width:100%;border-radius:8px;margin-top:8px;background:#f1f7f9}
+.res-actions{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
+
+@media (max-width:640px){
+  .grid{grid-template-columns:1fr}
+  .memo-grid{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+  .budget-total .amount{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Oahu · 2026.07.03 ~ 07.10</div>
+    <h1>2026 <em>Hawaii</em></h1>
+    <div class="hero-sub">성인 5 · 아이 2 · 7박 8일 가족 여행</div>
+  </div>
+</section>
+
+<nav class="topnav">
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-tab="food" role="tab">🍜 맛집</button>
+    <button class="tab" data-tab="sights" role="tab">🗻 관광지</button>
+    <button class="tab" data-tab="fine" role="tab">🥂 파인다이닝</button>
+    <button class="tab" data-tab="kids" role="tab">👶 with Kids</button>
+    <button class="tab" data-tab="schedule" role="tab">📅 일정</button>
+    <button class="tab" data-tab="reserve" role="tab">📋 예약/보험</button>
+    <button class="tab" data-tab="memo" role="tab">📝 메모</button>
+    <button class="tab" data-tab="budget" role="tab">💰 예산</button>
+  </div>
+  <div class="status">
+    <div class="status-left"><span id="statusDot" class="status-dot loading"></span><span id="statusText">초기화 중...</span></div>
+    <button class="sync-btn" id="btnSync">지금 동기화</button>
+  </div>
+</nav>
+
+<main class="page">
+  <section id="pane-food" class="section on">
+    <div class="pane-title">🍜 맛집</div>
+    <div class="pane-sub">지역별 현지 인기 맛집</div>
+    <div class="area-filter" id="foodFilter"></div>
+    <div class="grid" id="foodGrid"></div>
+  </section>
+  <section id="pane-sights" class="section">
+    <div class="pane-title">🗻 관광지</div>
+    <div class="pane-sub">자연·역사·문화 명소</div>
+    <div class="area-filter" id="sightsFilter"></div>
+    <div class="grid" id="sightsGrid"></div>
+  </section>
+  <section id="pane-fine" class="section">
+    <div class="pane-title">🥂 파인다이닝</div>
+    <div class="pane-sub">특별한 날을 위한 레스토랑</div>
+    <div class="grid" id="fineGrid"></div>
+  </section>
+  <section id="pane-kids" class="section">
+    <div class="pane-title">👶 with Kids</div>
+    <div class="pane-sub">아이와 함께하기 좋은 곳</div>
+    <div class="grid" id="kidsGrid"></div>
+  </section>
+  <section id="pane-schedule" class="section">
+    <div class="pane-title">📅 여행 일정</div>
+    <div class="pane-sub">7/3 ~ 7/10 오아후 7박 8일 · 미아(주안) / 동탄(주아)</div>
+    <div style="overflow-x:auto"><div id="scheduleBox"></div></div>
+  </section>
+  <section id="pane-reserve" class="section">
+    <div class="pane-title">📋 예약 / 보험</div>
+    <div class="pane-sub">항공·렌터카·숙소·여행자보험 한눈에</div>
+    <div class="area-filter" id="reserveFilter"></div>
+    <div id="reserveBox"></div>
+  </section>
+  <section id="pane-memo" class="section">
+    <div class="pane-title">📝 메모</div>
+    <div class="pane-sub">여행 중 필요한 메모를 적어두세요</div>
+    <div class="memo-grid" id="memoGrid"></div>
+    <button class="fab" id="btnAddMemo" aria-label="메모 추가">＋</button>
+  </section>
+  <section id="pane-budget" class="section">
+    <div class="pane-title">💰 예산 및 준비물</div>
+    <div class="pane-sub">여행 경비와 준비물을 관리하세요 (성인 5 · 아이 2)</div>
+    <div class="budget-card" id="budgetCard"></div>
+  </section>
+</main>
+
+<button class="fab" id="btnAdd" aria-label="추가">＋</button>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <div class="modal-title" id="modalTitle"></div>
+    <div id="modalBody"></div>
+    <div class="modal-btns" id="modalBtns"></div>
+  </div>
+</div>
+
+<footer class="footer">2026 Hawaii · Supabase · 실시간 저장</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+'use strict';
+
+const SUPABASE_URL = 'https://lakhfoetlzodqxproqpl.supabase.co';
+const SUPABASE_ANON = 'sb_publishable_QrZFLKEvBxHIXuf8BV18ZQ_xElHQp2N';
+
+const initSupabase = () => {
+  if (!window.supabase) return null;
+  try { return window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON); } catch (e) { console.error(e); return null; }
+};
+let db = initSupabase();
+const waitForSupabase = () => new Promise(resolve => {
+  const start = Date.now();
+  const check = () => {
+    if (!db) db = initSupabase();
+    if (db) return resolve(true);
+    if (Date.now() - start > 3000) return resolve(false); // 3초 타임아웃
+    setTimeout(check, 50);
+  };
+  check();
+});
+
+const setStatus = (text, kind) => {
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+  if (dot && txt) {
+    txt.textContent = text || '';
+    dot.className = 'status-dot ' + (kind === 'error' ? 'err' : kind === 'ok' ? 'ok' : 'loading');
+  }
+};
+
+const state = {
+  places: { food:[], sights:[], fine:[], kids:[] },
+  schedule: [],
+  budget: [],
+  memos: [],
+  reservations: [],
+  placeRegion: { food:'전체', sights:'전체', fine:'전체', kids:'전체' },
+  reserveCategory: '전체'
+};
+
+const qs  = (sel, el=document) => el.querySelector(sel);
+const qsa = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = (n) => Number(n ?? 0).toLocaleString('ko-KR');
+
+const DEFAULT_PLACES = [
+  {id:'f1',icon:'🍜',name:'마루카메 우동',nameEn:'Marukame Udon',category:'food',region:'와이키키',price:'$',rating:'4.3',ratingCnt:'10,000+',description:'와이키키 최고 가성비 우동.',mustOrder:'카마타마 우동, 치쿠와 덴푸라',tip:'',tags:['우동','가성비','줄필수'],addr:'2310 Kūhiō Ave, Honolulu',coord:'21.2806,-157.8307',mapUrl:'https://maps.google.com/?q=Marukame+Udon+Waikiki'},
+  {id:'f2',icon:'🍔',name:'룰루즈 와이키키',nameEn:"LuLu's Waikiki",category:'food',region:'와이키키',price:'$$',rating:'4.1',ratingCnt:'6,000+',description:'오션뷰 브런치부터 칵테일까지.',mustOrder:'로코모코, 아히 나초스, 마이타이',tip:'',tags:['오션뷰','브런치','칵테일'],addr:'2586 Kalākaua Ave, Honolulu',coord:'21.2762,-157.8247',mapUrl:"https://maps.google.com/?q=LuLu%27s+Waikiki"},
+  {id:'f3',icon:'🍧',name:'아일랜드 빈티지 쉐이브 아이스',nameEn:'Island Vintage Shave Ice',category:'food',region:'와이키키',price:'$',rating:'4.6',ratingCnt:'5,000+',description:'오아후 쉐이브 아이스 1위.',mustOrder:'Heavenly Lilikoi, 망고라즈베리',tip:'',tags:['쉐이브아이스','디저트','포토스팟'],addr:'Royal Hawaiian Center, 2201 Kalākaua Ave',coord:'21.2824,-157.8316',mapUrl:'https://maps.google.com/?q=Island+Vintage+Shave+Ice+Waikiki'},
+  {id:'f4',icon:'🍽️',name:'오노 하와이안 푸드',nameEn:'Ono Hawaiian Foods',category:'food',region:'카파훌루',price:'$',rating:'4.4',ratingCnt:'3,000+',description:'진짜 하와이 전통 음식 성지.',mustOrder:'칼루아 포크 콤보, 라우라우',tip:'',tags:['하와이안푸드','로컬','전통'],addr:'726 Kapahulu Ave, Honolulu',coord:'21.2812,-157.8183',mapUrl:'https://maps.google.com/?q=Ono+Hawaiian+Foods+Kapahulu'},
+  {id:'f5',icon:'🌈',name:'레인보우 드라이브인',nameEn:'Rainbow Drive-In',category:'food',region:'카파훌루',price:'$',rating:'4.2',ratingCnt:'4,000+',description:'플레이트 런치 성지.',mustOrder:'믹스 플레이트, 칠리 with 라이스',tip:'',tags:['플레이트런치','로컬아이콘','저렴'],addr:'3308 Kanaina Ave, Honolulu',coord:'21.2792,-157.8145',mapUrl:'https://maps.google.com/?q=Rainbow+Drive-In+Honolulu'},
+  {id:'f6',icon:'🍜',name:'더 피그 앤 더 레이디',nameEn:'The Pig and The Lady',category:'food',region:'다운타운',price:'$$',rating:'4.7',ratingCnt:'2,500+',description:'James Beard 세미파이널리스트 셰프의 퓨전.',mustOrder:"Viet Cajun Oyster Po'Boy, 포, 소프트서브",tip:'',tags:['베트남퓨전','차이나타운'],addr:'83 N King St, Honolulu',coord:'21.3082,-157.8592',mapUrl:'https://maps.google.com/?q=The+Pig+and+The+Lady+Honolulu'},
+  {id:'f7',icon:'🥐',name:'릴리하 베이커리',nameEn:'Liliha Bakery',category:'food',region:'다운타운',price:'$',rating:'4.3',ratingCnt:'3,500+',description:'코코 퍼프 슈크림은 필수.',mustOrder:'코코 퍼프, 로코모코, 팬케이크',tip:'',tags:['베이커리','오아후아이콘'],addr:'515 N Kuakini St, Honolulu',coord:'21.3187,-157.8610',mapUrl:'https://maps.google.com/?q=Liliha+Bakery+Honolulu'},
+  {id:'s1',icon:'🏔️',name:'다이아몬드 헤드',nameEn:'Diamond Head',category:'sights',region:'와이키키',price:'$5/인',rating:'4.8',ratingCnt:'30,000+',description:'오아후 상징 화산 분화구. 왕복 1.6km 하이킹.',mustOrder:'',tip:'오전 6~8시 방문 권장.',tags:['하이킹','뷰포인트','예약필수'],addr:'Diamond Head Rd, Honolulu',coord:'21.2631,-157.8055',mapUrl:'https://maps.google.com/?q=Diamond+Head+State+Monument'},
+  {id:'s2',icon:'⚓',name:'펄 하버',nameEn:'Pearl Harbor National Memorial',category:'sights',region:'와이키키',price:'무료~$32',rating:'4.8',ratingCnt:'50,000+',description:'USS 애리조나·미주리 관람.',mustOrder:'',tip:'조기 매진 주의.',tags:['역사','필수방문'],addr:'1 Arizona Memorial Pl, Honolulu',coord:'21.3645,-157.9498',mapUrl:'https://maps.google.com/?q=Pearl+Harbor+National+Memorial'},
+  {id:'s3',icon:'🏄',name:'노스쇼어 비치 (와이메아 베이)',nameEn:'North Shore — Waimea Bay',category:'sights',region:'노스쇼어',price:'무료',rating:'4.9',ratingCnt:'20,000+',description:'세계 최고 서퍼 성지. 7월은 수영 최적.',mustOrder:'',tip:'젖은 옷 여벌 필수.',tags:['서핑','스노클링','드라이브코스'],addr:'Kamehameha Hwy, North Shore',coord:'21.6424,-158.0656',mapUrl:'https://maps.google.com/?q=Waimea+Bay+Beach+Park+Oahu'},
+  {id:'k1',icon:'🦁',name:'호놀룰루 동물원',nameEn:'Honolulu Zoo',category:'kids',region:'카파훌루',price:'$19/인',rating:'4.2',ratingCnt:'5,000+',description:'42에이커 동물원. 유모차 이동 편리.',mustOrder:'',tip:'반나귀 승마 체험 인기.',tags:['유모차OK','반나절'],addr:'151 Kapahulu Ave, Honolulu',coord:'21.2763,-157.8181',mapUrl:'https://maps.google.com/?q=Honolulu+Zoo'},
+  {id:'k4',icon:'🔬',name:'어린이 과학탐험 박물관',nameEn:"Children's Discovery Center",category:'kids',region:'다운타운',price:'$14~23',rating:'4.3',ratingCnt:'1,200+',description:'체험형 박물관. 에어컨 완비.',mustOrder:'',tip:'2세 이하 무료.',tags:['0~12세','실내','에어컨'],addr:'111 Ohe St, Honolulu',coord:'21.2978,-157.8624',mapUrl:"https://maps.google.com/?q=Children%27s+Discovery+Center+Honolulu"};
+const DEFAULT_SCHEDULE = [
+  {day:"7/3(금)", date:"2026-07-03", label:"출발일", items:[["22:30 ICN 출발",""],["",""],["",""],["",""]]},
+  {day:"7/4(토)", date:"2026-07-04", label:"도착일", items:[["HNL 도착 12:20",""],["",""],["체크인·코스트코",""],["저녁 식사·와이키키 산책",""]]},
+  {day:"7/5(일)", date:"2026-07-05", label:"", items:[["KCC 파머스 마켓","KCC"],["",""],["라니아케아 비치","자유일정"],["자유일정",""]]},
+  {day:"7/6(월)", date:"2026-07-06", label:"", items:[["스냅 촬영 9시 출발","스냅"],["",""],["카할라 비치","카할라 비치"],["숙소 휴식","자유일정"]]},
+  {day:"7/7(화)", date:"2026-07-07", label:"", items:[["와이메아 밸리","와이메아 밸리"],["",""],["마카푸우 등대","돌잔치"],["돌잔치",""]]},
+  {day:"7/8(수)", date:"2026-07-08", label:"", items:[["어린이과학박물관","어린이박물관"],["마루카메 우동","마루카메 우동"],["Glass Boat","Glass Boat"],["자유일정","자유일정"]]},
+  {day:"7/9(목)", date:"2026-07-09", label:"", items:[["하나우마 베이 / 카할라 비치","하나우마 베이"],["",""],["알라모아나 쇼핑","쇼핑"],["짐 정리","자유일정"]]},
+  {day:"7/10(금)", date:"2026-07-10", label:"귀국일", items:[["카일루아 비치","카일루아 비치"],["",""],["출국 수속 / 렌터카 반납","출국 수속 / 렌터카 반납"],["14:30 HNL 출발",""]]}
+];
+const DEFAULT_BUDGET = [
+  {id:'b1',name:"렌터카",amount:1502910,method:"카드",memo:"예약 #69043973"},
+  {id:'b2',name:"스냅",amount:555000,method:"현금",memo:""},
+  {id:'b3',name:"스냅 팁",amount:45000,method:"현금",memo:""},
+  {id:'b4',name:"숙소",amount:7944000,method:"현금",memo:"디파짓 240만 포함"},
+  {id:'b5',name:"코스트코",amount:750000,method:"카드",memo:"일 $100 × 5일"},
+  {id:'b6',name:"주유비",amount:105000,method:"카드",memo:"250마일 기준"},
+  {id:'b7',name:"외식",amount:1350000,method:"카드",memo:"3회 × $50 × 성인6"},
+  {id:'b8',name:"외식 팁",amount:243000,method:"카드",memo:"18%"},
+  {id:'b9',name:"돌잔치",amount:1200000,method:"카드",memo:"룸 미니멈 차지"},
+  {id:'b10',name:"돌잔치 팁",amount:300000,method:"카드",memo:"25%"},
+  {id:'b11',name:"버스",amount:180000,method:"카드",memo:"3일권 $20 × 성인 6명"}
+];
+const DEFAULT_MEMOS = [
+  {id:'m1',text:'✅ 예약 완료: 렌터카 #69043973, 스냅 7/6 9시'},
+  {id:'m2',text:'🛂 ESTA / 여권 유효기간 확인 필요'},
+  {id:'m3',text:'🌺 돌잔치 장소/시간/인원 확인'}
+];
+const DEFAULT_RESERVATIONS = [
+  {id:'r1',category:'항공',title:'대한항공 KE059 (ICN → HNL)',date:'2026-07-03 22:30',details:'ICN Terminal 1 출발 / HNL 도착 12:20',memo:'출발 전 탑승권 확인',img_url:''},
+  {id:'r2',category:'항공',title:'대한항공 KE060 (HNL → ICN)',date:'2026-07-10 14:30',details:'HNL 출발 / ICN 도착 다음날 오후',memo:'귀국 예약',img_url:''},
+  {id:'r3',category:'렌터카',title:'렌터카 예약 #69043973',date:'2026-07-04 ~ 2026-07-09',details:'와이키키 픽업 / 반납 HNL 공항',memo:'국제면허증 준비',img_url:''},
+  {id:'r4',category:'보험',title:'AIG 여행자보험 (A세계)',date:'보험기간: 7/3~7/11',details:'의료비 $100,000 / 짐손 $3,000',memo:'영수증/보험증 번호 보관',img_url:''},
+  {id:'r5',category:'숙소',title:'코트야드 바이 메리어트 와이키키 비치',date:'2026-07-04 ~ 2026-07-07',details:'오션 프론트 / 3룸 6인',memo:'체크인 15:00 / 디파짓 $250',img_url:''}
+];
+
+const from = (table) => {
+  if (!db) return { select: async () => ({ data: [], error: { message: 'Supabase not loaded' } }), insert: async () => ({ error: { message: 'Supabase not loaded' } }), upsert: async () => ({ error: { message: 'Supabase not loaded' } }), delete: async () => ({ error: { message: 'Supabase not loaded' } }) };
+  return db.from(table);
+};
+
+async function loadAll(){
+  if (!db) { setStatus('Supabase 라이브러리 없음', 'error'); renderAll(); return; }
+  setStatus('동기화 중...', 'loading');
+  try {
+    const [p,s,b,m,r] = await Promise.all([
+      from('places').select('*').order('created_at',{ascending:true}),
+      from('schedules').select('*').order('date',{ascending:true}),
+      from('budget').select('*').order('created_at',{ascending:true}),
+      from('memos').select('*').order('created_at',{ascending:true}),
+      from('reservations').select('*').order('sort_order',{ascending:true})
+    ]);
+    if (p.error || s.error || b.error || m.error || r.error) { console.warn('load error', p.error || s.error || b.error || m.error || r.error); await seedAndRetry(); return; }
+    state.places = { food:(p.data||[]).filter(x=>x.category==='food'), sights:(p.data||[]).filter(x=>x.category==='sights'), fine:(p.data||[]).filter(x=>x.category==='fine'), kids:(p.data||[]).filter(x=>x.category==='kids') };
+    state.schedule = (s.data||[]).map(r => ({...r, items:(Array.isArray(r.items)?r.items:[])}));
+    state.budget = b.data||[];
+    state.memos = m.data||[];
+    state.reservations = r.data||[];
+    renderAll();
+    setStatus('✅ 동기화 완료', 'ok');
+  } catch (e) {
+    console.error(e);
+    setStatus('초기 로드 실패', 'error');
+    renderAll();
+  }
+}
+
+async function seedAndRetry(){
+  setStatus('기본 데이터 삽입 중...', 'loading');
+  try {
+    const tables = ['places','schedules','budget','memos','reservations'];
+    const defaults = [DEFAULT_PLACES, DEFAULT_SCHEDULE.map(x=>({day:x.day,date:x.date,items:x.items})), DEFAULT_BUDGET, DEFAULT_MEMOS, DEFAULT_RESERVATIONS];
+    for (let i=0;i<tables.length;i++){
+      const {count} = await from(tables[i]).select('*',{count:'exact',head:true});
+      if (!count) await from(tables[i]).insert(defaults[i]);
+    }
+    await new Promise(r => setTimeout(r, 500));
+    await loadAll();
+  } catch (e) {
+    console.error(e);
+    setStatus('동기화 실패', 'error');
+    renderAll();
+  }
+}
+
+/* ---------- Render ---------- */
+function renderAll(){ renderPlaces('food'); renderPlaces('sights'); renderPlaces('fine'); renderPlaces('kids'); renderRegionFilters(); renderSchedule(); renderBudget(); renderMemos(); renderReservations(); }
+
+function renderRegionFilters(){
+  ['food','sights','fine','kids'].forEach(cat => {
+    const wrap = document.getElementById(cat + 'Filter');
+    if (!wrap) return;
+    const set = new Set((state.places[cat]||[]).map(p => p.region).filter(Boolean));
+    const list = ['전체', ...Array.from(set)];
+    wrap.innerHTML = list.map(r => `<div class="chip${state.placeRegion[cat]===r?' on':''}" data-region="${r}">${r}</div>`).join('');
+    wrap.querySelectorAll('.chip').forEach(el => {
+      el.addEventListener('click', () => { state.placeRegion[cat] = el.dataset.region; renderRegionFilters(); renderPlaces(cat); });
+    });
+  });
+}
+
+const CATEGORIES = { food:{label:'맛집',icon:'🍜'}, sights:{label:'관광지',icon:'🗻'}, fine:{label:'파인다이닝',icon:'🥂'}, kids:{label:'with Kids',icon:'👶'} };
+
+function renderPlaces(cat){
+  const grid = document.getElementById(cat + 'Grid');
+  const list = (state.places[cat]||[]).filter(p => state.placeRegion[cat]==='전체' || p.region===state.placeRegion[cat]);
+  if (!list.length){ grid.innerHTML = `<div class="empty"><div class="icon">${CATEGORIES[cat]?.icon||'📍'}</div>저장된 장소가 없습니다. ＋ 버튼으로 추가해주세요.</div>`; return; }
+  grid.innerHTML = list.map(p => `
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon">${esc(p.icon||'📍')}</div>
+        <div class="card-tags">${(p.tags||[]).slice(0,2).map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${esc(p.name)}</div>
+        ${p.nameEn?`<div class="card-name-en">${esc(p.nameEn)}</div>`:''}
+        ${p.rating?`<div class="card-stars">★ ${Number(p.rating).toFixed(1)} <span>(${esc(p.ratingCnt||'')})</span></div>`:''}
+        <div class="card-desc">${esc(p.description||p.desc)}</div>
+        ${p.mustOrder?`<div class="must"><strong>Must Order</strong>${esc(p.mustOrder)}</div>`:''}
+        ${p.tip?`<div class="tip"><span>💡</span><span>${esc(p.tip)}</span></div>`:''}
+      </div>
+      <div class="card-foot">
+        <div class="card-addr">${esc(p.addr||'주소 미등록')}</div>
+        <div class="acts">
+          ${p.coord?`<a class="btn btn-map" href="https://www.google.com/maps?q=${esc(p.coord)}" target="_blank" rel="nofollow">지도</a>`:''}
+          <button class="btn btn-edit" data-cat="${cat}" data-id="${esc(p.id)}">수정</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.btn-edit').forEach(btn => btn.addEventListener('click', () => openPlaceModal(btn.dataset.cat, btn.dataset.id)));
+}
+
+/* ---------- Schedule ---------- */
+function renderSchedule(){
+  const box = document.getElementById('scheduleBox');
+  const rows = ['오전','점심식사','오후','저녁식사'];
+  let h = `<div class="schedule"><table><thead><tr><th>시간</th><th>미아(주안)</th><th>동탄(주아)</th></tr></thead><tbody>`;
+  state.schedule.forEach((d, di) => {
+    h += `<tr class="day-row"><td colspan="3">${esc(d.day)}${d.label?' · '+esc(d.label):''} <span style="font-weight:500;color:#8295a7;font-size:11px">${esc(d.date)}</span></td></tr>`;
+    rows.forEach((label, ri) => {
+      h += `<tr><td>${label}</td>`;
+      [0,1].forEach(col => {
+        const val = (Array.isArray(d.items) && d.items[ri]) ? (d.items[ri][col]||'') : '';
+        h += `<td><textarea data-day="${di}" data-row="${ri}" data-col="${col}">${esc(val)}</textarea></td>`;
+      });
+      h += '</tr>';
+    });
+  });
+  h += '</tbody></table></div>';
+  box.innerHTML = h;
+  box.querySelectorAll('textarea').forEach(ta => ta.addEventListener('change', onScheduleChange));
+}
+
+async function onScheduleChange(ta){
+  const di = +ta.dataset.day, ri = +ta.dataset.row, col = +ta.dataset.col;
+  const day = state.schedule[di];
+  if (!day) return;
+  if (!Array.isArray(day.items)) day.items = [];
+  while (day.items.length <= ri) day.items.push(["",""]);
+  if (!Array.isArray(day.items[ri])) day.items[ri] = ["",""];
+  day.items[ri][col] = ta.value;
+  const {error} = await from('schedules').upsert({id:day.id, day:day.day, date:day.date, items:day.items});
+  if (error) console.error(error); else setStatus('💾 저장됨','ok');
+}
+
+/* ---------- Budget ---------- */
+function renderBudget(){
+  const card = document.getElementById('budgetCard');
+  const items = state.budget || [];
+  const total = items.reduce((s,i)=>s+(Number(i.amount)||0),0);
+  card.innerHTML = `
+    <div class="budget-total">
+      <div>
+        <div class="label">총 예산</div>
+        <div class="amount">${fmt(total)} 원</div>
+        <div class="sub">성인 5 · 아이 2</div>
+      </div>
+      <button class="btn btn-map" id="btnAddBudget">＋ 항목 추가</button>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="budget-table">
+        <thead><tr><th>항목</th><th class="num">금액(원)</th><th>지불</th><th>비고</th><th></th></tr></thead>
+        <tbody>
+          ${items.map(i=>`<tr data-id="${esc(i.id)}">
+            <td><input data-f="name" value="${esc(i.name)}"></td>
+            <td class="num"><input type="number" data-f="amount" value="${i.amount||''}"></td>
+            <td><input data-f="method" value="${esc(i.method||'')}"></td>
+            <td><input data-f="memo" value="${esc(i.memo||'')}"></td>
+            <td><button class="btn btn-d" data-del="${esc(i.id)}">삭제</button></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+  card.querySelectorAll('input').forEach(inp => inp.addEventListener('change', onBudgetField));
+  const addBtn = card.querySelector('#btnAddBudget');
+  if (addBtn) addBtn.addEventListener('click', openBudgetModal);
+  card.querySelectorAll('[data-del]').forEach(btn => btn.addEventListener('click', async () => { await deleteBudget(btn.dataset.del); }));
+}
+
+async function onBudgetField(inp){
+  const tr = inp.closest('tr');
+  const id = tr?.dataset?.id;
+  const item = state.budget.find(i => String(i.id) === String(id));
+  if (!item) return;
+  item[inp.dataset.f] = inp.dataset.f === 'amount' ? (Number(inp.value)||0) : inp.value;
+  const {error} = await from('budget').upsert(item);
+  if (error) console.error(error); else setStatus('💾 저장됨','ok');
+}
+
+function openBudgetModal(){
+  openModal('예산 항목 추가', budgetFormHTML(), ['취소','저장']);
+  window._supabaseSaveBudget = saveBudget;
+}
+function budgetFormHTML(){ return `
+  <div class="fg"><label class="fl">항목명 *</label><input class="fi" id="b_name"></div>
+  <div class="frow">
+    <div class="fg"><label class="fl">금액(원)</label><input class="fi" type="number" id="b_amount" value="0"></div>
+    <div class="fg"><label class="fl">지불수단</label><input class="fi" id="b_method" value="카드"></div>
+  </div>
+  <div class="fg"><label class="fl">비고</label><input class="fi" id="b_memo"></div>
+`; }
+async function saveBudget(){
+  const name = qs('#b_name').value.trim();
+  if (!name){ alert('항목명을 입력하세요'); return; }
+  const payload ={id:'b_'+Date.now()+Math.random().toString(36).slice(2,6), name, amount: Number(qs('#b_amount').value)||0, method: qs('#b_method').value.trim(), memo: qs('#b_memo').value.trim()};
+  const {error} = await from('budget').upsert(payload);
+  closeModal();
+  if (error) alert('저장 실패: ' + error.message); else await loadAll();
+}
+async function deleteBudget(id){
+  if (!confirm('삭제하시겠어요?')) return;
+  const {error} = await from('budget').delete().eq('id', id);
+  if (error) alert('삭제 실패: ' + error.message); else await loadAll();
+}
+
+/* ---------- Memos ---------- */
+function renderMemos(){
+  const grid = document.getElementById('memoGrid');
+  if (!state.memos.length){ grid.innerHTML = `<div class="empty"><div class="icon">📝</div>메모가 없습니다.</div>`; return; }
+  grid.innerHTML = state.memos.map(m => `
+    <div class="memo-card">
+      <textarea data-id="${m.id}">${esc(m.text)}</textarea>
+      <div class="memo-meta"><span>${m.updatedAt || m.createdAt || ''}</span><button class="memo-del" data-id="${m.id}">삭제</button></div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('textarea').forEach(ta => ta.addEventListener('change', e => updateMemo(e.target.dataset.id, e.target.value)));
+  grid.querySelectorAll('.memo-del').forEach(btn => btn.addEventListener('click', async () => { await from('memos').delete().eq('id', btn.dataset.id); await loadAll(); }));
+}
+async function updateMemo(id, text){
+  const {error} = await from('memos').update({text, updatedAt: new Date().toISOString().slice(0,10)}).eq('id', id);
+  if (error) console.error(error);
+}
+
+/* ---------- Reservations ---------- */
+function renderReservations(){
+  const box = document.getElementById('reserveBox');
+  const wrap = document.getElementById('reserveFilter');
+  const cats = ['전체','항공','렌터카','숙소','보험'];
+  state.reserveCategory = state.reserveCategory && cats.includes(state.reserveCategory) ? state.reserveCategory : '전체';
+  if (wrap) {
+    wrap.innerHTML = cats.map(c => `<div class="chip${state.reserveCategory===c?' on':''}" data-cat="${c}">${c}</div>`).join('');
+    wrap.querySelectorAll('.chip').forEach(el => {
+      el.addEventListener('click', () => { state.reserveCategory = el.dataset.cat; renderReservations(); });
+    });
+  }
+  const list = (state.reservations || []).filter(r => state.reserveCategory==='전체' || r.category===state.reserveCategory);
+  if (!list.length){ box.innerHTML = `<div class="empty"><div class="icon">📋</div>예약 정보가 없습니다. ＋ 버튼으로 추가해주세요.</div>`; return; }
+  box.innerHTML = list.map(r => `
+    <div class="res-card">
+      <div class="res-title">${esc(r.title || r.name || '제목 없음')}</div>
+      <div class="res-meta">
+        <div>📅 ${esc(r.date || '날짜 미등록')}</div>
+        ${r.details?`<div>📝 ${esc(r.details)}</div>`:''}
+        ${r.memo?`<div>💡 ${esc(r.memo)}</div>`:''}
+        ${r.img_url?`<div><a href="${esc(r.img_url)}" target="_blank">🔗 링크</a></div>`:''}
+      </div>
+      <div class="res-actions">
+        <button class="btn btn-edit" data-id="${esc(r.id)}">수정</button>
+        <button class="btn btn-d" data-id="${esc(r.id)}">삭제</button>
+      </div>
+    </div>
+  `).join('');
+  box.querySelectorAll('.btn-edit').forEach(btn => btn.addEventListener('click', () => openReserveModal(btn.dataset.id)));
+  box.querySelectorAll('.btn-d').forEach(btn => btn.addEventListener('click', async () => { await deleteReserve(btn.dataset.id); }));
+}
+
+function openReserveModal(id){
+  const r = id ? (state.reservations||[]).find(x => x.id === id) : {};
+  const isEdit = !!id;
+  openModal(isEdit ? '예약 수정' : '예약 추가', reserveFormHTML(r), ['취소','저장']);
+  // reuse place bridge if only one modal type at a time
+  window._supabaseSavePlace = saveReserve;
+}
+function reserveFormHTML(r){
+  const catOpts = ['항공','렌터카','숙소','보험'].map(t => `<option value="${t}" ${t===(r.category||'항공')?'selected':''}>${t}</option>`).join('');
+  return `
+    <div class="fg"><label class="fl">구분 *</label><select class="fi" id="r_cat">${catOpts}</select></div>
+    <div class="fg"><label class="fl">제목 *</label><input class="fi" id="r_title" value="${esc(r.title||'')}"></div>
+    <div class="fg"><label class="fl">일시/기간</label><input class="fi" id="r_date" value="${esc(r.date||'')}"></div>
+    <div class="fg"><label class="fl">상세 내용</label><textarea class="fi" id="r_details" rows="3" placeholder="예약번호, 장소, 인원 등">${esc(r.details||'')}</textarea></div>
+    <div class="fg"><label class="fl">메모</label><textarea class="fi" id="r_memo" rows="2">${esc(r.memo||'')}</textarea></div>
+    <div class="fg"><label class="fl">사진/링크 URL</label><input class="fi" id="r_img" value="${esc(r.img_url||'')}" placeholder="https://..."></div>
+    <input type="hidden" id="r_id" value="${esc(r.id||'')}">
+  `;
+}
+async function saveReserve(){
+  const title = qs('#r_title').value.trim();
+  const id = qs('#r_id').value;
+  if (!title){ alert('제목을 입력하세요'); return; }
+  const payload = {
+    id: id || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : ('r_'+Date.now()+Math.random().toString(36).slice(2,6))),
+    category: qs('#r_cat').value,
+    title,
+    date: qs('#r_date').value.trim(),
+    details: qs('#r_details').value.trim(),
+    memo: qs('#r_memo').value.trim(),
+    img_url: qs('#r_img').value.trim(),
+    sort_order: 0
+  };
+  const {error} = await from('reservations').upsert(payload);
+  closeModal();
+  if (error) alert('저장 실패: ' + error.message); else await loadAll();
+}
+async function deleteReserve(id){
+  if (!confirm('삭제하시겠어요?')) return;
+  const {error} = await from('reservations').delete().eq('id', id);
+  if (error) alert('삭제 실패: ' + error.message); else await loadAll();
+}
+
+/* ---------- Place Modal ---------- */
+function openPlaceModal(cat, id){
+  const p = id ? (state.places[cat]||[]).find(x => x.id === id) : {};
+  const isEdit = !!id;
+  openModal(isEdit ? '장소 수정' : '장소 추가', placeFormHTML(p, cat), ['취소','저장']);
+  window._supabaseSavePlace = isEdit ? async () => {
+    // deletion handled inside savePlace
+    await savePlace();
+  } : savePlace;
+}
+function placeFormHTML(p, cat){
+  const opts = ['food','sights','fine','kids'].map(t => `<option value="${t}" ${t===cat?'selected':''}>${CATEGORIES[t].label}</option>`).join('');
+  return `
+    <div class="fg"><label class="fl">탭 분류 *</label><select class="fi" id="f_cat">${opts}</select></div>
+    <div class="frow">
+      <div class="fg"><label class="fl">이모지 아이콘</label><input class="fi" id="f_icon" value="${esc(p.icon||'📍')}"></div>
+      <div class="fg"><label class="fl">가격대</label><input class="fi" id="f_price" value="${esc(p.price||'')}" placeholder="$ / $$ / $$$ / 무료"></div>
+    </div>
+    <div class="fg"><label class="fl">장소명 (한국어) *</label><input class="fi" id="f_name" value="${esc(p.name||'')}"></div>
+    <div class="fg"><label class="fl">영문명</label><input class="fi" id="f_nameEn" value="${esc(p.nameEn||'')}"></div>
+    <div class="frow">
+      <div class="fg"><label class="fl">지역 태그</label><input class="fi" id="f_region" value="${esc(p.region||'')}" placeholder="와이키키, 노스쇼어 등"></div>
+      <div class="fg"><label class="fl">평점</label><input class="fi" id="f_rating" value="${esc(p.rating||'')}" placeholder="4.5"></div>
+    </div>
+    <div class="fg"><label class="fl">설명</label><textarea class="fi" id="f_desc" rows="3">${esc(p.description||p.desc||'')}</textarea></div>
+    <div class="fg"><label class="fl">Must Order / 주요 볼거리</label><input class="fi" id="f_must" value="${esc(p.mustOrder||'')}"></div>
+    <div class="fg"><label class="fl">팁 (선택)</label><input class="fi" id="f_tip" value="${esc(p.tip||'')}"></div>
+    <div class="fg"><label class="fl">태그 (쉼표 구분)</label><input class="fi" id="f_tags" value="${(p.tags||[]).join(', ')}"></div>
+    <div class="fg"><label class="fl">주소</label><input class="fi" id="f_addr" value="${esc(p.addr||'')}"></div>
+    <div class="fg"><label class="fl">구글지도 URL</label><input class="fi" id="f_mapUrl" value="${esc(p.mapUrl||'')}"></div>
+    <input type="hidden" id="f_id" value="${esc(p.id||'')}">
+  `;
+}
+function collectPlaceForm(){
+  return {
+    id: qs('#f_id').value || ('p_'+Date.now()),
+    icon: qs('#f_icon').value.trim()||'📍',
+    price: qs('#f_price').value.trim(),
+    name: qs('#f_name').value.trim(),
+    nameEn: qs('#f_nameEn').value.trim(),
+    category: qs('#f_cat').value,
+    region: qs('#f_region').value.trim(),
+    rating: qs('#f_rating').value.trim(),
+    ratingCnt: '',
+    description: qs('#f_desc').value.trim(),
+    mustOrder: qs('#f_must').value.trim(),
+    tip: qs('#f_tip').value.trim(),
+    tags: qs('#f_tags').value.split(',').map(s=>s.trim()).filter(Boolean),
+    addr: qs('#f_addr').value.trim(),
+    coord: '',
+    mapUrl: qs('#f_mapUrl').value.trim()
+  };
+}
+async function savePlace(){
+  const p = collectPlaceForm();
+  if (!p.name){ alert('장소명을 입력하세요'); return; }
+  const oldId = qs('#f_id').value;
+  if (oldId) { const {error} = await from('places').delete().eq('id', oldId); if (error){ alert('삭제 실패: ' + error.message); return; } }
+  const {error} = await from('places').insert(p);
+  closeModal();
+  if (error) alert('저장 실패: ' + error.message); else await loadAll();
+}
+
+/* ---------- Modal ---------- */
+function openModal(title, body, buttons){
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = body;
+  buttons = buttons || [];
+  let btns = '';
+  if (buttons.includes('저장')) btns += `<button class="btn-p" id="btnSaveModal">저장</button>`;
+  if (buttons.includes('삭제')) btns += `<button class="btn-d" id="btnDel">삭제</button>`;
+  if (buttons.includes('취소')) btns += `<button class="btn-s" id="btnCancel">취소</button>`;
+  document.getElementById('modalBtns').innerHTML = btns;
+  document.getElementById('overlay').classList.add('open');
+  window._modalSave = null;
+}
+function closeModal(){ document.getElementById('overlay').classList.remove('open'); window._modalSave = null; }
+function modalBtnsHTML(labels, danger, primary){ return labels; }
+
+// Global modal save bridge
+window._supabaseSavePlace = null;
+window._supabaseSaveBudget = null;
+
+document.getElementById('modalBtns').addEventListener('click', function(e) {
+  const id = e.target && e.target.id;
+  if (id === 'btnSaveModal') {
+    if (window._supabaseSavePlace) window._supabaseSavePlace();
+    else if (window._supabaseSaveBudget) window._supabaseSaveBudget();
+  } else if (id === 'btnCancel') {
+    closeModal();
+  } else if (id === 'btnDel') {
+    if (confirm('정말 삭제하시겠어요?')) {
+      // Handled by call site via custom delete function
+    }
+  }
+});
+document.getElementById('overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeModal(); });
+document.getElementById('btnSync').addEventListener('click', loadAll);
+waitForSupabase().then(() => loadAll());
+
+/* ---------- Tabs ---------- */
+function initTabs(){
+  qsa('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      qsa('.tab').forEach(b => b.classList.remove('on'));
+      qsa('.section').forEach(s => s.classList.remove('on'));
+      btn.classList.add('on');
+      const pane = document.getElementById('pane-' + btn.dataset.tab);
+      if (pane) pane.classList.add('on');
+    });
+  });
+}
+
+/* ---------- FAB ---------- */
+function initFab(){
+  const btn = document.getElementById('btnAdd');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const active = qsa('.section.on')[0];
+    if (!active) return;
+    const id = active.id;
+    if (id === 'pane-food') openPlaceModal('food');
+    else if (id === 'pane-reserve') openReserveModal();
+    else if (id === 'pane-schedule') alert('일정은 셀을 직접 클릭해서 수정할 수 있습니다.');
+    else if (id === 'pane-budget') openBudgetModal();
+    else if (id === 'pane-memo') addMemo();
+    else alert('이 탭은 준비 중이에요.');
+  });
+}
+
+/* ---------- Init ---------- */
+initTabs();
+initFab();
+document.getElementById('btnSync').addEventListener('click', loadAll);
+waitForSupabase().then(() => loadAll());
+})();
+</script>
+</body>
+</html>
