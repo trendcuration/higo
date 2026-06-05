@@ -593,13 +593,14 @@ async function saveReserve(){
   const id = qs('#r_id').value;
   if (!title){ alert('제목을 입력하세요'); return; }
   const payload = {
-    id: id || ('r_'+Date.now()+Math.random().toString(36).slice(2,6)),
+    id: id || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : ('r_'+Date.now()+Math.random().toString(36).slice(2,6))),
     category: qs('#r_cat').value,
     title,
     date: qs('#r_date').value.trim(),
     details: qs('#r_details').value.trim(),
     memo: qs('#r_memo').value.trim(),
     img_url: qs('#r_img').value.trim(),
+    sort_order: 0
   };
   const {error} = await from('reservations').upsert(payload);
   closeModal();
