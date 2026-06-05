@@ -627,6 +627,7 @@ function openPlaceModal(cat, id){
     </div>
     <div class="fg"><label class="fl">설명</label><textarea class="fi" id="f_desc" rows="3">${esc(p.description||p.desc||'')}</textarea></div>
     <div class="fg"><label class="fl">주소</label><input class="fi" id="f_addr" value="${esc(p.addr||'')}"></div>
+    <div class="fg"><label class="fl">리뷰/참고 링크</label><input class="fi" id="f_review" value="${esc(p.review_url||'')}" placeholder="https://..."></div>
     <input type="hidden" id="f_id" value="${esc(p.id||'')}">
   `;
   document.getElementById('modalBtns').innerHTML = isEdit
@@ -643,7 +644,8 @@ function openPlaceModal(cat, id){
       price: document.getElementById('f_price').value.trim(),
       rating: document.getElementById('f_rating').value.trim(),
       description: document.getElementById('f_desc').value.trim(),
-      addr: document.getElementById('f_addr').value.trim()
+      addr: document.getElementById('f_addr').value.trim(),
+      review_url: document.getElementById('f_review').value.trim()
     };
     if (!place.name){ alert('장소명을 입력하세요'); return; }
     const path = document.getElementById('f_id').value ? 'places?id=eq.'+encodeURIComponent(document.getElementById('f_id').value) : 'places';
